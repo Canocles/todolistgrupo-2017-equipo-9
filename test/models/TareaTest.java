@@ -15,6 +15,8 @@ import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
 import java.io.FileInputStream;
 
+import java.util.List;
+
 import models.Usuario;
 import models.Tarea;
 import models.UsuarioRepository;
@@ -44,13 +46,12 @@ public class TareaTest {
 
    @Before
    public void initData() throws Exception {
-     JndiDatabaseTester databaseTester = new JndiDatabaseTester("DBTest");
-     IDataSet initialDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("test/resources/usuarios_dataset.xml"));
-     databaseTester.setDataSet(initialDataSet);
-     databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
-     databaseTester.onSetup();
+      JndiDatabaseTester databaseTester = new JndiDatabaseTester("DBTest");
+      IDataSet initialDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("test/resources/usuarios_dataset.xml"));
+      databaseTester.setDataSet(initialDataSet);
+      databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
+      databaseTester.onSetup();
    }
-
 
    // Test #11: testCrearTarea
    @Test
@@ -121,5 +122,14 @@ public class TareaTest {
       TareaRepository repository = new JPATareaRepository(jpaApi);
       Tarea tarea = repository.findById(1000L);
       assertEquals("Renovar DNI", tarea.getTitulo());
+   }
+
+   // Test #18 testFindAllTareasUsuario
+   @Test
+   public void testFindAllTareasUsuario() {
+      TareaRepository repository = new JPATareaRepository(jpaApi);
+      Long idUsuario = 1000L;
+      List<Tarea> tareas = repository.findAllTareas(idUsuario);
+      assertEquals(2, tareas.size());
    }
 }
