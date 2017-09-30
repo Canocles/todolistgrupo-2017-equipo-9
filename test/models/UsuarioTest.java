@@ -151,4 +151,22 @@ public class UsuarioTest {
       assertEquals(usuario1, usuario2);
       assertNotEquals(usuario1, usuario3);
    }
+
+   // Test #14: testUpdateUsuarioJPARepositoryUpdatesUsuarioDatabase
+   @Test
+   public void testUpdateUsuarioJPARepositoryUpdatesUsuarioDatabase() {
+      assertNotNull(jpaApi);
+      UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+      Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
+      usuario.setNombre("Juan");
+      usuario.setApellidos("Gutierrez");
+      usuario.setPassword("123456789");
+      usuario = repository.add(usuario);
+
+      usuario.setNombre("ModificarJuan");
+      usuario = repository.update(usuario);
+
+      assertNotNull(usuario.getId());
+      assertEquals("ModificarJuan", getNombreFromUsuarioDB(usuario.getId()));
+   }
 }
