@@ -30,6 +30,17 @@ public class JPAUsuarioRepository implements UsuarioRepository {
       });
    }
 
+   public Usuario update(Usuario usuario) {
+     return jpaApi.withTransaction(entityManager -> {
+       Usuario usuarioDB = entityManager.find(Usuario.class, usuario.getId());
+       usuarioDB.setEmail(usuario.getEmail());
+       usuarioDB.setNombre(usuario.getNombre());
+       usuarioDB.setApellidos(usuario.getApellidos());
+       usuarioDB.setFechaNacimiento(usuario.getFechaNacimiento());
+       return usuarioDB;
+     });
+   }
+
    public Usuario findById(Long idUsuario) {
       return jpaApi.withTransaction(entityManager -> {
          return entityManager.find(Usuario.class, idUsuario);
