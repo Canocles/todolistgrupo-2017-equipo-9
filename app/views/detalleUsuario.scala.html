@@ -11,5 +11,6 @@
             @if(usuario.getFechaNacimiento() != null) {
                 @usuario.getFechaNacimiento().format("dd-MM-yyyy")
             }</li>
+      <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Lista de Tareas</a></li>
    </ul>
 }
