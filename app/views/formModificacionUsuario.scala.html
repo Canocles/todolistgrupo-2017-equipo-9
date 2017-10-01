@@ -1,0 +1,29 @@
+@(usuario: Usuario)
+@main("Modificar Usuario") {
+   <h1>Modificar Datos de Usuario</h1>
+   @helper.form(action = routes.UsuarioController.grabaUsuarioModificado(usuario.getId())) {
+      <fieldset>
+         <legend>Datos</legend>
+         <p>
+           Email:  <input type="email" size=70 name="email" value="@usuario.getEmail()"></input>
+         </p>
+         <p>
+           Nombre: <input type="text" size=70 name="nombre" value="@usuario.getNombre()"></input>
+         </p>
+         <p>
+           Apellidos: <input type="text" size=70 name="apellidos" value="@usuario.getApellidos()"></input>
+         </p>
+         <p>
+           @if(usuario.getFechaNacimiento() == null) {
+             Fecha de Nacimiento: <input type="date" size=70 name="fechaNacimiento" placeholder="YYYY-MM-DD"></input>
+           } else {
+             Fecha de Nacimiento: <input type="date" size=70 name="fechaNacimiento" value="@usuario.getFechaNacimiento()"></input>
+           }
+         </p>
+      </fieldset>
+      <p>
+         <input type="submit" class="btn btn-primary" value="Guardar">
+         <a class="btn btn-warning" href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Cancelar</a>
+      </p>
+   }
+}

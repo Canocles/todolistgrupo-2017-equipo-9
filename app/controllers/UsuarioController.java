@@ -5,8 +5,13 @@ import play.mvc.*;
 import views.html.*;
 import javax.inject.*;
 import play.data.Form;
+import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.Logger;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 import services.UsuarioService;
 import models.Usuario;
@@ -92,5 +97,39 @@ public class UsuarioController extends Controller {
             return ok(detalleUsuario.render(usuario));
          }
       }
+   }
+
+   @Security.Authenticated(ActionAuthenticator.class)
+   public Result formularioEditaUsuario(Long id) {
+     String connectedUserStr = session("connected");
+     Long connectedUser =  Long.valueOf(connectedUserStr);
+     if (connectedUser != id) {
+        return unauthorized("Lo siento, no estás autorizado");
+     } else {
+       Usuario usuario = usuarioService.findUsuarioPorId(id);
+       if (usuario == null) {
+         return notFound("Usuario no encontrado");
+       } else {
+         return ok(formModificacionUsuario.render(usuario));
+       }
+     }
+   }
+
+   @Security.Authenticated(ActionAuthenticator.class)
+   public Result grabaUsuarioModificado(Long id) {
+     DynamicForm requestData = formFactory.form().bindFromRequest();
+     String login = usuarioService.findUsuarioPorId(id).getLogin();
+     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+     Date nuevaFechaNacimiento = null;
+     try {
+       nuevaFechaNacimiento = sdf.parse(requestData.get("fechaNacimiento"));
+     } catch (ParseException ex) {
+       System.out.println(ex);
+     }
+     String nuevoEmail = requestData.get("email");
+     String nuevoNombre = requestData.get("nombre");
+     String nuevosApellidos = requestData.get("apellidos");
+     Usuario usuario = usuarioService.modificaUsuario(login, nuevoEmail, nuevoNombre, nuevosApellidos, nuevaFechaNacimiento);
+     return redirect(controllers.routes.UsuarioController.detalleUsuario(usuario.getId()));
    }
 }

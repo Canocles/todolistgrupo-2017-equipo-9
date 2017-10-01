@@ -117,7 +117,7 @@ public class UsuarioServiceTest {
 
    // Test 11: modificación de perfil
    @Test
-   public void modificacionUsuario() throws ParseException {
+   public void modificacionUsuario()
      UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
      UsuarioService usuarioService = new UsuarioService(repository);
      String login = "juangutierrez";
