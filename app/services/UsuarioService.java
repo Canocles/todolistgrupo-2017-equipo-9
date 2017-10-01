@@ -2,6 +2,10 @@ package services;
 
 import javax.inject.*;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 import models.Usuario;
 import models.UsuarioRepository;
 
@@ -23,6 +27,20 @@ public class UsuarioService {
       Usuario usuario = new Usuario(login, email);
       usuario.setPassword(password);
       return repository.add(usuario);
+   }
+
+   public Usuario modificaUsuario(String login, String nuevoEmail, String nuevoNombre,
+                                  String nuevosApellidos, String nuevaFechaNacimiento) throws ParseException {
+      Usuario usuario = repository.findByLogin(login);
+      if (usuario == null)
+           throw new TareaServiceException("No existe el usuario");
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      usuario.setEmail(nuevoEmail);
+      usuario.setNombre(nuevoNombre);
+      usuario.setApellidos(nuevosApellidos);
+      usuario.setFechaNacimiento(sdf.parse(nuevaFechaNacimiento));
+      usuario = repository.update(usuario);
+      return usuario;
    }
 
    public Usuario findUsuarioPorLogin(String login) {
