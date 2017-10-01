@@ -1,6 +1,8 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.text.ParseException;
+
 import play.db.Database;
 import play.db.Databases;
 
@@ -111,5 +113,16 @@ public class UsuarioServiceTest {
       Usuario usuario = usuarioService.findUsuarioPorId(1000L);
       assertNotNull(usuario);
       assertEquals("juangutierrez", usuario.getLogin());
+   }
+
+   // Test 11: modificación de perfil
+   @Test
+   public void modificacionUsuario() throws ParseException {
+     UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+     UsuarioService usuarioService = new UsuarioService(repository);
+     String login = "juangutierrez";
+     usuarioService.modificaUsuario(login, "memodifico@gmail.com", "Modifico", "el Perfil", "2017-10-01");
+     Usuario usuario = usuarioService.findUsuarioPorLogin(login);
+     assertEquals("memodifico@gmail.com", usuario.getEmail());
    }
 }
