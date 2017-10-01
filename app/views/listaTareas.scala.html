@@ -21,6 +21,7 @@
         <tr>
             <th>Tareas</th>
             <th>Acción</th>
+            <th>Usuarios</th>
         </tr>
     @for(tarea <- tareas) {
         <tr>
@@ -30,6 +31,7 @@
                 <a onmouseover="" style="cursor: pointer;"
                 onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
+            <td>@usuario.getLogin()</td>
         </tr>
       }
 
@@ -37,6 +39,7 @@
           <td><a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
               <span class="glyphicon glyphicon-plus"/></a></td>
           <td><a href="@routes.UsuarioController.logout()">Salir</a></td>
+          <td><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></td>
       </tr>
 
   </table>
