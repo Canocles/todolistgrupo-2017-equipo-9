@@ -1,6 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
-
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 import play.db.Database;
@@ -117,11 +118,19 @@ public class UsuarioServiceTest {
 
    // Test 11: modificación de perfil
    @Test
-   public void modificacionUsuario()
+   public void modificacionUsuario() {
      UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
      UsuarioService usuarioService = new UsuarioService(repository);
      String login = "juangutierrez";
-     usuarioService.modificaUsuario(login, "memodifico@gmail.com", "Modifico", "el Perfil", "2017-10-01");
+
+     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+     Date fecha = null;
+     try {
+       fecha = sdf.parse("2017-10-01");
+     } catch (ParseException ex) {
+       System.out.println(ex);
+     }
+     usuarioService.modificaUsuario(login, "memodifico@gmail.com", "Modifico", "el Perfil", fecha);
      Usuario usuario = usuarioService.findUsuarioPorLogin(login);
      assertEquals("memodifico@gmail.com", usuario.getEmail());
    }
