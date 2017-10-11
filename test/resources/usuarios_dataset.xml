@@ -4,4 +4,9 @@
          password="123456789" eMail="juan.gutierrez@gmail.com" fechaNacimiento="1993-12-10"/>
     <Tarea id="1000" titulo="Renovar DNI" usuarioId="1000"/>
     <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000"/>
+
+    <Usuario id="2000" login="canocles" nombre="Ramses" apellidos="Martinez Martinez"
+        password="1" email="canocles@gmail.com" fechaNacimiento="1992-02-23"/>
+    <Tarea id="2000" titulo="Empezar con el milestone 0.2" usuarioId="2000"/>
+    <Tarea id="2001" titulo="Añadir 4 nuevos test de servicios" usuarioId="2000"/>
  </dataset>
