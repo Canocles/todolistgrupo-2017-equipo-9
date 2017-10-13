@@ -44,6 +44,17 @@ public class Practica2Test {
      jpaApi = JPA.createFor("memoryPersistenceUnit");
   }
 
+  private UsuarioService newUsuarioService() {
+     UsuarioRepository usuarioRepository = new JPAUsuarioRepository(jpaApi);
+     return new UsuarioService(usuarioRepository);
+  }
+
+  private TareaService newTareaService() {
+     UsuarioRepository usuarioRepository = new JPAUsuarioRepository(jpaApi);
+     TareaRepository tareaRepository = new JPATareaRepository(jpaApi);
+     return new TareaService(usuarioRepository, tareaRepository);
+  }
+
   @Before
   public void initData() throws Exception {
      JndiDatabaseTester databaseTester = new JndiDatabaseTester("DBTest");
@@ -55,16 +66,14 @@ public class Practica2Test {
 
   @Test
   public void findUsuarioPorIdNullTest() {
-    UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-    UsuarioService usuarioService = new UsuarioService(repository);
+    UsuarioService usuarioService = newUsuarioService();
     Usuario usuario = usuarioService.findUsuarioPorId(52L);
     assertNull(usuario);
   }
 
   @Test(expected = UsuarioServiceException.class)
   public void modificarUsuarioNoExistenteTest() {
-    UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-    UsuarioService usuarioService = new UsuarioService(repository);
+    UsuarioService usuarioService = newUsuarioService();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     Date fecha = null;
     try {
@@ -73,5 +82,17 @@ public class Practica2Test {
       System.out.println(ex);
     }
     Usuario usuario = usuarioService.modificaUsuario("pepito", "memodifico@gmail.com", "Modifico", "el Perfil", fecha);
+  }
+
+  @Test(expected = TareaServiceException.class)
+  public void borrarTareaNoExistente() {
+    TareaService tareaService = newTareaService();
+    tareaService.borraTarea(3L);
+  }
+
+  @Test(expected = TareaServiceException.class)
+  public void modificarTareaNoExistente() {
+    TareaService tareaService = newTareaService();
+    tareaService.modificaTarea(3L, "Cambio imposible");
   }
 }
