@@ -1,9 +1,6 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import play.db.Database;
-import play.db.Databases;
-
 import play.db.jpa.*;
 
 import org.dbunit.*;
@@ -12,18 +9,18 @@ import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
 import java.io.FileInputStream;
 
+import play.inject.guice.GuiceApplicationBuilder;
+import play.inject.Injector;
+import play.inject.guice.GuiceInjectorBuilder;
+import play.Environment;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.List;
 
 import models.Usuario;
-import models.UsuarioRepository;
-import models.JPAUsuarioRepository;
-
 import models.Tarea;
-import models.TareaRepository;
-import models.JPATareaRepository;
 
 import services.UsuarioService;
 import services.UsuarioServiceException;
@@ -31,28 +28,15 @@ import services.TareaService;
 import services.TareaServiceException;
 
 public class Practica2Test {
-  static Database db;
-  static JPAApi jpaApi;
+  static private Injector injector;
 
+  // Se ejecuta sólo una vez, al principio de todos los tests
   @BeforeClass
-  static public void initDatabase() {
-     db = Databases.inMemoryWith("jndiName", "DBTest");
-     db.getConnection();
-     db.withConnection(connection -> {
-        connection.createStatement().execute("SET MODE MySQL;");
-     });
-     jpaApi = JPA.createFor("memoryPersistenceUnit");
-  }
-
-  private UsuarioService newUsuarioService() {
-     UsuarioRepository usuarioRepository = new JPAUsuarioRepository(jpaApi);
-     return new UsuarioService(usuarioRepository);
-  }
-
-  private TareaService newTareaService() {
-     UsuarioRepository usuarioRepository = new JPAUsuarioRepository(jpaApi);
-     TareaRepository tareaRepository = new JPATareaRepository(jpaApi);
-     return new TareaService(usuarioRepository, tareaRepository);
+  static public void initApplication() {
+    GuiceApplicationBuilder guiceApplicationBuilder =
+         new GuiceApplicationBuilder().in(Environment.simple());
+    injector = guiceApplicationBuilder.injector();
+    injector.instanceOf(JPAApi.class);
   }
 
   @Before
@@ -62,6 +46,14 @@ public class Practica2Test {
      databaseTester.setDataSet(initialDataSet);
      databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
      databaseTester.onSetup();
+  }
+
+  private UsuarioService newUsuarioService() {
+    return injector.instanceOf(UsuarioService.class);
+  }
+
+  private TareaService newTareaService() {
+    return injector.instanceOf(TareaService.class);
   }
 
   @Test
