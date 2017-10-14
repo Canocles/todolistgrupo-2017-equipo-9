@@ -7,6 +7,10 @@ import play.inject.guice.GuiceInjectorBuilder;
 import play.Environment;
 
 import play.db.jpa.*;
+import play.db.Database;
+import play.db.Databases;
+
+import java.sql.*;
 
 import models.Usuario;
 import models.Tablero;
@@ -37,5 +41,14 @@ public class ModeloRepositorioTableroTest {
   public void testObtenerTableroRepository() {
     TableroRepository tableroRepository = injector.instanceOf(TableroRepository.class);
     assertNotNull(tableroRepository);
+  }
+
+  @Test
+  public void testCrearTablaTableroEnBD() throws Exception {
+    Database db = injector.instanceOf(Database.class);
+    Connection connection = db.getConnection();
+    DatabaseMetaData meta = connection.getMetaData();
+    ResultSet res = meta.getTables(null, null, "TABLERO", new String[] {"TABLE"});
+    assertTrue(res.next());
   }
 }
