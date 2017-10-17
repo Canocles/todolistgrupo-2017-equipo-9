@@ -92,10 +92,15 @@ public class ModeloRepositorioTableroTest {
 
   @Test
   public void testCrearTablaTableroEnBD() throws Exception {
+    Database db = injector.instanceOf(Database.class);
     Connection connection = db.getConnection();
     DatabaseMetaData meta = connection.getMetaData();
-    ResultSet res = meta.getTables(null, null, "TABLERO", new String[] {"TABLE"});
-    assertTrue(res.next());
+    // En la BD H2 el nombre de las tablas se define con mayúscula y en
+    // MySQL con minúscula
+    ResultSet resH2 = meta.getTables(null, null, "TABLERO", new String[] {"TABLE"});
+    ResultSet resMySQL = meta.getTables(null, null, "Tablero", new String[] {"TABLE"});
+    boolean existeTabla = resH2.next() || resMySQL.next();
+    assertTrue(existeTabla);
   }
 
   @Test
