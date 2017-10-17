@@ -23,7 +23,9 @@ public class Usuario {
    private Date fechaNacimiento;
    // Relación uno-a-muchos entre usuario y tarea
    @OneToMany(mappedBy="usuario", fetch=FetchType.EAGER)
-   public Set<Tarea> tareas = new HashSet<Tarea>();
+   private Set<Tarea> tareas = new HashSet<Tarea>();
+   @OneToMany(mappedBy="administrador", fetch=FetchType.EAGER)
+   private Set<Tablero> administrados = new HashSet<Tablero>();
 
    // Un constructor vacío necesario para JPA
    public Usuario() {}
@@ -99,6 +101,15 @@ public class Usuario {
    public void setTareas(Set<Tarea> tareas) {
       this.tareas = tareas;
    }
+
+   
+    public Set<Tablero> getAdministrados() {
+        return administrados;
+    }
+
+    public void setAdministrados(Set<Tablero> administrados) {
+        this.administrados = administrados;
+    }
 
    public String toString() {
       String fechaStr = null;

@@ -10,7 +10,7 @@ public class Tablero {
   private String nombre;
   @ManyToOne
   @JoinColumn(name="administradorId")
-  public Usuario administrador;
+  private Usuario administrador;
 
   public Tablero () {}
 
