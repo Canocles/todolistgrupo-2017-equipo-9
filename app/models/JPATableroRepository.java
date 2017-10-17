@@ -11,9 +11,9 @@ public class JPATableroRepository implements TableroRepository {
    JPAApi jpaApi;
 
    @Inject
-   public JPATableroRepository(JPAApi api) {
-      this.jpaApi = api;
-   }
+  public JPATableroRepository(JPAApi api) {
+    this.jpaApi = api;
+  }
 
   public Tablero add(Tablero tablero) {
     return jpaApi.withTransaction(entityManager -> {
@@ -21,6 +21,19 @@ public class JPATableroRepository implements TableroRepository {
       entityManager.flush();
       entityManager.refresh(tablero);
       return tablero;
+    });
+  }
+
+  public Tablero update(Tablero tablero) {
+    return jpaApi.withTransaction(entityManager -> {
+        Tablero actualizado = entityManager.merge(tablero);
+        return actualizado;
+    });
+  }
+
+  public Tablero findById(Long idTablero) {
+    return jpaApi.withTransaction(entityManager -> {
+        return entityManager.find(Tablero.class, idTablero);
     });
   }
 }
