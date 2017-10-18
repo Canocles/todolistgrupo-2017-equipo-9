@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 public class Usuario {
@@ -23,82 +25,102 @@ public class Usuario {
    private Date fechaNacimiento;
    // Relación uno-a-muchos entre usuario y tarea
    @OneToMany(mappedBy="usuario", fetch=FetchType.EAGER)
-   public List<Tarea> tareas = new ArrayList<Tarea>();
+   private Set<Tarea> tareas = new HashSet<Tarea>();
+   @OneToMany(mappedBy="administrador", fetch=FetchType.EAGER)
+   private Set<Tablero> administrados = new HashSet<Tablero>();
+   @ManyToMany(mappedBy="participantes", fetch=FetchType.EAGER)
+   private Set<Tablero> tableros = new HashSet<Tablero>();
 
    // Un constructor vacío necesario para JPA
    public Usuario() {}
 
    // El constructor principal con los campos obligatorios
-   public Usuario(String login, String email) {
-      this.login = login;
-      this.email = email;
-   }
+    public Usuario(String login, String email) {
+        this.login = login;
+        this.email = email;
+    }
 
-   // Getters y setters necesarios para JPA
+    // Getters y setters necesarios para JPA
 
-   public Long getId() {
-      return id;
-   }
+    public Long getId() {
+        return id;
+    }
 
-   public void setId(Long id) {
-      this.id = id;
-   }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-   public String getLogin() {
-      return login;
-   }
+    public String getLogin() {
+        return login;
+    }
 
-   public void setLogin(String login) {
-      this.login = login;
-   }
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-   public String getEmail() {
-      return email;
-   }
+    public String getEmail() {
+        return email;
+    }
 
-   public void setEmail(String email) {
-      this.email = email;
-   }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-   public String getPassword() {
-      return this.password;
-   }
+    public String getPassword() {
+        return this.password;
+    }
 
-   public void setPassword(String password) {
-      this.password = password;
-   }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-   public String getNombre() {
-      return nombre;
-   }
+    public String getNombre() {
+        return nombre;
+    }
 
-   public void setNombre(String nombre) {
-      this.nombre = nombre;
-   }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-   public String getApellidos() {
-      return apellidos;
-   }
+    public String getApellidos() {
+        return apellidos;
+    }
 
-   public void setApellidos(String apellidos) {
-      this.apellidos = apellidos;
-   }
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
 
-   public Date getFechaNacimiento() {
-      return fechaNacimiento;
-   }
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
 
-   public void setFechaNacimiento(Date fechaNacimiento) {
-      this.fechaNacimiento = fechaNacimiento;
-   }
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
 
-   public List<Tarea> getTareas() {
+    public Set<Tarea> getTareas() {
       return tareas;
-   }
+    }
 
-   public void setTareas(List<Tarea> tareas) {
-      this.tareas = tareas;
-   }
+    public void setTareas(Set<Tarea> tareas) {
+        this.tareas = tareas;
+    }
+
+    public Set<Tablero> getAdministrados() {
+      return administrados;
+    }
+
+    public void setAdministrados(Set<Tablero> administrados) {
+        this.administrados = administrados;
+    }
+
+    public Set<Tablero> getTableros() {
+      return tableros;
+    }
+
+    public void setTableros(Set<Tablero> tableros) {
+        this.tableros = tableros;
+    }
 
    public String toString() {
       String fechaStr = null;
@@ -126,7 +148,7 @@ public class Usuario {
       Usuario other = (Usuario) obj;
       // Si tenemos los ID, comparamos por ID
       if (id != null && other.id != null)
-      return (id == other.id);
+      return ((long) id == (long) other.id);
       // sino comparamos por campos obligatorios
       else {
          if (login == null) {
