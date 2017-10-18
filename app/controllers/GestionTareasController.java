@@ -10,7 +10,6 @@ import play.data.DynamicForm;
 import play.Logger;
 
 import java.util.List;
-import java.util.Set;
 
 import services.UsuarioService;
 import services.TareaService;
@@ -66,7 +65,7 @@ public class GestionTareasController extends Controller {
       } else {
          String aviso = flash("aviso");
          Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-         Set<Tarea> tareas = tareaService.allTareasUsuario(idUsuario);
+         List<Tarea> tareas = tareaService.allTareasUsuario(idUsuario);
          return ok(listaTareas.render(tareas, usuario, aviso));
       }
    }

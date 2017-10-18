@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.*;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -97,7 +99,7 @@ public class Usuario {
     }
 
     public Set<Tarea> getTareas() {
-        return tareas;
+      return tareas;
     }
 
     public void setTareas(Set<Tarea> tareas) {
@@ -105,7 +107,7 @@ public class Usuario {
     }
 
     public Set<Tablero> getAdministrados() {
-        return administrados;
+      return administrados;
     }
 
     public void setAdministrados(Set<Tablero> administrados) {
@@ -113,7 +115,7 @@ public class Usuario {
     }
 
     public Set<Tablero> getTableros() {
-        return tableros;
+      return tableros;
     }
 
     public void setTableros(Set<Tablero> tableros) {
@@ -146,7 +148,7 @@ public class Usuario {
       Usuario other = (Usuario) obj;
       // Si tenemos los ID, comparamos por ID
       if (id != null && other.id != null)
-      return (id == other.id);
+      return ((long) id == (long) other.id);
       // sino comparamos por campos obligatorios
       else {
          if (login == null) {

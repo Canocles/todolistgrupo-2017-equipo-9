@@ -10,8 +10,6 @@ import org.dbunit.operation.*;
 import java.io.FileInputStream;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
 
 import play.inject.guice.GuiceApplicationBuilder;
 import play.inject.Injector;
@@ -54,17 +52,16 @@ public class TareaServiceTest {
    @Test
    public void allTareasUsuarioEstanOrdenadas() {
       TareaService tareaService = newTareaService();
-      Set<Tarea> tareas = tareaService.allTareasUsuario(1000L);
-      List<Tarea> list = new ArrayList(tareas);
-      assertEquals("Renovar DNI", list.get(0).getTitulo());
-      assertEquals("Práctica 1 MADS", list.get(1).getTitulo());
+      List<Tarea> tareas = tareaService.allTareasUsuario(1000L);
+      assertEquals("Renovar DNI", tareas.get(0).getTitulo());
+      assertEquals("Práctica 1 MADS", tareas.get(1).getTitulo());
    }
 
    // Test #20: exceptionSiUsuarioNoExisteRecuperandoSusTareas
    @Test(expected = TareaServiceException.class)
    public void crearNuevoUsuarioLoginRepetidoLanzaExcepcion(){
       TareaService tareaService = newTareaService();
-      Set<Tarea> tareas = tareaService.allTareasUsuario(1001L);
+      List<Tarea> tareas = tareaService.allTareasUsuario(2009L);
    }
 
    // Test #21: nuevaTareaUsuario

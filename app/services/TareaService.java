@@ -2,9 +2,9 @@ package services;
 
 import javax.inject.*;
 
-import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.Collections;
 
 import models.Usuario;
@@ -25,15 +25,15 @@ public class TareaService {
 
    // Devuelve la lista de tareas de un usuario, ordenadas por su id
    // (equivalente al orden de creación)
-   public Set<Tarea> allTareasUsuario(Long idUsuario) {
+   public List<Tarea> allTareasUsuario(Long idUsuario) {
       Usuario usuario = usuarioRepository.findById(idUsuario);
       if (usuario == null) {
          throw new TareaServiceException("Usuario no existente");
       }
       Set<Tarea> tareas = usuario.getTareas();
-      List<Tarea> list = new ArrayList(tareas);
-      Collections.sort(list, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
-      return tareas;
+      List<Tarea> lista = new ArrayList<Tarea>(tareas);
+      Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+      return lista;
    }
 
    public Tarea nuevaTarea(Long idUsuario, String titulo) {

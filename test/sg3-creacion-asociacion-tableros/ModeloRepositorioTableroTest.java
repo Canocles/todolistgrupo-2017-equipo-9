@@ -1,6 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Set;
 import java.io.FileInputStream;
 import java.sql.*;
@@ -54,13 +55,15 @@ public class ModeloRepositorioTableroTest {
     Usuario usuario = usuarioRepository.findById(1001L);
     Set<Tablero> tableros = admin.getAdministrados();
     // Tras cargar los datos del dataset el usuario2 no tiene ningún
-    // tablero asociado y el usuario 1 tiene 2 tableros administrados
+    // tablero asociado y el usuario 1 tiene 2 tableros administradoso
     assertEquals(0, usuario.getTableros().size());
     assertEquals(2, tableros.size());
     for (Tablero tablero : tableros) {
         // Actualizamos la relación en memoria, añadiendo el usuario
         // al tablero
+        System.out.println(usuario); 
         tablero.getParticipantes().add(usuario);
+        System.out.println(tablero.getParticipantes());
         // Actualizamos la base de datos llamando al repository
         tableroRepository.update(tablero);
     }
@@ -165,7 +168,7 @@ public class ModeloRepositorioTableroTest {
     usuario1 = usuarioRepository.findById(1000L);
     assertEquals(3, tablero.getParticipantes().size());
     assertEquals(1, usuario1.getTableros().size());
-    //assertTrue(tablero.getParticipantes().contains(usuario1));
+    assertTrue(tablero.getParticipantes().contains(usuario1));
     assertTrue(usuario1.getTableros().contains(tablero));
   }
 }
