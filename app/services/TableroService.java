@@ -2,6 +2,11 @@ package services;
 
 import javax.inject.*;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.Collections;
+
 import models.Usuario;
 import models.UsuarioRepository;
 import models.Tablero;
@@ -25,5 +30,16 @@ public class TableroService {
     }
     Tablero tablero = new Tablero(usuario, nombre);
     return tableroRepository.add(tablero);
+  }
+
+  public List<Tablero> obtenerTablerosAdministradosUsuario (Long idUsuario) {
+    Usuario usuario = usuarioRepository.findById(idUsuario);
+    if (usuario == null) {
+      throw new TableroServiceException("No existe el usuario");
+    }
+    Set<Tablero> tableros = usuario.getAdministrados();
+    List<Tablero> lista = new ArrayList<Tablero>(tableros);
+    Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return lista;
   }
 }

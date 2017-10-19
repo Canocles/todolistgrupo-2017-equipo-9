@@ -1,18 +1,19 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import play.db.jpa.*;
-
 import org.dbunit.*;
 import org.dbunit.dataset.*;
 import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
+
 import java.io.FileInputStream;
+import java.util.List;
 
 import play.inject.guice.GuiceApplicationBuilder;
 import play.inject.Injector;
 import play.inject.guice.GuiceInjectorBuilder;
 import play.Environment;
+import play.db.jpa.*;
 
 import models.Usuario;
 import models.UsuarioRepository;
@@ -53,7 +54,15 @@ public class TableroServiceTest {
   public void crearTableroUsuarioTest () {
     TableroService tableroService = newTableroService();
     long idUsuario = 1000L;
-    Tablero tablero = tableroService.crearTableroUsuario("Primer tablero", idUsuario);
+    Tablero tablero = tableroService.crearTableroUsuario("Tablero test 3", idUsuario);
     assertEquals(3, tablero.getAdministrador().getAdministrados().size());
+  }
+
+  @Test
+  public void obtenerTablerosUsuarioTest () {
+    TableroService tableroService = newTableroService();
+    List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(1000L);
+    assertEquals("Tablero test 1", tableros.get(0).getNombre());
+    assertEquals("Tablero test 2", tableros.get(1).getNombre());
   }
  }
