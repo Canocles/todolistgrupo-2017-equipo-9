@@ -16,15 +16,12 @@ import play.Environment;
 import play.db.jpa.*;
 
 import models.Usuario;
-import models.UsuarioRepository;
-import models.JPAUsuarioRepository;
-
 import models.Tablero;
-import models.TableroRepository;
-import models.JPATableroRepository;
 
 import services.UsuarioService;
+import services.UsuarioServiceException;
 import services.TableroService;
+import services.TareaServiceException;
 
 public class TableroServiceTest {
   static private Injector injector;
@@ -58,11 +55,24 @@ public class TableroServiceTest {
     assertEquals(3, tablero.getAdministrador().getAdministrados().size());
   }
 
+  @Test(expected = UsuarioServiceException.class)
+  public void crearTableroUsuarioNoExistenteTest () {
+    TableroService tableroService = newTableroService();
+    long idUsuario = 1004L;
+    Tablero tablero = tableroService.crearTableroUsuario("Tablero test 3", idUsuario);
+  }
+
   @Test
   public void obtenerTablerosUsuarioTest () {
     TableroService tableroService = newTableroService();
     List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(1000L);
     assertEquals("Tablero test 1", tableros.get(0).getNombre());
     assertEquals("Tablero test 2", tableros.get(1).getNombre());
+  }
+
+  @Test(expected = UsuarioServiceException.class)
+  public void obtenerTablerosUsuarioNoExistenteTest () {
+    TableroService tableroService = newTableroService();
+    List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(1004L);
   }
  }

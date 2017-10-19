@@ -26,7 +26,7 @@ public class TableroService {
     System.out.println(idUsuario);
     Usuario usuario = usuarioRepository.findById(idUsuario);
     if (usuario == null) {
-      throw new TableroServiceException("No existe el usuario");
+      throw new UsuarioServiceException("No existe el usuario");
     }
     Tablero tablero = new Tablero(usuario, nombre);
     return tableroRepository.add(tablero);
@@ -35,7 +35,7 @@ public class TableroService {
   public List<Tablero> obtenerTablerosAdministradosUsuario (Long idUsuario) {
     Usuario usuario = usuarioRepository.findById(idUsuario);
     if (usuario == null) {
-      throw new TableroServiceException("No existe el usuario");
+      throw new UsuarioServiceException("No existe el usuario");
     }
     Set<Tablero> tableros = usuario.getAdministrados();
     List<Tablero> lista = new ArrayList<Tablero>(tableros);
