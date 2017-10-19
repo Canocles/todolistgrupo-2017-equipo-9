@@ -1,7 +1,6 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import java.util.List;
 import java.util.Set;
 import java.io.FileInputStream;
 import java.sql.*;
@@ -18,7 +17,6 @@ import org.dbunit.operation.*;
 
 import play.db.jpa.*;
 import play.db.Database;
-import play.db.Databases;
 
 import models.Usuario;
 import models.UsuarioRepository;
@@ -61,7 +59,7 @@ public class ModeloRepositorioTableroTest {
     for (Tablero tablero : tableros) {
         // Actualizamos la relación en memoria, añadiendo el usuario
         // al tablero
-        System.out.println(usuario); 
+        System.out.println(usuario);
         tablero.getParticipantes().add(usuario);
         System.out.println(tablero.getParticipantes());
         // Actualizamos la base de datos llamando al repository
