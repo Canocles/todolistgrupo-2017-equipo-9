@@ -26,13 +26,15 @@
     @for(tablero <- tableros) {
         <tr>
             <td>@tablero.getNombre()</td>
-            <td>@tablero.getAdministrador()</td>
-            <td>@tablero.getParticipantes()</td>
+            <td>@tablero.getAdministrador().getLogin()</td>
+            <td>@if(tablero.getParticipantes() != null) {
+              @tablero.getParticipantes()}</td>
         </tr>
       }
 
       <tr>
-          <td></td>
+        <td><a href="@routes.TableroController.formNuevoTablero(usuario.getId())">
+            <span class="glyphicon glyphicon-plus"/></a></td>
           <td><a href="@routes.UsuarioController.logout()">Salir</a></td>
           <td><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></td>
       </tr>
