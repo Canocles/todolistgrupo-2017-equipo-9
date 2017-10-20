@@ -75,4 +75,12 @@ public class TableroServiceTest {
     TableroService tableroService = newTableroService();
     List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(1004L);
   }
+
+  @Test
+  public void allTareasUsuarioEstanOrdenadas() {
+    TableroService tableroService = newTableroService();
+    List<Tablero> tableros = tableroService.allTablerosUsuario(1000L);
+    assertEquals("Tablero test 1", tableros.get(0).getNombre());
+    assertEquals("Tablero test 2", tableros.get(1).getNombre());
+  }
  }
