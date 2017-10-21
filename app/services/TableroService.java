@@ -38,14 +38,6 @@ public class TableroService {
     return tablero;
   }
 
-  public List<Tablero> allTablerosUsuario(Long idUsuario) {
-    Usuario usuario = comprobarUsuarioExiste (idUsuario);
-    Set<Tablero> tableros = usuario.getAdministrados();
-    List<Tablero> lista = new ArrayList<Tablero>(tableros);
-    Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
-    return lista;
-  }
-
   public Tablero crearTableroUsuario(String nombre, Long idUsuario) {
     Usuario usuario = comprobarUsuarioExiste (idUsuario);
     Tablero tablero = new Tablero(usuario, nombre);

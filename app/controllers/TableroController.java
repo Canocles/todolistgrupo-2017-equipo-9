@@ -65,7 +65,7 @@ public class TableroController extends Controller {
     } else {
       String aviso = flash("Lista de Tableros administrados");
       Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-      List<Tablero> tableros = tableroService.allTablerosUsuario(idUsuario);
+      List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(idUsuario);
       return ok(listarTablerosAdministrados.render(tableros, usuario, aviso));
     }
   }
