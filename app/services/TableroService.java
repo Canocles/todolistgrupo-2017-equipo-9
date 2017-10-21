@@ -22,6 +22,17 @@ public class TableroService {
      this.tableroRepository = tableroRepository;
   }
 
+  public List<Tablero> allTablerosUsuario(Long idUsuario) {
+     Usuario usuario = usuarioRepository.findById(idUsuario);
+     if (usuario == null) {
+        throw new UsuarioServiceException("No existe el usuario");
+     }
+     Set<Tablero> tableros = usuario.getAdministrados();
+     List<Tablero> lista = new ArrayList<Tablero>(tableros);
+     Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+     return lista;
+  }
+
   public Tablero crearTableroUsuario(String nombre, Long idUsuario) {
     System.out.println(idUsuario);
     Usuario usuario = usuarioRepository.findById(idUsuario);
