@@ -62,8 +62,9 @@ public class TableroServiceTest {
     Tablero tablero = tableroService.crearTableroUsuario("Tablero test 3", idUsuario);
   }
 
+  /* Test de obtener tableros */
   @Test
-  public void obtenerTablerosUsuarioTest () {
+  public void obtenerTablerosAdministradosUsuarioTest () {
     TableroService tableroService = newTableroService();
     List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(1000L);
     assertEquals("Tablero test 1", tableros.get(0).getNombre());
@@ -76,6 +77,23 @@ public class TableroServiceTest {
     List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(1004L);
   }
 
+  @Test
+  public void obtenerTablerosParticipaUsuarioTest () {
+    TableroService tableroService = newTableroService();
+    tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    tableroService.anyadirParticipanteTablero(1001L, 1001L);
+    List<Tablero> tableros = tableroService.obtenerTablerosParticipaUsuario(1001L);
+    assertEquals(2, tableros.size());
+  }
+
+  /* Tests de añadir participantes a los tableros*/
+  @Test
+  public void anyadirParticipanteTableroTest () {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    assertEquals(1, tablero.getParticipantes().size());
+  }
+
   @Test(expected = UsuarioServiceException.class)
   public void anyadirParticipanteNoExistenteTest () {
     TableroService tableroService = newTableroService();
@@ -86,12 +104,5 @@ public class TableroServiceTest {
   public void anyadirParticipanteTableroNoExistenteTest () {
     TableroService tableroService = newTableroService();
     Tablero tablero = tableroService.anyadirParticipanteTablero(2023L, 1001L);
-  }
-
-  @Test
-  public void anyadirParticipanteTableroTest () {
-    TableroService tableroService = newTableroService();
-    Tablero tablero = tableroService.anyadirParticipanteTablero(1000L, 1001L);
-    assertEquals(1, tablero.getParticipantes().size());
   }
  }

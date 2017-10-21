@@ -52,6 +52,14 @@ public class TableroService {
     return lista;
   }
 
+  public List<Tablero> obtenerTablerosParticipaUsuario (Long idUsuario) {
+    Usuario usuario = comprobarUsuarioExiste (idUsuario);
+    Set<Tablero> tableros = usuario.getTableros();
+    List<Tablero> lista = new ArrayList<Tablero>(tableros);
+    Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return lista;
+  }
+
   public Tablero anyadirParticipanteTablero (Long idTablero, Long idUsuario) {
     Usuario usuario = comprobarUsuarioExiste (idUsuario);
     Tablero tablero = comprobarTableroExiste (idTablero);
