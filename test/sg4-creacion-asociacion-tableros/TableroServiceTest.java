@@ -21,7 +21,7 @@ import models.Tablero;
 import services.UsuarioService;
 import services.UsuarioServiceException;
 import services.TableroService;
-import services.TareaServiceException;
+import services.TableroServiceException;
 
 public class TableroServiceTest {
   static private Injector injector;
@@ -62,8 +62,9 @@ public class TableroServiceTest {
     Tablero tablero = tableroService.crearTableroUsuario("Tablero test 3", idUsuario);
   }
 
+  /* Test de obtener tableros */
   @Test
-  public void obtenerTablerosUsuarioTest () {
+  public void obtenerTablerosAdministradosUsuarioTest () {
     TableroService tableroService = newTableroService();
     List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(1000L);
     assertEquals("Tablero test 1", tableros.get(0).getNombre());
@@ -77,10 +78,45 @@ public class TableroServiceTest {
   }
 
   @Test
-  public void allTareasUsuarioEstanOrdenadas() {
+  public void obtenerTablerosParticipaUsuarioTest () {
     TableroService tableroService = newTableroService();
-    List<Tablero> tableros = tableroService.allTablerosUsuario(1000L);
-    assertEquals("Tablero test 1", tableros.get(0).getNombre());
-    assertEquals("Tablero test 2", tableros.get(1).getNombre());
+    tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    tableroService.anyadirParticipanteTablero(1001L, 1001L);
+    List<Tablero> tableros = tableroService.obtenerTablerosParticipaUsuario(1001L);
+    assertEquals(2, tableros.size());
+  }
+
+  @Test(expected = UsuarioServiceException.class)
+  public void obtenerTablerosParticipaUsuarioNoExistenteTest   () {
+    TableroService tableroService = newTableroService();
+    List<Tablero> tableros = tableroService.obtenerTablerosParticipaUsuario(1023L);
+  }
+
+  @Test
+  public void obtenerTablerosNoParticipaNiAdministraUsuarioTest () {
+    TableroService tableroService = newTableroService();
+    tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    List<Tablero> tableros = tableroService.obtenerTablerosNoParticipaNiAdministraUsuario(1001L);
+    assertEquals(1, tableros.size());
+  }
+
+  /* Tests de añadir participantes a los tableros*/
+  @Test
+  public void anyadirParticipanteTableroTest () {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    assertEquals(1, tablero.getParticipantes().size());
+  }
+
+  @Test(expected = UsuarioServiceException.class)
+  public void anyadirParticipanteNoExistenteTest () {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.anyadirParticipanteTablero(1000L, 2023L);
+  }
+
+  @Test(expected = TableroServiceException.class)
+  public void anyadirParticipanteTableroNoExistenteTest () {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.anyadirParticipanteTablero(2023L, 1001L);
   }
  }
