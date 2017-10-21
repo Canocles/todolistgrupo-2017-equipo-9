@@ -21,7 +21,7 @@ import models.Tablero;
 import services.UsuarioService;
 import services.UsuarioServiceException;
 import services.TableroService;
-import services.TareaServiceException;
+import services.TableroServiceException;
 
 public class TableroServiceTest {
   static private Injector injector;
@@ -77,11 +77,23 @@ public class TableroServiceTest {
   }
 
   @Test
-  public void allTareasUsuarioEstanOrdenadas () {
+  public void allTareasUsuarioEstanOrdenadasTest () {
     TableroService tableroService = newTableroService();
     List<Tablero> tableros = tableroService.allTablerosUsuario(1000L);
     assertEquals("Tablero test 1", tableros.get(0).getNombre());
     assertEquals("Tablero test 2", tableros.get(1).getNombre());
+  }
+
+  @Test(expected = UsuarioServiceException.class)
+  public void anyadirParticipanteNoExistenteTest () {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.anyadirParticipanteTablero(1000L, 2023L);
+  }
+
+  @Test(expected = TableroServiceException.class)
+  public void anyadirParticipanteTableroNoExistenteTest () {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.anyadirParticipanteTablero(2023L, 1001L);
   }
 
   @Test
