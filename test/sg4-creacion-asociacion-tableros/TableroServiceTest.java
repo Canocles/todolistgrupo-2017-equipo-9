@@ -92,6 +92,14 @@ public class TableroServiceTest {
     List<Tablero> tableros = tableroService.obtenerTablerosParticipaUsuario(1023L);
   }
 
+  @Test
+  public void obtenerTablerosNoParticipaNiAdministraUsuarioTest () {
+    TableroService tableroService = newTableroService();
+    tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    List<Tablero> tableros = tableroService.obtenerTablerosNoParticipaNiAdministraUsuario(1001L);
+    assertEquals(1, tableros.size());
+  }
+
   /* Tests de añadir participantes a los tableros*/
   @Test
   public void anyadirParticipanteTableroTest () {

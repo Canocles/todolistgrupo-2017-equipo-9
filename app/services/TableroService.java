@@ -60,6 +60,21 @@ public class TableroService {
     return lista;
   }
 
+  public List<Tablero> obtenerTablerosNoParticipaNiAdministraUsuario (Long idUsuario) {
+    Usuario usuario = comprobarUsuarioExiste (idUsuario);
+    List<Tablero> tableros = tableroRepository.getAll();
+    List<Tablero> lista = new ArrayList<Tablero>();
+    for (Tablero tablero: tableros) {
+      if (!usuario.getAdministrados().contains(tablero) &&
+          !usuario.getTableros().contains(tablero) &&
+          !lista.contains(tablero)) {
+            lista.add(tablero);
+      }
+    }
+    Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return lista;
+  }
+
   public Tablero anyadirParticipanteTablero (Long idTablero, Long idUsuario) {
     Usuario usuario = comprobarUsuarioExiste (idUsuario);
     Tablero tablero = comprobarTableroExiste (idTablero);
