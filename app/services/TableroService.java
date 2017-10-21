@@ -53,4 +53,17 @@ public class TableroService {
     Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
     return lista;
   }
+
+  public Tablero anyadirParticipanteTablero (Long idTablero, Long idUsuario) {
+    Usuario usuario = usuarioRepository.findById(idUsuario);
+    if (usuario == null) {
+      throw new UsuarioServiceException("No existe el usuario");
+    }
+    Tablero tablero = tableroRepository.findById(idTablero);
+    if (tablero == null) {
+      throw new TableroServiceException("No existe el tablero");
+    }
+    tablero.getParticipantes().add(usuario);
+    return tableroRepository.update(tablero);
+  }
 }

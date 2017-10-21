@@ -77,10 +77,17 @@ public class TableroServiceTest {
   }
 
   @Test
-  public void allTareasUsuarioEstanOrdenadas() {
+  public void allTareasUsuarioEstanOrdenadas () {
     TableroService tableroService = newTableroService();
     List<Tablero> tableros = tableroService.allTablerosUsuario(1000L);
     assertEquals("Tablero test 1", tableros.get(0).getNombre());
     assertEquals("Tablero test 2", tableros.get(1).getNombre());
+  }
+
+  @Test
+  public void anyadirParticipanteTableroTest () {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    assertEquals(1, tablero.getParticipantes().size());
   }
  }
