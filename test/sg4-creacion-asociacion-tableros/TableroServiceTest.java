@@ -86,6 +86,12 @@ public class TableroServiceTest {
     assertEquals(2, tableros.size());
   }
 
+  @Test(expected = UsuarioServiceException.class)
+  public void obtenerTablerosParticipaUsuarioNoExistenteTest   () {
+    TableroService tableroService = newTableroService();
+    List<Tablero> tableros = tableroService.obtenerTablerosParticipaUsuario(1023L);
+  }
+
   /* Tests de añadir participantes a los tableros*/
   @Test
   public void anyadirParticipanteTableroTest () {
