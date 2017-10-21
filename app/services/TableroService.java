@@ -22,32 +22,38 @@ public class TableroService {
      this.tableroRepository = tableroRepository;
   }
 
+  private Usuario comprobarUsuarioExiste (Long idUsuario) {
+    Usuario usuario = usuarioRepository.findById(idUsuario);
+    if (usuario == null) {
+       throw new UsuarioServiceException("No existe el usuario");
+    }
+    return usuario;
+  }
+
+  private Tablero comprobarTableroExiste (Long idTablero) {
+    Tablero tablero = tableroRepository.findById(idTablero);
+    if (tablero == null) {
+      throw new TableroServiceException("No existe el tablero");
+    }
+    return tablero;
+  }
+
   public List<Tablero> allTablerosUsuario(Long idUsuario) {
-     Usuario usuario = usuarioRepository.findById(idUsuario);
-     if (usuario == null) {
-        throw new UsuarioServiceException("No existe el usuario");
-     }
-     Set<Tablero> tableros = usuario.getAdministrados();
-     List<Tablero> lista = new ArrayList<Tablero>(tableros);
-     Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
-     return lista;
+    Usuario usuario = comprobarUsuarioExiste (idUsuario);
+    Set<Tablero> tableros = usuario.getAdministrados();
+    List<Tablero> lista = new ArrayList<Tablero>(tableros);
+    Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return lista;
   }
 
   public Tablero crearTableroUsuario(String nombre, Long idUsuario) {
-    System.out.println(idUsuario);
-    Usuario usuario = usuarioRepository.findById(idUsuario);
-    if (usuario == null) {
-      throw new UsuarioServiceException("No existe el usuario");
-    }
+    Usuario usuario = comprobarUsuarioExiste (idUsuario);
     Tablero tablero = new Tablero(usuario, nombre);
     return tableroRepository.add(tablero);
   }
 
   public List<Tablero> obtenerTablerosAdministradosUsuario (Long idUsuario) {
-    Usuario usuario = usuarioRepository.findById(idUsuario);
-    if (usuario == null) {
-      throw new UsuarioServiceException("No existe el usuario");
-    }
+    Usuario usuario = comprobarUsuarioExiste (idUsuario);
     Set<Tablero> tableros = usuario.getAdministrados();
     List<Tablero> lista = new ArrayList<Tablero>(tableros);
     Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
@@ -55,14 +61,8 @@ public class TableroService {
   }
 
   public Tablero anyadirParticipanteTablero (Long idTablero, Long idUsuario) {
-    Usuario usuario = usuarioRepository.findById(idUsuario);
-    if (usuario == null) {
-      throw new UsuarioServiceException("No existe el usuario");
-    }
-    Tablero tablero = tableroRepository.findById(idTablero);
-    if (tablero == null) {
-      throw new TableroServiceException("No existe el tablero");
-    }
+    Usuario usuario = comprobarUsuarioExiste (idUsuario);
+    Tablero tablero = comprobarTableroExiste (idTablero);
     tablero.getParticipantes().add(usuario);
     return tableroRepository.update(tablero);
   }

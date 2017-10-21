@@ -59,9 +59,7 @@ public class ModeloRepositorioTableroTest {
     for (Tablero tablero : tableros) {
         // Actualizamos la relación en memoria, añadiendo el usuario
         // al tablero
-        System.out.println(usuario);
         tablero.getParticipantes().add(usuario);
-        System.out.println(tablero.getParticipantes());
         // Actualizamos la base de datos llamando al repository
         tableroRepository.update(tablero);
     }
