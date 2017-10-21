@@ -76,14 +76,6 @@ public class TableroServiceTest {
     List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(1004L);
   }
 
-  @Test
-  public void allTablerosUsuarioEstanOrdenadasTest () {
-    TableroService tableroService = newTableroService();
-    List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(1000L);
-    assertEquals("Tablero test 1", tableros.get(0).getNombre());
-    assertEquals("Tablero test 2", tableros.get(1).getNombre());
-  }
-
   @Test(expected = UsuarioServiceException.class)
   public void anyadirParticipanteNoExistenteTest () {
     TableroService tableroService = newTableroService();
