@@ -1,0 +1,87 @@
+@(administrados: List[Tablero], participados: List[Tablero],
+  noRelacionados: List[Tablero], usuario: Usuario, mensaje: String)
+@scripts = {
+    <script type="text/javascript">
+        function del(urlBorrar) {
+            $.ajax({
+                url: urlBorrar,
+                type: 'DELETE',
+                success: function(results) {
+                    //refresh the page
+                    location.reload();
+                }
+            });
+        }
+    </script>
+}
+@main("Lista de Tableros administrados, donde participas y disponibles.", scripts) {
+    <h1> Listado de tableros del sistema </h1>
+
+    <h2> Listado de tableros que administra @usuario.getLogin(). </h2>
+    <table class="table table-striped">
+      <tr>
+        <th>Tablero</th>
+        <th>Administrador</th>
+        <th>Participantes</th>
+      </tr>
+      @for(administrado <- administrados) {
+        <tr>
+          <td>@administrado.getNombre()</td>
+          <td>@administrado.getAdministrador().getLogin()</td>
+          <td>@for(administrado <- administrado.getParticipantes()) {
+            participante.getLogin()
+          }</td>
+        </tr>
+      }
+      <tr>
+        <td><a href="@routes.TableroController.formNuevoTablero(usuario.getId())">
+            <span class="glyphicon glyphicon-plus"/> Crear tablero</a></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <h2> Listado de tableros en los que participa @usuario.getLogin(). </h2>
+    <table class="table table-striped">
+      <tr>
+        <th>Tablero</th>
+        <th>Administrador</th>
+        <th>Participantes</th>
+      </tr>
+      @for(participa <- participados) {
+        <tr>
+          <td>@participa.getNombre()</td>
+          <td>@participa.getAdministrador().getLogin()</td>
+          <td>@for(participante <- participa.getParticipantes()) {
+            participante.getLogin()
+          }</td>
+        </tr>
+      }
+    </table>
+
+    <h2> Listado de tableros en los que puedes apuntarte. </h2>
+    <table class="table table-striped">
+      <tr>
+        <th>Tablero</th>
+        <th>Administrador</th>
+        <th>Participantes</th>
+        <th></th>
+      </tr>
+      @for(noRelacionado <- noRelacionados) {
+        <tr>
+          <td>@noRelacionado.getNombre()</td>
+          <td>@noRelacionado.getAdministrador().getLogin()</td>
+          <td>@for(participante <- noRelacionado.getParticipantes()) {
+            participante.getLogin()
+          }</td>
+          <td></td>
+        </tr>
+      }
+    </table>
+
+  @if(mensaje != null) {
+      <div class="alert alert-success">
+          @mensaje
+      </div>
+  }
+}

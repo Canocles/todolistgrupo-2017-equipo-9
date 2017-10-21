@@ -52,21 +52,23 @@ public class TableroController extends Controller {
       Tablero tablero = tableroForm.get();
       tableroService.crearTableroUsuario(tablero.getNombre(), idUsuario);
       flash("aviso", "El tablero se ha guardado correctamente");
-      return redirect(controllers.routes.TableroController.listarTablerosAdministrados(idUsuario));
+      return redirect(controllers.routes.TableroController.listarTableros(idUsuario));
     }
   }
 
   @Security.Authenticated(ActionAuthenticator.class)
-  public Result listarTablerosAdministrados(Long idUsuario) {
+  public Result listarTableros(Long idUsuario) {
     String connectedUserStr = session("connected");
     Long connectedUser =  Long.valueOf(connectedUserStr);
     if (connectedUser != idUsuario) {
        return unauthorized("Lo siento, no estás autorizado");
     } else {
-      String aviso = flash("Lista de Tableros administrados");
+      String aviso = flash("Lista de Tableros");
       Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-      List<Tablero> tableros = tableroService.obtenerTablerosAdministradosUsuario(idUsuario);
-      return ok(listarTablerosAdministrados.render(tableros, usuario, aviso));
+      List<Tablero> administrados = tableroService.obtenerTablerosAdministradosUsuario(idUsuario);
+      List<Tablero> participados = tableroService.obtenerTablerosParticipaUsuario(idUsuario);
+      List<Tablero> noRelacionados = tableroService.obtenerTablerosNoParticipaNiAdministraUsuario(idUsuario);
+      return ok(listarTableros.render(administrados, participados, noRelacionados, usuario, aviso));
     }
   }
 }
