@@ -30,46 +30,47 @@ public class UsuarioController extends Controller {
    }
 
    public Result formularioRegistro() {
-      return ok(formRegistro.render(formFactory.form(Registro.class),""));
+      return ok(formRegistro.render(""));
    }
 
    public Result registroUsuario() {
-      Form<Registro> form = formFactory.form(Registro.class).bindFromRequest();
-      if (form.hasErrors()) {
-         return badRequest(formRegistro.render(form, "Hay errores en el formulario"));
-      }
-      Registro datosRegistro = form.get();
+      DynamicForm form = formFactory.form().bindFromRequest();
+      String login = form.get("login");
+      String email = form.get("email");
+      String password = form.get("password");
+      String confirmacion = form.get("confirmacion");
 
-      if (usuarioService.findUsuarioPorLogin(datosRegistro.login) != null) {
-         return badRequest(formRegistro.render(form, "Login ya existente: escoge otro"));
+      if (usuarioService.findUsuarioPorLogin(login) != null) {
+         return ok(formRegistro.render("Login ya existente: escoge otro"));
       }
 
-      if (!datosRegistro.password.equals(datosRegistro.confirmacion)) {
-         return badRequest(formRegistro.render(form, "No coinciden la contraseña y la confirmación"));
+      if (!password.equals(confirmacion)) {
+         return ok(formRegistro.render("No coinciden la contraseña y la confirmación"));
       }
-      Usuario usuario = usuarioService.creaUsuario(datosRegistro.login, datosRegistro.email, datosRegistro.password);
+      Usuario usuario = usuarioService.creaUsuario(login, email, password);
       return redirect(controllers.routes.UsuarioController.formularioLogin());
    }
 
    public Result formularioLogin() {
-      return ok(formLogin.render(formFactory.form(Login.class),""));
+      return ok(formLogin.render(""));
    }
 
    public Result loginUsuario() {
-      Form<Login> form = formFactory.form(Login.class).bindFromRequest();
+      DynamicForm form = formFactory.form().bindFromRequest();
       if (form.hasErrors()) {
-         return badRequest(formLogin.render(form, "Hay errores en el formulario"));
+         return badRequest(formLogin.render("Hay errores en el formulario"));
       }
-      Login login = form.get();
-      Usuario usuario = usuarioService.login(login.username, login.password);
+      String login = form.get("login");
+      String password = form.get("password");
+      Usuario usuario = usuarioService.login(login, password);
       if (usuario == null) {
-         return notFound(formLogin.render(form, "Login y contraseña no existentes"));
+         return notFound(formLogin.render("Login y contraseña no existentes"));
       } else {
          // Añadimos el id del usuario a la clave `connected` de
          // la sesión de Play
          // https://www.playframework.com/documentation/2.5.x/JavaSessionFlash
          session("connected", usuario.getId().toString());
-         return redirect(controllers.routes.GestionTareasController.listaTareas(usuario.getId()));
+         return redirect(controllers.routes.UsuarioController.detalleUsuario(usuario.getId()));
       }
    }
 

@@ -1,20 +1,30 @@
-@(loginForm: Form[Login], mensaje: String)
-@main("Registro usuario") {
-   @if(mensaje != "") {
-      <div class="alert alert-danger">
-         @mensaje
-      </div>
-
-   }
-   <h1>Login</h1>
-   @helper.form(action = routes.UsuarioController.loginUsuario()) {
+@(mensaje: String)
+@login("Login usuario") {
+  <p>
+  @if(mensaje != "") {
+     <div class="alert alert-danger alert-dismissable fade in">
+       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        @mensaje
+     </div>
+  }
+  </p>
+  <div class="form-container">
+    <h1>Login</h1>
+    @helper.form(action = routes.UsuarioController.loginUsuario()) {
       <fieldset>
-         @helper.inputText(loginForm("username"), '_label -> "Usuario")
-         @helper.inputPassword(loginForm("password"), '_label -> "Contraseña")
+        <div class="form-group">
+            <label for="login">Login:</label>
+            <input type="text" class="form-control" name="login" id="login" placeholder="Nombre de usuario">
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña:</label>
+          <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña">
+        </div>
       </fieldset>
       <p>
-         <button type="submit" class="btn btn-primary">Login</button>
-          <a class="btn btn-link" href="@routes.UsuarioController.registroUsuario()">Ir a registro</a>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <a class="btn btn-warning" href="@routes.UsuarioController.registroUsuario()">Ir a registro</a>
       </p>
-   }
+    }
+  </div>
 }
