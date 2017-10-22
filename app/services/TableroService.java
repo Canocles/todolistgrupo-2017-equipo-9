@@ -75,6 +75,11 @@ public class TableroService {
     return lista;
   }
 
+  public Tablero obtenerDetalleDeTablero (Long idTablero) {
+    Tablero tablero = comprobarTableroExiste (idTablero);
+    return tablero;
+  }
+
   public Tablero anyadirParticipanteTablero (Long idTablero, Long idUsuario) {
     Usuario usuario = comprobarUsuarioExiste (idUsuario);
     Tablero tablero = comprobarTableroExiste (idTablero);
