@@ -7,12 +7,14 @@
      <li><strong>Nombre: </strong> @tablero.getNombre()</li>
      <li><strong>Administrador: </strong> @tablero.getAdministrador().getLogin()</li>
      <li><strong>Participantes: </strong>
+       <ul>
        @for(participante <- tablero.getParticipantes()) {
-         <li>@participante.getNombre()</li>
+         <li>@participante.getLogin()</li>
        }
+      </ul>
      </li>
   </ul>
   <p>
-    <a class="btn btn-link" href="@routes.TableroController.listarTableros(usuario.getId())">Lista de Tableros</a>
+    <a class="btn btn-primary" href="@routes.TableroController.listarTableros(usuario.getId())">Lista de Tableros</a>
   </p>
 }
