@@ -1,0 +1,18 @@
+@(tablero: Tablero, usuario: Usuario)
+
+@main("Detalle del tablero") {
+  <h1>Detalle del tablero @tablero.getNombre()</h1>
+
+  <ul>
+     <li><strong>Nombre: </strong> @tablero.getNombre()</li>
+     <li><strong>Administrador: </strong> @tablero.getAdministrador().getLogin()</li>
+     <li><strong>Participantes: </strong>
+       @for(participante <- tablero.getParticipantes()) {
+         <li>@participante.getNombre()</li>
+       }
+     </li>
+  </ul>
+  <p>
+    <a class="btn btn-link" href="@routes.TableroController.listarTableros(usuario.getId())">Lista de Tableros</a>
+  </p>
+}
