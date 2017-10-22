@@ -17,7 +17,7 @@
 @main("Lista de Tableros administrados, donde participas y disponibles.", scripts) {
     <h1> Listado de tableros del sistema </h1>
 
-    <h2> Listado de tableros que administra @usuario.getLogin(). </h2>
+    <h2> Listado de tableros que administra @usuario.getLogin() </h2>
     <table class="table table-striped">
       <tr>
         <th>Tablero</th>
@@ -29,7 +29,7 @@
           <td>@administrado.getNombre()</td>
           <td>@administrado.getAdministrador().getLogin()</td>
           <td>@for(administrado <- administrado.getParticipantes()) {
-            participante.getLogin()
+                @administrado.getLogin()
           }</td>
         </tr>
       }
@@ -41,7 +41,7 @@
       </tr>
     </table>
 
-    <h2> Listado de tableros en los que participa @usuario.getLogin(). </h2>
+    <h2> Listado de tableros en los que participa @usuario.getLogin() </h2>
     <table class="table table-striped">
       <tr>
         <th>Tablero</th>
@@ -53,13 +53,13 @@
           <td>@participa.getNombre()</td>
           <td>@participa.getAdministrador().getLogin()</td>
           <td>@for(participante <- participa.getParticipantes()) {
-            participante.getLogin()
+                @participante.getLogin()
           }</td>
         </tr>
       }
     </table>
 
-    <h2> Listado de tableros en los que puedes apuntarte. </h2>
+    <h2> Listado de tableros en los que puedes apuntarte </h2>
     <table class="table table-striped">
       <tr>
         <th>Tablero</th>
@@ -72,9 +72,10 @@
           <td>@noRelacionado.getNombre()</td>
           <td>@noRelacionado.getAdministrador().getLogin()</td>
           <td>@for(participante <- noRelacionado.getParticipantes()) {
-            participante.getLogin()
+                @participante.getLogin()
           }</td>
-          <td></td>
+          <td><a href="@routes.TableroController.apuntarseATablero(usuario.getId(), noRelacionado.getId())">
+              <span class="glyphicon glyphicon-plus"/> Apuntarse</a></td>
         </tr>
       }
     </table>
