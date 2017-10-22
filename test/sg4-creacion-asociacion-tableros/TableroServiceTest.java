@@ -109,6 +109,12 @@ public class TableroServiceTest {
     assertEquals("Tablero test 1", tablero.getNombre());
   }
 
+  @Test(expected = TableroServiceException.class)
+  public void obtenerDetalleDeTableroNoExistenteTest () {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.obtenerDetalleDeTablero(1005L);
+  }
+
   /* Tests de añadir participantes a los tableros*/
   @Test
   public void anyadirParticipanteTableroTest () {
