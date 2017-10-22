@@ -85,4 +85,17 @@ public class TableroController extends Controller {
       return redirect(controllers.routes.TableroController.listarTableros(idUsuario));
     }
   }
+
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result detalleTablero(Long idUsuario, Long idTablero) {
+    String connectedUserStr = session("connected");
+    Long connectedUser =  Long.valueOf(connectedUserStr);
+    if (connectedUser != idUsuario) {
+       return unauthorized("Lo siento, no estás autorizado");
+    } else {
+      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+      Tablero tablero = tableroService.obtenerDetalleDeTablero(idTablero);
+      return ok(detalleTablero.render(tablero, usuario));
+    }
+  }
 }

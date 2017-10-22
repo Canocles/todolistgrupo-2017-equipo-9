@@ -21,23 +21,19 @@
     <table class="table table-striped">
       <tr>
         <th>Tablero</th>
-        <th>Administrador</th>
-        <th>Participantes</th>
+        <th>Acciones</th>
       </tr>
       @for(administrado <- administrados) {
         <tr>
           <td>@administrado.getNombre()</td>
-          <td>@administrado.getAdministrador().getLogin()</td>
-          <td>@for(administrado <- administrado.getParticipantes()) {
-                @administrado.getLogin()
-          }</td>
+          <td><a href="@routes.TableroController.detalleTablero(usuario.getId(), administrado.getId())">
+              <span class="glyphicon glyphicon-eye-open"/></a></td>
         </tr>
       }
       <tr>
         <td><a href="@routes.TableroController.formNuevoTablero(usuario.getId())">
-            <span class="glyphicon glyphicon-plus"/> Crear tablero</a></td>
-        <td></td>
-        <td></td>
+            <span class="glyphicon glyphicon-plus"/></a></td>
+        <td><span class="glyphicon glyphicon-eye-close"/></td>
       </tr>
     </table>
 
@@ -45,16 +41,13 @@
     <table class="table table-striped">
       <tr>
         <th>Tablero</th>
-        <th>Administrador</th>
-        <th>Participantes</th>
+        <th>Acciones</th>
       </tr>
       @for(participa <- participados) {
         <tr>
           <td>@participa.getNombre()</td>
-          <td>@participa.getAdministrador().getLogin()</td>
-          <td>@for(participante <- participa.getParticipantes()) {
-                @participante.getLogin()
-          }</td>
+          <td><a href="@routes.TableroController.detalleTablero(usuario.getId(), participa.getId())">
+              <span class="glyphicon glyphicon-eye-open"/></a></td>
         </tr>
       }
     </table>
@@ -63,19 +56,16 @@
     <table class="table table-striped">
       <tr>
         <th>Tablero</th>
-        <th>Administrador</th>
-        <th>Participantes</th>
-        <th></th>
+        <th>Acciones</th>
       </tr>
       @for(noRelacionado <- noRelacionados) {
         <tr>
           <td>@noRelacionado.getNombre()</td>
-          <td>@noRelacionado.getAdministrador().getLogin()</td>
-          <td>@for(participante <- noRelacionado.getParticipantes()) {
-                @participante.getLogin()
-          }</td>
           <td><a href="@routes.TableroController.apuntarseATablero(usuario.getId(), noRelacionado.getId())">
-              <span class="glyphicon glyphicon-plus"/> Apuntarse</a></td>
+              <span class="glyphicon glyphicon-plus"/></a>
+              <a href="@routes.TableroController.detalleTablero(usuario.getId(), noRelacionado.getId())">
+              <span class="glyphicon glyphicon-eye-open"/></a>
+          </td>
         </tr>
       }
     </table>
