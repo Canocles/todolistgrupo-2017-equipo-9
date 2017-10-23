@@ -19,7 +19,7 @@
    <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Mis tareas</a></li>
    <li class="active"><a href="">Mis tableros</a></li>
  }
-@nav(usuario, "Lista de Tableros administrados", scripts, menu) {
+@nav(usuario.getId, "Lista de Tableros administrados", scripts, menu) {
     <h1> Listado de tableros del sistema </h1>
 
     <h2> Listado de tableros que administra @usuario.getLogin() </h2>
