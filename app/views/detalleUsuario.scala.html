@@ -1,19 +1,79 @@
 @(usuario: Usuario)
-
-@main("Detalle de usuario") {
-   <h1>Detalle del usuario @usuario.getLogin() <a href="@routes.UsuarioController.formularioEditaUsuario(usuario.getId())">
-       <span class="glyphicon glyphicon-pencil"></span>&nbsp;</a>
-   </h1>
-   <ul>
-      <li><strong>Login: </strong> @usuario.getLogin()</li>
-      <li><strong>Email: </strong> @usuario.getEmail()</li>
-      <li><strong>Nombre: </strong> @usuario.getNombre()</li>
-      <li><strong>Apellidos: </strong> @usuario.getApellidos()</li>
-      <li><strong>Fecha de nacimiento: </strong>
-            @if(usuario.getFechaNacimiento() != null) {
-                @usuario.getFechaNacimiento().format("dd-MM-yyyy")
-            }</li>
-      <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Lista de Tareas</a></li>
-      <li><a href="@routes.TableroController.listarTableros(usuario.getId())">Lista de Tableros</a></li>
-   </ul>
+@scripts = {
+    <script type="text/javascript">
+        function del(urlBorrar) {
+            $.ajax({
+                url: urlBorrar,
+                type: 'DELETE',
+                success: function(results) {
+                    //refresh the page
+                    location.reload();
+                }
+            });
+        }
+    </script>
+}
+@menu = {
+   <li class="active"><a href="">Mi cuenta</a></li>
+   <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Mis tareas</a></li>
+   <li><a href="@routes.TableroController.listarTableros(usuario.getId())">Mis tableros</a></li>
+ }
+@nav(usuario, "Mi cuenta", scripts, menu) {
+  <div class="container" style="padding-top: 100px">
+    <div class="w3-row">
+      <div class="w3-teal w3-card-2 w3-hover-shadow" style="padding: 50px">
+        <div class="w3-row">
+          <div class="w3-content" style="width: 250px; height: 250px"> <img alt="User Pic"
+            src="https://cdn2.iconfinder.com/data/icons/website-icons/512/User_Avatar-512.png"
+            class="img-circle img-responsive">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-contet" style="padding-left: 50px; padding-right: 50px; padding-bottom: 20px">
+            <table class="w3-table w3-card-4 bg">
+              <tr>
+                <th><strong>Login:</strong></th>
+                <th>@usuario.getLogin()</th>
+              </tr>
+              <tr>
+                <th><strong>Email:</strong></th>
+                <th>@usuario.getEmail()</th>
+              </tr>
+              <tr>
+                <th><strong>Nombre:</strong></th>
+                <th>@usuario.getNombre()</th>
+              </tr>
+              <tr>
+                <th><strong>Apellidos:</strong></th>
+                <th>@usuario.getApellidos()</th>
+              </tr>
+              <tr>
+                <th><strong>Fecha de nacimiento::</strong></th>
+                <th>@if(usuario.getFechaNacimiento() != null) {
+                    @usuario.getFechaNacimiento().format("dd-MM-yyyy")
+                }</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="w3-row-padding" style="padding-left: 42px">
+            <div class="w3-third">
+              <a href="@routes.UsuarioController.formularioEditaUsuario(usuario.getId())" class="btn btn-primary btn-lg" style="width: 100%">
+                <span class="glyphicon glyphicon-pencil"></span> Modificar
+              </a>
+            </div>
+            <div class="w3-third">
+              <a href="@routes.GestionTareasController.listaTareas(usuario.getId())" class="btn btn-info btn-lg btn-block">
+                <span class="glyphicon glyphicon-list"></span> Listar mis tareas
+              </a>
+            </div>
+            <div class="w3-third" style="padding-right: 42px">
+              <a href="@routes.GestionTareasController.listaTareas(usuario.getId())" class="btn btn-info btn-lg btn-block">
+                <span class="glyphicon glyphicon-list-alt"></span> Listar tableros
+              </a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
 }

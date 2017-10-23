@@ -13,7 +13,12 @@
         }
     </script>
 }
-@main("Tareas del usuario @usuario.getLogin()", scripts) {
+@menu = {
+   <li><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></li>
+   <li class="active"><a href="">Mis tareas</a></li>
+   <li><a href="@routes.TableroController.listarTableros(usuario.getId())">Mis tableros</a></li>
+ }
+@nav(usuario, "Tareas del usuario @usuario.getLogin()", scripts, menu) {
 
     <h2> Listado de tareas de @usuario.getLogin()</h2>
 
