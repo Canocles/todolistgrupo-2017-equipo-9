@@ -1,57 +1,70 @@
 @(tareas: List[Tarea], usuario: Usuario, mensaje: String)
-@scripts = {
-    <script type="text/javascript">
-        function del(urlBorrar) {
-            $.ajax({
-                url: urlBorrar,
-                type: 'DELETE',
-                success: function(results) {
-                    //refresh the page
-                    location.reload();
-                }
-            });
-        }
-    </script>
-}
+@scripts = {}
 @menu = {
    <li><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></li>
    <li class="active"><a href="">Mis tareas</a></li>
    <li><a href="@routes.TableroController.listarTableros(usuario.getId())">Mis tableros</a></li>
  }
 @nav(usuario, "Tareas del usuario @usuario.getLogin()", scripts, menu) {
-
-    <h2> Listado de tareas de @usuario.getLogin()</h2>
-
-    <table class="table table-striped">
-        <tr>
-            <th>Tareas</th>
-            <th>Acción</th>
-            <th>Usuarios</th>
-        </tr>
-    @for(tarea <- tareas) {
-        <tr>
-            <td>@tarea.getTitulo()</td>
-            <td><a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())">
-                <span class="glyphicon glyphicon-pencil"></span>&nbsp;
-                <a onmouseover="" style="cursor: pointer;"
-                onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
-            <td>@usuario.getLogin()</td>
-        </tr>
-      }
-
-      <tr>
-          <td><a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
-              <span class="glyphicon glyphicon-plus"/></a></td>
-          <td><a href="@routes.UsuarioController.logout()">Salir</a></td>
-          <td><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></td>
-      </tr>
-
-  </table>
-
-  @if(mensaje != null) {
-      <div class="alert alert-success">
-          @mensaje
+  <div class="container" style="padding-top: 100px">
+    <div class="w3-row">
+      <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">
+        <div class="w3-container">
+          <div class="w3-row">
+            <h1 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tareas de @usuario.getLogin()</h1>
+          </div>
+          <div class="w3-row">
+            <table class="w3-table w3-card-4">
+            <tr>
+              <th>Tareas</th>
+              <th>Acción</th>
+              <th>Usuarios</th>
+            </tr>
+            @for(tarea <- tareas) {
+              <tr>
+                <td>@tarea.getTitulo()</td>
+                <td><a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())"
+                      class="btn btn-primary btn-md"><span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a onmouseover="" style="cursor: pointer;" class="btn btn-primary btn-md"
+                    onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
+                <td>@usuario.getLogin()</td>
+              </tr>
+            }
+            </table>
+          </div>
+          <div class="w3-row">
+            <a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())"
+              class="btn btn-primary btn-md btn-block shadow"><span class="glyphicon glyphicon-plus"></span>
+            </a>
+          </div>
+        </div>
+        <div class="w3-row-padding" style="padding-top: 20px">
+          <div class="w3-third">
+            <a href="@routes.UsuarioController.detalleUsuario(usuario.getId())" class="btn btn-primary btn-lg btn-block">
+              <span class="glyphicon glyphicon-user"></span> Mi cuenta
+            </a>
+          </div>
+          <div class="w3-third">
+            <a href="@routes.GestionTareasController.listaTareas(usuario.getId())" class="btn mybtn btn-lg btn-block">
+              <span class="glyphicon glyphicon-list"></span> Listar mis tareas
+            </a>
+          </div>
+          <div class="w3-third">
+            <a href="@routes.TableroController.listarTableros(usuario.getId())" class="btn mybtn btn-lg btn-block">
+              <span class="glyphicon glyphicon-list-alt"></span> Listar tableros
+            </a>
+          </div>
+        </div>
+        <div class="w3-row" style="padding-top: 10px">
+          @if(mensaje != null) {
+            <div class="alert alert-success">
+              @mensaje
+            </div>
+          }
+        </div>
       </div>
-  }
+    </div>
+  </div>
 }
