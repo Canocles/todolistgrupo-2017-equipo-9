@@ -1,18 +1,5 @@
 @(usuario: Usuario)
-@scripts = {
-    <script type="text/javascript">
-        function del(urlBorrar) {
-            $.ajax({
-                url: urlBorrar,
-                type: 'DELETE',
-                success: function(results) {
-                    //refresh the page
-                    location.reload();
-                }
-            });
-        }
-    </script>
-}
+@scripts = {}
 @menu = {
    <li class="active"><a href="">Mi cuenta</a></li>
    <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Mis tareas</a></li>

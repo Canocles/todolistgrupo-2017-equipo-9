@@ -1,29 +1,52 @@
 @(usuario: Usuario)
-@main("Modificar Usuario") {
-   <h1>Modificar Datos de Usuario</h1>
-   @helper.form(action = routes.UsuarioController.grabaUsuarioModificado(usuario.getId())) {
-      <fieldset>
-         <legend>Datos</legend>
-         <p>
-           Email:  <input type="email" size=70 name="email" value="@usuario.getEmail()"></input>
-         </p>
-         <p>
-           Nombre: <input type="text" size=70 name="nombre" value="@usuario.getNombre()"></input>
-         </p>
-         <p>
-           Apellidos: <input type="text" size=70 name="apellidos" value="@usuario.getApellidos()"></input>
-         </p>
-         <p>
-           @if(usuario.getFechaNacimiento() == null) {
-             Fecha de Nacimiento: <input type="date" size=70 name="fechaNacimiento" placeholder="YYYY-MM-DD"></input>
-           } else {
-             Fecha de Nacimiento: <input type="date" size=70 name="fechaNacimiento" value="@usuario.getFechaNacimiento()"></input>
-           }
-         </p>
-      </fieldset>
-      <p>
-         <input type="submit" class="btn btn-primary" value="Guardar">
-         <a class="btn btn-warning" href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Cancelar</a>
-      </p>
-   }
+@scripts = {}
+@menu = {
+   <li class="active"><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></li>
+   <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Mis tareas</a></li>
+   <li><a href="@routes.TableroController.listarTableros(usuario.getId())">Mis tableros</a></li>
+ }
+@nav(usuario, "Modificar usuario", scripts, menu) {
+  <div class="container" style="padding-top: 100px">
+    <div class="w3-row">
+      <div class="w3-teal w3-card-2 w3-hover-shadow" style="padding: 30px">
+        <div class="w3-content">
+          <div class="w3-row">
+            <h1 style="text-align: center">Modificar Datos de Usuario</h1>
+          </div>
+          <div class="w3-row">
+            @helper.form(action = routes.UsuarioController.grabaUsuarioModificado(usuario.getId())) {
+              <fieldset>
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Introduce un email válido" value="@usuario.getEmail()" required>
+                </div>
+                <div class="form-group">
+                  <label for="nombre">Nombre:</label>
+                  <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Introduce un nombre" value="@usuario.getNombre()">
+                </div>
+                <div class="form-group">
+                  <label for="apellidos">Apellidos:</label>
+                  <input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="Introduce tus apellidos" value="@usuario.getApellidos()">
+                </div>
+                <div class="form-group">
+                  <label for="fechaNacimiento">Apellidos:</label>
+                  <input type="date" class="form-control" name="fechaNacimiento" id="fechaNacimiento" placeholder="YYYY-MM-DD" value="@usuario.getFechaNacimiento()">
+                </div>
+              </fieldset>
+              <div class="w3-half">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                  <span class="glyphicon glyphicon-save"></span> Guardar
+                </button>
+              </div>
+              <div class="w3-half">
+                <button class="btn btn-warning btn-lg btn-block" href="@routes.UsuarioController.detalleUsuario(usuario.getId())">
+                  <span class="glyphicon glyphicon-step-backward"></span> Cancelar
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
 }
