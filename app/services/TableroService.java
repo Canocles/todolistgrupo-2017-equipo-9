@@ -75,6 +75,12 @@ public class TableroService {
     return lista;
   }
 
+  public List<Tablero> obtenerTodosLosTableros () {
+    List<Tablero> tableros = tableroRepository.getAll();
+    Collections.sort(tableros, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return tableros;
+  }
+
   public Tablero obtenerDetalleDeTablero (Long idTablero) {
     Tablero tablero = comprobarTableroExiste (idTablero);
     return tablero;

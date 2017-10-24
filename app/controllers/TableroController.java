@@ -49,9 +49,17 @@ public class TableroController extends Controller {
         Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
         return badRequest(formNuevoTablero.render(usuario, formFactory.form(Tablero.class), "Hay errores en el formulario"));
       }
-      Tablero tablero = tableroForm.get();
-      tableroService.crearTableroUsuario(tablero.getNombre(), idUsuario);
-      flash("aviso", "El tablero se ha guardado correctamente");
+      Tablero tableroNuevo = tableroForm.get();
+      List<Tablero> tableros = tableroService.obtenerTodosLosTableros();
+      for (Tablero tablero: tableros) {
+        System.out.println(tablero.getNombre() + " = " + tableroNuevo.getNombre());
+        if (tablero.getNombre().equals(tableroNuevo.getNombre())) {
+          System.out.println("ESTOY!");
+          Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+          return ok(formNuevoTablero.render(usuario, formFactory.form(Tablero.class),"El tablero ya existe"));
+        }
+      }
+      tableroService.crearTableroUsuario(tableroNuevo.getNombre(), idUsuario);
       return redirect(controllers.routes.TableroController.listarTableros(idUsuario));
     }
   }
