@@ -12,6 +12,7 @@
         <div class="w3-content">
           <div class="w3-row">
             <h1 style="text-align: center; padding-bottom: 20px; color: #313638">Añadir Tarea</h1>
+            <hr style="border-color: black">
           </div>
           <div class="w3-row">
             @helper.form(action = routes.GestionTareasController.creaNuevaTarea(usuario.getId())) {
@@ -19,7 +20,7 @@
                 <div class="form-group">
                   <label for="titulo">Título:</label>
                   <input type="text" class="form-control" name="titulo" id="titulo"
-                          placeholder="Introduce un título" required>
+                          placeholder="Introduce un título">
                 </div>
               </fieldset>
               <div class="w3-row-padding">
@@ -29,9 +30,9 @@
                   </button>
                 </div>
                 <div class="w3-half">
-                  <button class="btn mybtn btn-lg btn-block" href="@routes.UsuarioController.detalleUsuario(usuario.getId())">
+                  <a href="@routes.GestionTareasController.listaTareas(usuario.getId())" class="btn mybtn btn-lg btn-block">
                     <span class="glyphicon glyphicon-step-backward"></span> Cancelar
-                  </button>
+                  </a>
                 </div>
               </div>
             }

@@ -12,6 +12,7 @@
         <div class="w3-content">
           <div class="w3-row">
             <h1 style="text-align: center; padding-bottom: 20px; color: #313638">Modificar tarea</h1>
+            <hr style="border-color: black">
           </div>
           <div class="w3-row">
             @helper.form(action = routes.GestionTareasController.grabaTareaModificada(idTarea)) {
@@ -29,9 +30,9 @@
                   </button>
                 </div>
                 <div class="w3-half">
-                  <button class="btn mybtn btn-lg btn-block" href="@routes.UsuarioController.detalleUsuario(idUsuario)">
+                  <a href="@routes.GestionTareasController.listaTareas(idUsuario)" class="btn mybtn btn-lg btn-block">
                     <span class="glyphicon glyphicon-step-backward"></span> Cancelar
-                  </button>
+                  </a>
                 </div>
               </div>
             }
