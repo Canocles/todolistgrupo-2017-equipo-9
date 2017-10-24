@@ -1,20 +1,48 @@
 @(tablero: Tablero, usuario: Usuario)
-
-@main("Detalle del tablero") {
-  <h1>Detalle del tablero @tablero.getNombre()</h1>
-
-  <ul>
-     <li><strong>Nombre: </strong> @tablero.getNombre()</li>
-     <li><strong>Administrador: </strong> @tablero.getAdministrador().getLogin()</li>
-     <li><strong>Participantes: </strong>
-       <ul>
-       @for(participante <- tablero.getParticipantes()) {
-         <li>@participante.getLogin()</li>
-       }
-      </ul>
-     </li>
-  </ul>
-  <p>
-    <a class="btn btn-primary" href="@routes.TableroController.listarTableros(usuario.getId())">Lista de Tableros</a>
-  </p>
+@scripts = {}
+@menu = {
+   <li><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></li>
+   <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Mis tareas</a></li>
+   <li class="active"><a href="">Mis tableros</a></li>
+ }
+@nav(usuario.getId(), "Detalle tablero", scripts, menu) {
+  <div class="container" style="padding-top: 100px">
+    <div class="w3-row">
+      <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">
+        <div class="w3-content">
+          <div class="w3-row">
+            <h1 style="text-align: center; padding-bottom: 20px; color: #313638">Detalles del tablero @tablero.getNombre()</h1>
+            <hr style="border-color: black">
+          </div>
+          <div class="w3-row">
+            <h3 style="text-align: left; padding-bottom: 20px; color: #313638"><strong>Nombre:</strong> @tablero.getNombre()</h3>
+            <h3 style="text-align: left; padding-bottom: 20px; color: #313638"><strong>Administrador:</strong> @tablero.getAdministrador().getLogin()</h3>
+            <h3 style="text-align: left; padding-bottom: 20px; color: #313638"><strong>Participantes</strong>
+              <button id="detalleTablero" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-down"></button>
+              </a>
+            </h3>
+            <div id="toggle" class="w3-content" style="display: none; padding-bottom: 20px">
+              <ul class="w3-ul w3-card-4" style="background-color: white">
+                @for(participante <- tablero.getParticipantes()) {
+                  <li class="w3-bar">
+                    <img src="https://cdn2.iconfinder.com/data/icons/website-icons/512/User_Avatar-512.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+                    <div class="w3-bar-item">
+                      <span class="w3-large">@participante.getLogin()</span><br>
+                    </div>
+                  </li>
+                }
+              </ul>
+            </div>
+            <div class="w3-row">
+              <div class="w3-content">
+                <a href="@routes.TableroController.listarTableros(usuario.getId())" class="btn mybtn btn-lg btn-block">
+                  <span class="glyphicon glyphicon-step-backward"></span> Atrás
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 }

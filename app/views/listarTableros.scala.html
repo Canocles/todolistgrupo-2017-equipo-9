@@ -1,78 +1,115 @@
 @(administrados: List[Tablero], participados: List[Tablero],
   noRelacionados: List[Tablero], usuario: Usuario, mensaje: String)
-@scripts = {
-    <script type="text/javascript">
-        function del(urlBorrar) {
-            $.ajax({
-                url: urlBorrar,
-                type: 'DELETE',
-                success: function(results) {
-                    //refresh the page
-                    location.reload();
+@scripts = {}
+@menu = {
+   <li><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></li>
+   <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Mis tareas</a></li>
+   <li class="active"><a href="">Mis tableros</a></li>
+ }
+@nav(usuario.getId, "Lista de Tableros", scripts, menu) {
+  <div class="container" style="padding-top: 100px">
+    <div class="w3-row">
+      <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">
+        <div class="w3-container">
+          <div class="w3-row">
+            <h1 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tableros del sistema</h1>
+            <hr style="border-color: black">
+          </div>
+          <h2 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tableros que administras
+            <button id="first" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-up"></button>
+          </h2>
+          <div class="w3-row" id="toggle" style="padding-bottom: 20px">
+              <table class="w3-table w3-card-4">
+                <tr>
+                  <th>Tablero</th>
+                  <th>Acciones</th>
+                </tr>
+                @for(administrado <- administrados) {
+                  <tr>
+                    <td>@administrado.getNombre()</td>
+                    <td><a href="@routes.TableroController.detalleTablero(usuario.getId(), administrado.getId())"
+                          class="btn btn-primary btn-md"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                    </td>
+                  </tr>
                 }
-            });
-        }
-    </script>
-}
-@main("Lista de Tableros administrados, donde participas y disponibles.", scripts) {
-    <h1> Listado de tableros del sistema </h1>
-
-    <h2> Listado de tableros que administra @usuario.getLogin() </h2>
-    <table class="table table-striped">
-      <tr>
-        <th>Tablero</th>
-        <th>Acciones</th>
-      </tr>
-      @for(administrado <- administrados) {
-        <tr>
-          <td>@administrado.getNombre()</td>
-          <td><a href="@routes.TableroController.detalleTablero(usuario.getId(), administrado.getId())">
-              <span class="glyphicon glyphicon-eye-open"/></a></td>
-        </tr>
-      }
-      <tr>
-        <td><a href="@routes.TableroController.formNuevoTablero(usuario.getId())">
-            <span class="glyphicon glyphicon-plus"/></a></td>
-        <td><span class="glyphicon glyphicon-eye-close"/></td>
-      </tr>
-    </table>
-
-    <h2> Listado de tableros en los que participa @usuario.getLogin() </h2>
-    <table class="table table-striped">
-      <tr>
-        <th>Tablero</th>
-        <th>Acciones</th>
-      </tr>
-      @for(participa <- participados) {
-        <tr>
-          <td>@participa.getNombre()</td>
-          <td><a href="@routes.TableroController.detalleTablero(usuario.getId(), participa.getId())">
-              <span class="glyphicon glyphicon-eye-open"/></a></td>
-        </tr>
-      }
-    </table>
-
-    <h2> Listado de tableros en los que puedes apuntarte </h2>
-    <table class="table table-striped">
-      <tr>
-        <th>Tablero</th>
-        <th>Acciones</th>
-      </tr>
-      @for(noRelacionado <- noRelacionados) {
-        <tr>
-          <td>@noRelacionado.getNombre()</td>
-          <td><a href="@routes.TableroController.apuntarseATablero(usuario.getId(), noRelacionado.getId())">
-              <span class="glyphicon glyphicon-plus"/></a>
-              <a href="@routes.TableroController.detalleTablero(usuario.getId(), noRelacionado.getId())">
-              <span class="glyphicon glyphicon-eye-open"/></a>
-          </td>
-        </tr>
-      }
-    </table>
-
-  @if(mensaje != null) {
-      <div class="alert alert-success">
-          @mensaje
+              </table>
+              <div class="w3-row">
+                <a href="@routes.TableroController.formNuevoTablero(usuario.getId())"
+                  class="btn btn-primary btn-md btn-block shadow"><span class="glyphicon glyphicon-plus"></span>
+                </a>
+              </div>
+          </div>
+          <h2 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tableros en los que participas
+            <button id="second" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-up"></button>
+          </h2>
+          <div class="w3-row" id="toggle2" style="padding-bottom: 20px">
+            <table class="w3-table w3-card-4">
+              <tr>
+                <th>Tablero</th>
+                <th>Acciones</th>
+              </tr>
+              @for(participa <- participados) {
+                <tr>
+                  <td>@participa.getNombre()</td>
+                  <td><a href="@routes.TableroController.detalleTablero(usuario.getId(), participa.getId())"
+                        class="btn btn-primary btn-md"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                  </td>
+                </tr>
+              }
+            </table>
+          </div>
+          <h2 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tableros en los que puedes apuntarte
+            <button id="third" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-down"></button>
+          </h2>
+          <div class="w3-row" id="toggle3" style="display: none; padding-bottom: 20px">
+            <table class="w3-table w3-card-4">
+              <tr>
+                <th>Tablero</th>
+                <th>Acciones</th>
+              </tr>
+              @for(noRelacionado <- noRelacionados) {
+                <tr>
+                  <td>@noRelacionado.getNombre()</td>
+                  <td><a href="@routes.TableroController.detalleTablero(usuario.getId(), noRelacionado.getId())"
+                          class="btn btn-primary btn-md">
+                      <span class="glyphicon glyphicon-eye-open"/></a>
+                      <a onmouseover="" style="cursor: pointer;" class="btn btn-primary btn-md"
+                          onclick="add('@routes.TableroController.apuntarseATablero(usuario.getId(), noRelacionado.getId())')">
+                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                  </td>
+                </tr>
+              }
+            </table>
+          </div>
+          <div class="w3-row-padding" style="padding-top: 20px">
+            <div class="w3-third">
+              <a href="@routes.UsuarioController.detalleUsuario(usuario.getId())" class="btn btn-primary btn-lg btn-block">
+                <span class="glyphicon glyphicon-user"></span> Mi cuenta
+              </a>
+            </div>
+            <div class="w3-third">
+              <a href="@routes.GestionTareasController.listaTareas(usuario.getId())" class="btn mybtn btn-lg btn-block">
+                <span class="glyphicon glyphicon-list"></span> Listar mis tareas
+              </a>
+            </div>
+            <div class="w3-third">
+              <a href="@routes.TableroController.listarTableros(usuario.getId())" class="btn mybtn btn-lg btn-block">
+                <span class="glyphicon glyphicon-list-alt"></span> Listar tableros
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-  }
+      <div class="w3-row" style="padding-top: 10px">
+        @if(mensaje != null) {
+          <div class="alert alert-success alert-dismissable">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            @mensaje
+          </div>
+        }
+      </div>
+    </div>
+  </div>
 }

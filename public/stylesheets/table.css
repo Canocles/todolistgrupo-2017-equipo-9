@@ -1,0 +1,33 @@
+th {
+  background-color: #7B888B;
+  color: black;
+}
+
+tr {
+  background-color: #C4D9DF;
+  color: #313638;
+}
+
+td {
+  text-align: center;
+}
+
+tr:hover {background-color: #D3E3E7}
+
+.shadow {
+  box-shadow: 1px 1px 1px #115BC1;
+}
+
+.mybtn {
+  color: #DAF7A6;
+  background-color: #AA6275;
+}
+
+.mybtnprimary {
+  color: #DAF7A6;
+  background-color: #969D89;
+}
+
+.mybackground {
+  background-color: #DAF7A6;
+}

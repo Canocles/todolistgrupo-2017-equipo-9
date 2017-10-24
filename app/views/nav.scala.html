@@ -1,0 +1,85 @@
+@(usuario: Long, title: String, scripts: Html = Html(""), menu: Html)(content: Html)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>@title</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+  <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")"/>
+  <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/table.css")"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+  <script type="text/javascript">
+      function del(urlBorrar) {
+          $.ajax({
+              url: urlBorrar,
+              type: 'DELETE',
+              success: function(results) {
+                  //refresh the page
+                  location.reload();
+              }
+          });
+      }
+  </script>
+  <script type="text/javascript">
+      function add(urlApuntarse) {
+          $.ajax({
+              url: urlApuntarse,
+              type: 'GET',
+              success: function(results) {
+                  //refresh the page
+                  location.reload();
+              }
+          });
+      }
+  </script>
+  <script>
+    $(document).ready(function(){
+        $("#detalleTablero").click(function(){
+            $("#toggle").fadeToggle();
+            $("span", this).toggleClass("glyphicon glyphicon-arrow-up glyphicon glyphicon-arrow-down ");
+        });
+
+        $("#first").click(function(){
+            $("#toggle").fadeToggle();
+            $("span", this).toggleClass("glyphicon glyphicon-arrow-down glyphicon glyphicon-arrow-up ");
+        });
+
+        $("#second").click(function(){
+            $("#toggle2").fadeToggle();
+            $("span", this).toggleClass("glyphicon glyphicon-arrow-down glyphicon glyphicon-arrow-up ");
+        });
+
+        $("#third").click(function(){
+            $("#toggle3").fadeToggle();
+            $("span", this).toggleClass("glyphicon glyphicon-arrow-up glyphicon glyphicon-arrow-down ");
+        });
+    });
+  </script>
+</head>
+<body class="bg">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="@routes.UsuarioController.detalleUsuario(usuario)">Organizador</a>
+      </div>
+      <ul class="nav navbar-nav">
+        @menu
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      <li><a href="@routes.UsuarioController.logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+    </ul>
+    </div>
+  </nav>
+  @content
+</body>
+</html>
