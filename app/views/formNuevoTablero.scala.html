@@ -7,6 +7,14 @@
  }
 @nav(usuario.getId(), "Nuevo tablero", scripts, menu) {
   <div class="container" style="padding-top: 100px">
+    <div class="w3-row" style="padding-top: 10px">
+      @if(mensaje != "") {
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          @mensaje
+        </div>
+      }
+    </div>
    <div class="w3-row">
      <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 30px">
        <div class="w3-content">
@@ -18,9 +26,9 @@
           @helper.form(action = routes.TableroController.crearNuevoTablero(usuario.getId())) {
             <fieldset>
               <div class="form-group">
-                <label for="nombre">Nombree</label>
+                <label for="nombre">Nombre</label>
                 <input type="text" class="form-control" name="nombre" id="nombre"
-                        placeholder="Introduce un nombre">
+                        placeholder="Introduce un nombre" required>
               </div>
             </fieldset>
             <div class="w3-row-padding">
