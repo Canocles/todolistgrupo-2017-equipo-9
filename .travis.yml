@@ -7,6 +7,10 @@ services:
 
 before_install:
    - docker build -t canocles/mads-todolist-2017:1.0 .
+   - docker run -d --rm -p 3306:3306 --name play-mysql -e MYSQL_ROOT_PASSWORD=mads -e MYSQL_DATABASE=mads mysql
 
 script:
    - docker run --rm canocles/mads-todolist-2017:1.0 /bin/bash -c "sbt test"
+   - docker run --link play-mysql:mysql --rm -it -p 80:9000 -e 
+   DB_URL="jdbc:mysql://play-mysql:3306/mads" -e DB_USER_NAME="root" -e 
+   DB_USER_PASSWD="mads" -v${PWD}:/code domingogallardo/playframework /bin/bash -c "sbt test"
