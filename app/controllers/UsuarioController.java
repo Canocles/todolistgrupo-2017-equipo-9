@@ -33,6 +33,10 @@ public class UsuarioController extends Controller {
       return ok(formRegistro.render(""));
    }
 
+   public Result acercaDe() {
+      return ok(acercaDe.render(""));
+   }
+
    public Result registroUsuario() {
       DynamicForm form = formFactory.form().bindFromRequest();
       String login = form.get("login");
