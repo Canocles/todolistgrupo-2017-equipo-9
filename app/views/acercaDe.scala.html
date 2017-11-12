@@ -1,0 +1,19 @@
+@(mensaje: String)
+@login("Acerca de") {
+  <div class="form-container">
+    <div class="">
+      <h1>Colaboradores</h1>
+      <ul>
+        <li>Martin Laiz Gómez</li>
+      </ul>
+    </div>
+    <p>
+    @if(mensaje != "") {
+       <div class="alert alert-danger alert-dismissable fade in">
+         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          @mensaje
+       </div>
+    }
+    </p>
+  </div>
+}
