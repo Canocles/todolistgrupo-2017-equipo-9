@@ -2,6 +2,8 @@ package models;
 
 import javax.persistence.*;
 
+import java.util.Date;
+
 @Entity
 public class Tarea {
    @Id
@@ -14,12 +16,14 @@ public class Tarea {
    // el ID del usuario con el que está asociado una tarea
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
+   private Date fechaCreacion;
 
    public Tarea() {}
 
    public Tarea(Usuario usuario, String titulo) {
       this.usuario = usuario;
       this.titulo = titulo;
+      this.fechaCreacion = new Date();
    }
 
    // Getters y setters necesarios para JPA
