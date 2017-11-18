@@ -9,6 +9,7 @@ import play.data.FormFactory;
 import play.data.DynamicForm;
 import play.Logger;
 
+import java.util.Date;
 import java.util.List;
 
 import services.UsuarioService;
@@ -50,7 +51,7 @@ public class GestionTareasController extends Controller {
             return badRequest(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), "Hay errores en el formulario"));
          }
          Tarea tarea = tareaForm.get();
-         tareaService.nuevaTarea(idUsuario, tarea.getTitulo());
+         tareaService.nuevaTarea(idUsuario, tarea.getTitulo(), tarea.getFechaLimite());
          flash("aviso", "La tarea se ha grabado correctamente");
          return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario));
       }
@@ -93,7 +94,8 @@ public class GestionTareasController extends Controller {
    public Result grabaTareaModificada(Long idTarea) {
       DynamicForm requestData = formFactory.form().bindFromRequest();
       String nuevoTitulo = requestData.get("titulo");
-      Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo);
+      Date nuevaFechaLimite = new Date(requestData.get("fechaLimite"));
+      Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo, nuevaFechaLimite);
       return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
    }
 

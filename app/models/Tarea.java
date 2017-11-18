@@ -17,13 +17,15 @@ public class Tarea {
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
    private Date fechaCreacion;
+   private Date fechaLimite;
 
    public Tarea() {}
 
-   public Tarea(Usuario usuario, String titulo) {
+   public Tarea(Usuario usuario, String titulo, Date fechaLimite) {
       this.usuario = usuario;
       this.titulo = titulo;
       this.fechaCreacion = new Date();
+      this.fechaLimite = fechaLimite;
    }
 
    // Getters y setters necesarios para JPA
@@ -50,6 +52,14 @@ public class Tarea {
 
    public void setUsuario(Usuario usuario) {
       this.usuario = usuario;
+   }
+
+   public Date getFechaLimite() {
+      return fechaLimite;
+   }
+
+   public void setFechaLimite(Date fechaLimite) {
+      this.fechaLimite = fechaLimite;
    }
 
    public String toString() {
