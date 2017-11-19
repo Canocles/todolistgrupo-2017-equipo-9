@@ -17,10 +17,18 @@
           <div class="w3-row">
             @helper.form(action = routes.GestionTareasController.creaNuevaTarea(usuario.getId())) {
               <fieldset>
-                <div class="form-group">
-                  <label for="titulo">Título:</label>
-                  <input type="text" class="form-control" name="titulo" id="titulo"
-                          placeholder="Introduce un título">
+                <div class="w3-half">
+                  <div class="form-group">
+                    <label for="titulo">Título:</label>
+                    <input type="text" class="form-control" name="titulo" id="titulo"
+                    placeholder="Introduce un título">
+                  </div>
+                </div>
+                <div class="w3-half" style="padding-left: 10px">
+                  <div class="form-group">
+                    <label for="fechaLimite">Fecha Límite:</label>
+                    <input type="datetime-local" class="form-control" name="fechaLimite" id="fechaLimite">
+                  </div>
                 </div>
               </fieldset>
               <div class="w3-row-padding">

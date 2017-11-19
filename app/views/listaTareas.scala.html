@@ -20,6 +20,7 @@
               <th>Tareas</th>
               <th>Acción</th>
               <th>Usuarios</th>
+              <th>Fecha límite</th>
             </tr>
             @for(tarea <- tareas) {
               <tr>
@@ -31,6 +32,7 @@
                     onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
                 <td>@usuario.getLogin()</td>
+                <td>@tarea.getFechaLimiteString()</td>
               </tr>
             }
             </table>

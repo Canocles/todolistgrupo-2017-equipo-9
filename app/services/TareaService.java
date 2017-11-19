@@ -42,6 +42,9 @@ public class TareaService {
       if (usuario == null) {
          throw new TareaServiceException("Usuario no existente");
       }
+      if (nuevaFechaLimite != null && nuevaFechaLimite.before(new Date())) {
+         throw new TareaServiceException("La fecha límite no puede ser anterior a la fecha actual");
+      }
       Tarea tarea = new Tarea(usuario, titulo, nuevaFechaLimite);
       return tareaRepository.add(tarea);
    }

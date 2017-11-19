@@ -3,6 +3,8 @@ package models;
 import javax.persistence.*;
 
 import java.util.Date;
+import java.text.SimpleDateFormat;
+
 
 @Entity
 public class Tarea {
@@ -60,6 +62,13 @@ public class Tarea {
 
    public void setFechaLimite(Date fechaLimite) {
       this.fechaLimite = fechaLimite;
+   }
+
+   public String getFechaLimiteString() {
+      if(fechaLimite != null){
+        return new SimpleDateFormat("dd/MM/yyyy - HH:mm").format(fechaLimite);
+      }
+      return "";
    }
 
    public String toString() {
