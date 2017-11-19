@@ -2,6 +2,12 @@ package models;
 
 import javax.persistence.*;
 
+import play.data.format.*;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
+
 @Entity
 public class Tarea {
    @Id
@@ -14,12 +20,19 @@ public class Tarea {
    // el ID del usuario con el que está asociado una tarea
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
+   private Date fechaCreacion;
+
+	 @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
+   @Temporal(TemporalType.DATE)
+   private Date fechaLimite;
 
    public Tarea() {}
 
-   public Tarea(Usuario usuario, String titulo) {
+   public Tarea(Usuario usuario, String titulo, Date fechaLimite) {
       this.usuario = usuario;
       this.titulo = titulo;
+      this.fechaCreacion = new Date();
+      this.fechaLimite = fechaLimite;
    }
 
    // Getters y setters necesarios para JPA
@@ -48,9 +61,24 @@ public class Tarea {
       this.usuario = usuario;
    }
 
+   public Date getFechaLimite() {
+      return fechaLimite;
+   }
+
+   public void setFechaLimite(Date fechaLimite) {
+      this.fechaLimite = fechaLimite;
+   }
+
+   public String getFechaLimiteString() {
+      if(fechaLimite != null){
+        return new SimpleDateFormat("dd-MM-yyyy").format(fechaLimite);
+      }
+      return "";
+   }
+
    public String toString() {
-      return String.format("Tarea id: %s titulo: %s usuario: %s",
-                      id, titulo, usuario.toString());
+      return String.format("Tarea id: %s titulo: %s fechaLimite: %s usuario: %s",
+                      id, titulo, fechaLimite, usuario.toString());
    }
 
    @Override
