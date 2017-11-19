@@ -61,15 +61,18 @@ public class Practica3Test {
 		UsuarioService usuarioService = newUsuarioService();
     TareaService tareaService = newTareaService();
 		Usuario usuario = usuarioService.creaUsuario("UsuarioTest", "test@test.com", "testPass");
+		Date fechaLimite = null;
+		Date esperado = null;
 		Tarea test = null;
 		try {
-			test = tareaService.nuevaTarea(usuario.getId(), "Comprar pan", new SimpleDateFormat("dd/MM/yyyy HH:mm").parse("23/12/2017 12:23"));
+			fechaLimite = new SimpleDateFormat("dd-MM-yyyy").parse("23-12-2017");
+			esperado = fechaLimite;
 		}
 		catch (Exception e) {
 			fail();
 		}
-		assertEquals("2017-12-23 12:23:00.0", test.getFechaLimite().toString());
-		assertEquals(test.getFechaLimiteString(), "23/12/2017 - 12:23");
+		test = tareaService.nuevaTarea(usuario.getId(), "Comprar pan", fechaLimite);
+		assertEquals(test.getFechaLimiteString(), "23-12-2017");
   }
 
   @Test(expected = TareaServiceException.class)
@@ -79,7 +82,7 @@ public class Practica3Test {
 		Usuario usuario = usuarioService.creaUsuario("UsuarioTest", "test@test.com", "testPass");
 		Date fecha = null;
 		try {
-			fecha = new SimpleDateFormat("dd/MM/yyyy - HH:mm").parse("23/12/1900 - 12:23");
+			fecha = new SimpleDateFormat("dd-MM-yyyy").parse("23-12-1900");
 		}
 		catch (Exception e) {
 			fail();

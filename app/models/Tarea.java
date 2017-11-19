@@ -2,6 +2,8 @@ package models;
 
 import javax.persistence.*;
 
+import play.data.format.*;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
@@ -19,6 +21,9 @@ public class Tarea {
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
    private Date fechaCreacion;
+
+	 @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
+   @Temporal(TemporalType.DATE)
    private Date fechaLimite;
 
    public Tarea() {}
@@ -66,14 +71,14 @@ public class Tarea {
 
    public String getFechaLimiteString() {
       if(fechaLimite != null){
-        return new SimpleDateFormat("dd/MM/yyyy - HH:mm").format(fechaLimite);
+        return new SimpleDateFormat("dd-MM-yyyy").format(fechaLimite);
       }
       return "";
    }
 
    public String toString() {
-      return String.format("Tarea id: %s titulo: %s usuario: %s",
-                      id, titulo, usuario.toString());
+      return String.format("Tarea id: %s titulo: %s fechaLimite: %s usuario: %s",
+                      id, titulo, fechaLimite, usuario.toString());
    }
 
    @Override

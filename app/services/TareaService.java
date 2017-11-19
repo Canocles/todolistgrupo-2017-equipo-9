@@ -58,6 +58,9 @@ public class TareaService {
       if (tarea == null)
            throw new TareaServiceException("No existe tarea");
       tarea.setTitulo(nuevoTitulo);
+      if (nuevaFechaLimite != null && nuevaFechaLimite.before(new Date())) {
+         throw new TareaServiceException("La fecha límite no puede ser anterior a la fecha actual");
+      }
       tarea.setFechaLimite(nuevaFechaLimite);
       tarea = tareaRepository.update(tarea);
       return tarea;
