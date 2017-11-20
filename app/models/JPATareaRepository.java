@@ -27,7 +27,7 @@ public class JPATareaRepository implements TareaRepository {
    public Tarea update(Tarea tarea) {
       return jpaApi.withTransaction(entityManager -> {
          Tarea tareaBD = entityManager.find(Tarea.class, tarea.getId());
-				 tareaBD.setTitulo(tarea.getTitulo());
+         tareaBD.setTitulo(tarea.getTitulo());
          tareaBD.setFechaLimite(tarea.getFechaLimite());
          return tareaBD;
       });
@@ -46,4 +46,12 @@ public class JPATareaRepository implements TareaRepository {
          return entityManager.find(Tarea.class, idTarea);
       });
    }
+
+   public Tarea done(Tarea tarea) {
+       return jpaApi.withTransaction(entityManager -> {
+           Tarea tareaBD = entityManager.find(Tarea.class, tarea.getId());
+           tareaBD.setTerminada(tarea.getTerminada());
+           return tareaBD;
+       });
+    }
 }
