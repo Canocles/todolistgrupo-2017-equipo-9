@@ -1,11 +1,5 @@
 @(usuario: Usuario)
-@scripts = {}
-@menu = {
-   <li class="active"><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></li>
-   <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Mis tareas</a></li>
-   <li><a href="@routes.TableroController.listarTableros(usuario.getId())">Mis tableros</a></li>
- }
-@nav(usuario.getId(), "Modificar usuario", scripts, menu) {
+@nav(usuario.getId(), "Modificar usuario") {
   <div class="container" style="padding-top: 100px">
     <div class="w3-row">
       <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 30px">
