@@ -97,4 +97,10 @@ public class Practica3Test {
     tareaService.terminarTarea(idTarea);
     assertEquals(true, tarea.getTerminada());
   }
+
+  @Test(expected = TareaServiceException.class)
+  public void terminarTareaNoExistente() {
+    TareaService tareaService = newTareaService();
+    tareaService.terminarTarea(3L);
+  }
 }
