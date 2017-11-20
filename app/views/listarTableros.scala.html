@@ -1,12 +1,6 @@
 @(administrados: List[Tablero], participados: List[Tablero],
   noRelacionados: List[Tablero], usuario: Usuario, mensaje: String)
-@scripts = {}
-@menu = {
-   <li><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></li>
-   <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Mis tareas</a></li>
-   <li class="active"><a href="">Mis tableros</a></li>
- }
-@nav(usuario.getId, "Lista de Tableros", scripts, menu) {
+@nav(usuario.getId, "Lista de Tableros") {
   <div class="container" style="padding-top: 100px">
     <div class="w3-row">
       <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">
@@ -16,9 +10,9 @@
             <hr style="border-color: black">
           </div>
           <h2 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tableros que administras
-            <button id="first" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-up"></button>
+            <button id="first" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-down"></button>
           </h2>
-          <div class="w3-row" id="toggle" style="padding-bottom: 20px">
+          <div class="w3-row" id="toggle" style="display: none; padding-bottom: 20px">
               <table class="w3-table w3-card-4">
                 <tr>
                   <th>Tablero</th>
@@ -41,9 +35,9 @@
               </div>
           </div>
           <h2 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tableros en los que participas
-            <button id="second" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-up"></button>
+            <button id="second" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-down"></button>
           </h2>
-          <div class="w3-row" id="toggle2" style="padding-bottom: 20px">
+          <div class="w3-row" id="toggle2" style="display: none; padding-bottom: 20px">
             <table class="w3-table w3-card-4">
               <tr>
                 <th>Tablero</th>

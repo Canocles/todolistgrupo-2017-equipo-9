@@ -1,11 +1,5 @@
 @(tareas: List[Tarea], usuario: Usuario, mensaje: String)
-@scripts = {}
-@menu = {
-   <li><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></li>
-   <li class="active"><a href="">Mis tareas</a></li>
-   <li><a href="@routes.TableroController.listarTableros(usuario.getId())">Mis tableros</a></li>
- }
-@nav(usuario.getId(), "Tareas del usuario @usuario.getLogin()", scripts, menu) {
+@nav(usuario.getId(), "Tareas del usuario @usuario.getLogin()") {
   <div class="container" style="padding-top: 100px">
     <div class="w3-row">
       <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">

@@ -1,11 +1,5 @@
 @(idUsuario: Long, idTarea: Long, titulo: String, fechaLimite: String, mensaje: String)
-@scripts = {}
-@menu = {
-  <li><a href="@routes.UsuarioController.detalleUsuario(idUsuario)">Mi cuenta</a></li>
-  <li class="active"><a href="@routes.GestionTareasController.listaTareas(idUsuario)">Mis tareas</a></li>
-  <li><a href="@routes.TableroController.listarTableros(idUsuario)">Mis tableros</a></li>
-}
-@nav(idUsuario, "Modificar tarea", scripts, menu) {
+@nav(idUsuario, "Modificar tarea") {
   <div class="container" style="padding-top: 100px">
     <div class="w3-row">
       <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 30px">
