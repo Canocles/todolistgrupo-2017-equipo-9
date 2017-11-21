@@ -12,16 +12,15 @@ services:
 
 before_install:
    - docker build -t canocles/mads-todolist-2017:$TRAVIS_BUILD_NUMBER .
-   - docker run -d --rm -p 3306:3306 --name play-mysql -e MYSQL_ROOT_PASSWORD=mads -e MYSQL_DATABASE=mads mysql
-
+  
 script:
+   - docker run -d --rm -p 3306:3306 --name play-mysql -e MYSQL_ROOT_PASSWORD=mads -e MYSQL_DATABASE=mads mysql
    - docker run --rm canocles/mads-todolist-2017:$TRAVIS_BUILD_NUMBER /bin/bash -c "sbt test"
    - docker run --link play-mysql:mysql --rm -e DB_URL="jdbc:mysql://play-mysql:3306/mads" -e DB_USER_NAME="root" -e DB_USER_PASSWD="mads" canocles/mads-todolist-2017:$TRAVIS_BUILD_NUMBER /bin/bash -c "sbt '; set javaOptions += \"-Dconfig.file=conf/integration.conf\"; test'"
-   - docker push canocles/mads-todolist-2017:$TRAVIS_BUILD_NUMBER
-   - docker build -t canocles/mads-todolist-2017:latest .
-   - docker push canocles/mads-todolist-2017:latest
+   
 
 after_success:
+  - docker push canocles/mads-todolist-2017:$TRAVIS_BUILD_NUMBER
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
     docker tag canocles/mads-todolist-2017:$TRAVIS_BUILD_NUMBER canocles/mads-todolist-2017:latest;
