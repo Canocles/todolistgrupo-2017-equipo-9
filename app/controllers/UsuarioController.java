@@ -33,8 +33,20 @@ public class UsuarioController extends Controller {
       return ok(formRegistro.render(""));
    }
 
-   public Result acercaDe() {
-      return ok(acercaDe.render(""));
+   @Security.Authenticated(ActionAuthenticator.class)
+   public Result acercaDe(Long id) {
+      String connectedUserStr = session("connected");
+      Long connectedUser =  Long.valueOf(connectedUserStr);
+      if (connectedUser != id) {
+          return unauthorized("Lo siento, no estás autorizado");
+      } else {
+        Usuario usuario = usuarioService.findUsuarioPorId(id);
+        if (usuario == null) {
+          return notFound("Usuario no encontrado");
+       } else {
+        return ok(acercaDe.render(usuario));
+       }
+      }
    }
 
    public Result registroUsuario() {
