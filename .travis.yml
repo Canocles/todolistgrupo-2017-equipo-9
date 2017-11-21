@@ -22,7 +22,7 @@ script:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-    docker push canocles/mads-todolist-2017:$TRAVIS_BUILD_NUMBER
+    docker push canocles/mads-todolist-2017:$TRAVIS_BUILD_NUMBER;
     docker tag canocles/mads-todolist-2017:$TRAVIS_BUILD_NUMBER canocles/mads-todolist-2017:latest;
     docker push canocles/mads-todolist-2017:latest;
     fi
