@@ -69,14 +69,16 @@ public class TareaService {
    public void borraTarea(Long idTarea) {
       Tarea tarea = tareaRepository.findById(idTarea);
       if (tarea == null)
-           throw new TareaServiceException("No existe tarea");
+           throw new TareaServiceException("No existe la tarea");
       tareaRepository.delete(idTarea);
    }
 
-   public void terminarTarea(Long idTarea) {
+   public Tarea terminarTarea(Long idTarea) {
        Tarea tarea = tareaRepository.findById(idTarea);
-       if (tarea == null)
-        throw new TareaServiceException("No existe tarea");
-       tareaRepository.done(tarea);
+       if (tarea == null) {
+           throw new TareaServiceException("No existe la tarea");
+       }
+       tarea.setTerminada(true);
+       return tareaRepository.done(tarea);
    }
 }

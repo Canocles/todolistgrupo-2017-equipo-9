@@ -49,9 +49,8 @@ public class JPATareaRepository implements TareaRepository {
 
    public Tarea done(Tarea tarea) {
        return jpaApi.withTransaction(entityManager -> {
-           Tarea tareaBD = entityManager.find(Tarea.class, tarea.getId());
-           tareaBD.setTerminada(tarea.getTerminada());
-           return tareaBD;
+            Tarea actualizado = entityManager.merge(tarea);
+            return actualizado;
        });
     }
 }

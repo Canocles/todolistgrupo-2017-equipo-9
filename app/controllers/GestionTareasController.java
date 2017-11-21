@@ -128,4 +128,12 @@ public class GestionTareasController extends Controller {
       flash("aviso", "Tarea borrada correctamente");
       return ok();
    }
+
+   @Security.Authenticated(ActionAuthenticator.class)
+   public Result terminarTarea(Long idTarea) {
+      tareaService.terminarTarea(idTarea);
+      Tarea tarea = tareaService.obtenerTarea(idTarea);
+      flash("aviso", "Tarea terminada");
+      return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
+  }
 }
