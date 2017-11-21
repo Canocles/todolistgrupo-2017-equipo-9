@@ -43,13 +43,13 @@ public class GestionTareasController extends Controller {
    public Result creaNuevaTarea(Long idUsuario) {
       String connectedUserStr = session("connected");
       Long connectedUser =  Long.valueOf(connectedUserStr);
+      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
       if (connectedUser != idUsuario) {
          return unauthorized("Lo siento, no estás autorizado");
       } else {
          Form<Tarea> tareaForm = formFactory.form(Tarea.class).bindFromRequest();
          if (tareaForm.hasErrors()) {
-            Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-            return badRequest(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), "Hay errores en el formulario"));
+            return badRequest(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), "La fecha no tiene el formato correcto"));
          }
          Tarea tarea = tareaForm.get();
 				 try {
@@ -57,7 +57,7 @@ public class GestionTareasController extends Controller {
 				 }
 				 catch (Exception e) {
 					 flash("aviso", e.getMessage());
-					 return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario));
+					 return ok(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), e.getMessage()));
 				 }
          flash("aviso", "La tarea se ha grabado correctamente");
          return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario));
