@@ -10,4 +10,5 @@ public interface TareaRepository {
    Tarea update(Tarea tarea);
    void delete(Long idTarea);
    Tarea findById(Long idTarea);
+   Tarea done(Tarea tarea);
 }

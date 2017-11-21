@@ -25,14 +25,16 @@ public class Tarea {
 	 @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
    @Temporal(TemporalType.DATE)
    private Date fechaLimite;
+   private Boolean terminada;
 
    public Tarea() {}
 
-   public Tarea(Usuario usuario, String titulo, Date fechaLimite) {
+   public Tarea(Usuario usuario, String titulo, Date fechaLimite, Boolean terminada) {
       this.usuario = usuario;
       this.titulo = titulo;
       this.fechaCreacion = new Date();
       this.fechaLimite = fechaLimite;
+      this.terminada = terminada;
    }
 
    // Getters y setters necesarios para JPA
@@ -74,6 +76,14 @@ public class Tarea {
         return new SimpleDateFormat("dd-MM-yyyy").format(fechaLimite);
       }
       return "";
+   }
+
+   public Boolean getTerminada() {
+     return terminada;
+   }
+
+   public void setTerminada(Boolean terminada) {
+     this.terminada = terminada;
    }
 
    public String toString() {

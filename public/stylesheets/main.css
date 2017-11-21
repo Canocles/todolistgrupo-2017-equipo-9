@@ -1,1 +1,12 @@
 .bg{background-color: #6299AA;}
+.border-bottom {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: black;
+}
+.sombra {
+    box-shadow: 1px 1px 1px rgb(195, 197, 69)
+}
+.btn-add {
+    background-color: #E8EC5E;
+}

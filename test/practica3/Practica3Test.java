@@ -89,4 +89,18 @@ public class Practica3Test {
 		}
 		Tarea test = tareaService.nuevaTarea(usuario.getId(), "Comprar agua", fecha);
   }
+
+  public void terminarTarea() {
+    TareaService tareaService = newTareaService();
+    long idTarea = 1000L;
+    Tarea tarea = tareaService.obtenerTarea(idTarea);
+    tareaService.terminarTarea(idTarea);
+    assertEquals(true, tarea.getTerminada());
+  }
+
+  @Test(expected = TareaServiceException.class)
+  public void terminarTareaNoExistente() {
+    TareaService tareaService = newTareaService();
+    tareaService.terminarTarea(3L);
+  }
 }

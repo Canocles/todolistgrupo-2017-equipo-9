@@ -45,7 +45,7 @@ public class TareaService {
       if (nuevaFechaLimite != null && nuevaFechaLimite.before(new Date())) {
          throw new TareaServiceException("La fecha límite no puede ser anterior a la fecha actual");
       }
-      Tarea tarea = new Tarea(usuario, titulo, nuevaFechaLimite);
+      Tarea tarea = new Tarea(usuario, titulo, nuevaFechaLimite, false);
       return tareaRepository.add(tarea);
    }
 
@@ -69,7 +69,16 @@ public class TareaService {
    public void borraTarea(Long idTarea) {
       Tarea tarea = tareaRepository.findById(idTarea);
       if (tarea == null)
-           throw new TareaServiceException("No existe tarea");
+           throw new TareaServiceException("No existe la tarea");
       tareaRepository.delete(idTarea);
+   }
+
+   public Tarea terminarTarea(Long idTarea) {
+       Tarea tarea = tareaRepository.findById(idTarea);
+       if (tarea == null) {
+           throw new TareaServiceException("No existe la tarea");
+       }
+       tarea.setTerminada(true);
+       return tareaRepository.done(tarea);
    }
 }
