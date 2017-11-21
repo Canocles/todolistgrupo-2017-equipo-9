@@ -1,11 +1,5 @@
 @(usuario: Usuario, tableroForm: Form[Tablero], mensaje: String)
-@scripts = {}
-@menu = {
-   <li><a href="@routes.UsuarioController.detalleUsuario(usuario.getId())">Mi cuenta</a></li>
-   <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Mis tareas</a></li>
-   <li class="active"><a href="">Mis tableros</a></li>
- }
-@nav(usuario.getId(), "Nuevo tablero", scripts, menu) {
+@nav(usuario.getId(), "Nuevo tablero") {
   <div class="container" style="padding-top: 100px">
     <div class="w3-row" style="padding-top: 10px">
       @if(mensaje != "") {

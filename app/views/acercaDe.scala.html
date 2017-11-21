@@ -1,22 +1,25 @@
-@(mensaje: String)
-@login("Acerca de") {
-  <div class="form-container">
-    <div class="">
-      <h1>Versión: 1.0</h1>
-      <p>Fecha de publicación: 15/11/2017</p>
-      <h1>Colaboradores</h1>
-      <ul>
-        <li>Martin Laiz Gómez</li>
-        <li>Ramsés Martínez Martínez</li>
-      </ul>
+@(usuario: Usuario)
+@nav(usuario.getId(), "Nosotros") {
+  <div class="container" style="padding-top: 100px">
+      <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">
+        <h1>Versión: 1.1T</h1>
+        <p>Fecha de publicación: 21/11/2017</p>
+      </div>
+    <div class="w3-row">
+      <div class="w3-row-padding" style="padding-top: 20px">
+        <div class="w3-half">
+          <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">
+            <img height="450" width="100%" src="https://avatars0.githubusercontent.com/u/16946027?s=400&v=4"></img>
+            <a href="https://github.com/MartinLaiz"><h1 style="text-align:center">Martin Laiz Gómez</h1></a>
+          </div> 
+        </div>
+        <div class="w3-half">
+          <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">
+            <img height="450" width="100%" src="https://avatars1.githubusercontent.com/u/7329309?s=400&u=82b09da87548c2e0f084ed8f95f9781b94ca84ac&v=4"></img>
+            <a href="https://github.com/Canocles"><h1 style="text-align:center">Ramsés Martínez Martínez</h1></a>
+          </div> 
+        </div>
+      </div>
     </div>
-    <p>
-    @if(mensaje != "") {
-       <div class="alert alert-danger alert-dismissable fade in">
-         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-          @mensaje
-       </div>
-    }
-    </p>
   </div>
 }

@@ -85,6 +85,6 @@ public class Practica2Test {
   @Test(expected = TareaServiceException.class)
   public void modificarTareaNoExistente() {
     TareaService tareaService = newTareaService();
-    tareaService.modificaTarea(3L, "Cambio imposible");
+    tareaService.modificaTarea(3L, "Cambio imposible", null);
   }
 }

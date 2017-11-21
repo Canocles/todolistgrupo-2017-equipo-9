@@ -1,11 +1,5 @@
 @(usuario: Usuario)
-@scripts = {}
-@menu = {
-   <li class="active"><a href="">Mi cuenta</a></li>
-   <li><a href="@routes.GestionTareasController.listaTareas(usuario.getId())">Mis tareas</a></li>
-   <li><a href="@routes.TableroController.listarTableros(usuario.getId())">Mis tableros</a></li>
- }
-@nav(usuario.getId(), "Mi cuenta", scripts, menu) {
+@nav(usuario.getId(), "Mi cuenta") {
   <div class="container" style="padding-top: 100px">
     <div class="w3-row">
       <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">
@@ -35,7 +29,7 @@
                 <th>@usuario.getApellidos()</th>
               </tr>
               <tr>
-                <th><strong>Fecha de nacimiento::</strong></th>
+                <th><strong>Fecha de nacimiento:</strong></th>
                 <th>@if(usuario.getFechaNacimiento() != null) {
                     @usuario.getFechaNacimiento().format("dd-MM-yyyy")
                 }</th>

@@ -9,6 +9,8 @@ import play.data.FormFactory;
 import play.data.DynamicForm;
 import play.Logger;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import services.UsuarioService;
@@ -41,16 +43,22 @@ public class GestionTareasController extends Controller {
    public Result creaNuevaTarea(Long idUsuario) {
       String connectedUserStr = session("connected");
       Long connectedUser =  Long.valueOf(connectedUserStr);
+      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
       if (connectedUser != idUsuario) {
          return unauthorized("Lo siento, no estás autorizado");
       } else {
          Form<Tarea> tareaForm = formFactory.form(Tarea.class).bindFromRequest();
          if (tareaForm.hasErrors()) {
-            Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-            return badRequest(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), "Hay errores en el formulario"));
+            return badRequest(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), "La fecha no tiene el formato correcto"));
          }
          Tarea tarea = tareaForm.get();
-         tareaService.nuevaTarea(idUsuario, tarea.getTitulo());
+				 try {
+					 tareaService.nuevaTarea(idUsuario, tarea.getTitulo(), tarea.getFechaLimite());
+				 }
+				 catch (Exception e) {
+					 flash("aviso", e.getMessage());
+					 return ok(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), e.getMessage()));
+				 }
          flash("aviso", "La tarea se ha grabado correctamente");
          return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario));
       }
@@ -83,8 +91,10 @@ public class GestionTareasController extends Controller {
          } else {
             return ok(formModificacionTarea.render(tarea.getUsuario().getId(),
             tarea.getId(),
-            tarea.getTitulo(),
-            ""));
+						tarea.getTitulo(),
+            tarea.getFechaLimiteString(),
+            ""
+						));
          }
       }
    }
@@ -93,7 +103,22 @@ public class GestionTareasController extends Controller {
    public Result grabaTareaModificada(Long idTarea) {
       DynamicForm requestData = formFactory.form().bindFromRequest();
       String nuevoTitulo = requestData.get("titulo");
-      Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo);
+			Date nuevaFechaLimite = null;
+			if(!requestData.get("fechaLimite").equals("")){
+				try {
+					nuevaFechaLimite = new SimpleDateFormat("dd-MM-yyyy").parse(requestData.get("fechaLimite"));
+				}
+				catch (Exception e) {
+					nuevaFechaLimite = null;
+				}
+			}
+			Tarea tarea = tareaService.obtenerTarea(idTarea);
+			try {
+				tarea = tareaService.modificaTarea(idTarea, nuevoTitulo, nuevaFechaLimite);
+			}
+			catch (Exception e) {
+
+			}
       return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
    }
 
@@ -103,4 +128,12 @@ public class GestionTareasController extends Controller {
       flash("aviso", "Tarea borrada correctamente");
       return ok();
    }
+
+   @Security.Authenticated(ActionAuthenticator.class)
+   public Result terminarTarea(Long idTarea) {
+      tareaService.terminarTarea(idTarea);
+      Tarea tarea = tareaService.obtenerTarea(idTarea);
+      flash("aviso", "Tarea terminada");
+      return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
+  }
 }

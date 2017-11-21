@@ -1,11 +1,5 @@
-@(idUsuario: Long, idTarea: Long, titulo: String, mensaje: String)
-@scripts = {}
-@menu = {
-   <li><a href="@routes.UsuarioController.detalleUsuario(idUsuario)">Mi cuenta</a></li>
-   <li class="active"><a href="@routes.GestionTareasController.listaTareas(idUsuario)">Mis tareas</a></li>
-   <li><a href="@routes.TableroController.listarTableros(idUsuario)">Mis tableros</a></li>
- }
-@nav(idUsuario, "Modificar tarea", scripts, menu) {
+@(idUsuario: Long, idTarea: Long, titulo: String, fechaLimite: String, mensaje: String)
+@nav(idUsuario, "Modificar tarea") {
   <div class="container" style="padding-top: 100px">
     <div class="w3-row">
       <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 30px">
@@ -17,10 +11,18 @@
           <div class="w3-row">
             @helper.form(action = routes.GestionTareasController.grabaTareaModificada(idTarea)) {
               <fieldset>
-                <div class="form-group">
-                  <label for="titulo">Título:</label>
-                  <input type="text" class="form-control" name="titulo" id="titulo"
-                          placeholder="Introduce un título" value="@titulo" required>
+                <div class="w3-half">
+                  <div class="form-group">
+                    <label for="titulo">Título:</label>
+                    <input type="text" class="form-control" name="titulo" id="titulo"
+                    placeholder="Introduce un título" value="@titulo" required>
+                  </div>
+                </div>
+                <div class="w3-half" style="padding-left: 10px">
+                  <div class="form-group">
+                    <label for="fechaLimite">Fecha límite:</label>
+                    <input type="text" class="form-control" placeholder="dd-mm-aaaa" name="fechaLimite" id="fechaLimite" value="@fechaLimite">
+                  </div>
                 </div>
               </fieldset>
               <div class="w3-row-padding">
