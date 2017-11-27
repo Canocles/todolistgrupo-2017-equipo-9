@@ -19,7 +19,10 @@ public class Tablero {
   @ManyToMany(fetch=FetchType.EAGER)
   @JoinTable(name="Persona_Tablero")
   private Set<Usuario> participantes = new HashSet<Usuario>();
-
+  @ManyToMany
+  @JoinTable(name="Tarea_Tablero")
+  private Set<Tareas> tareas = new HashSet<Tarea>();
+  
   public Tablero () {}
 
   public Tablero (Usuario administrador, String nombre) {

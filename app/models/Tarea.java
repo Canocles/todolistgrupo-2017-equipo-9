@@ -19,6 +19,9 @@ public class Tarea {
    // Nombre de la columna en la BD que guarda físicamente
    // el ID del usuario con el que está asociado una tarea
    @JoinColumn(name="usuarioId")
+   @ManyToOne
+   @JoinColumn(name="tableroId")
+   public Tablero tablero;
    public Usuario usuario;
    private Date fechaCreacion;
 
