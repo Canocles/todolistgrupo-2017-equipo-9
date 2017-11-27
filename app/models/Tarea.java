@@ -19,9 +19,6 @@ public class Tarea {
    // Nombre de la columna en la BD que guarda físicamente
    // el ID del usuario con el que está asociado una tarea
    @JoinColumn(name="usuarioId")
-   @ManyToOne
-   @JoinColumn(name="tableroId")
-   public Tablero tablero;
    public Usuario usuario;
    private Date fechaCreacion;
 
@@ -29,6 +26,10 @@ public class Tarea {
    @Temporal(TemporalType.DATE)
    private Date fechaLimite;
    private Boolean terminada;
+
+   @ManyToOne
+   @JoinColumn(name="tableroId")
+   public Tablero tablero;
 
    public Tarea() {}
 
@@ -87,6 +88,14 @@ public class Tarea {
 
    public void setTerminada(Boolean terminada) {
      this.terminada = terminada;
+   }
+
+   public Tablero getTablero() {
+     return tablero;
+   }
+
+   public void setTablero(Tablero tablero) {
+     this.tablero = tablero;
    }
 
    public String toString() {

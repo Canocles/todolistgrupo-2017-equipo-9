@@ -62,6 +62,14 @@ public class Tablero {
     this.participantes = participantes;
   }
 
+  public Set<Tarea> getTareas() {
+    return tareas;
+  }
+
+  public void setTareas(Set<Tarea> tareas) {
+    this.tareas = tareas;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
