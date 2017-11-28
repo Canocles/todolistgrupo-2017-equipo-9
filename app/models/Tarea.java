@@ -20,9 +20,14 @@ public class Tarea {
    // el ID del usuario con el que está asociado una tarea
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
+
+   @ManyToOne
+   @JoinColumn(name="columnaId")
+   public Columna columna;
+
    private Date fechaCreacion;
 
-	 @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
+   @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
    @Temporal(TemporalType.DATE)
    private Date fechaLimite;
    private Boolean terminada;
@@ -84,6 +89,14 @@ public class Tarea {
 
    public void setTerminada(Boolean terminada) {
      this.terminada = terminada;
+   }
+
+   public Columna getColumna(){
+	   return columna;
+   }
+
+   public void setColumna(Columna columna){
+	   this.columna = columna;
    }
 
    public String toString() {
