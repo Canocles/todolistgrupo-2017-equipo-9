@@ -19,7 +19,9 @@ public class Tablero {
   @ManyToMany(fetch=FetchType.EAGER)
   @JoinTable(name="Persona_Tablero")
   private Set<Usuario> participantes = new HashSet<Usuario>();
-
+  @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER)
+  private Set<Tarea> tareas = new HashSet<Tarea>();
+  
   public Tablero () {}
 
   public Tablero (Usuario administrador, String nombre) {
@@ -57,6 +59,14 @@ public class Tablero {
 
   public void setParticipantes(Set<Usuario> participantes) {
     this.participantes = participantes;
+  }
+
+  public Set<Tarea> getTareas() {
+    return tareas;
+  }
+
+  public void setTareas(Set<Tarea> tareas) {
+    this.tareas = tareas;
   }
 
   @Override

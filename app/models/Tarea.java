@@ -27,6 +27,10 @@ public class Tarea {
    private Date fechaLimite;
    private Boolean terminada;
 
+   @ManyToOne
+   @JoinColumn(name="tableroId")
+   public Tablero tablero;
+
    public Tarea() {}
 
    public Tarea(Usuario usuario, String titulo, Date fechaLimite, Boolean terminada) {
@@ -36,6 +40,15 @@ public class Tarea {
       this.fechaLimite = fechaLimite;
       this.terminada = terminada;
    }
+  
+   public Tarea(Usuario usuario, String titulo, Date fechaLimite, Boolean terminada, Tablero tablero) {
+      this.usuario = usuario;
+      this.titulo = titulo;
+      this.fechaCreacion = new Date();
+      this.fechaLimite = fechaLimite;
+      this.terminada = terminada;
+      this.tablero = tablero;
+  }
 
    // Getters y setters necesarios para JPA
 
@@ -84,6 +97,14 @@ public class Tarea {
 
    public void setTerminada(Boolean terminada) {
      this.terminada = terminada;
+   }
+
+   public Tablero getTablero() {
+     return tablero;
+   }
+
+   public void setTablero(Tablero tablero) {
+     this.tablero = tablero;
    }
 
    public String toString() {
