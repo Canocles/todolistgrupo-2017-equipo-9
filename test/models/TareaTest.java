@@ -65,6 +65,10 @@ public class TareaTest {
       return injector.instanceOf(UsuarioRepository.class);
    }
 
+   private TableroRepository newTableroRepository() {
+      return injector.instanceOf(TableroRepository.class);
+   }
+
    // Test #11: testCrearTarea
    @Test
    public void testCrearTarea() {
@@ -121,6 +125,21 @@ public class TareaTest {
       Logger.info("Número de tarea: " + Long.toString(tarea.getId()));
       assertNotNull(tarea.getId());
       assertEquals("Renovar DNI", getTituloFromTareaDB(tarea.getId()));
+   }
+
+   @Test
+   public void testAddTareaTableroJPARepositoryInsertsTareaDatabase() {
+      UsuarioRepository usuarioRepository = newUsuarioRepository();
+      TareaRepository tareaRepository = newTareaRepository();
+      TableroRepository tableroRepository = newTableroRepository();
+      Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
+      usuario = usuarioRepository.add(usuario);
+      Tablero tablero = new Tablero(usuario, "TestTarea");
+      tablero = tableroRepository.add(tablero);
+      Tarea tarea = new Tarea(usuario, "Prueba", null, false, tablero);
+      tarea = tareaRepository.add(tarea);
+      assertNotNull(tablero.getId());
+      assertEquals("Prueba", getTituloFromTareaDB(tarea.getId()));
    }
 
    private String getTituloFromTareaDB(Long tareaId) {
