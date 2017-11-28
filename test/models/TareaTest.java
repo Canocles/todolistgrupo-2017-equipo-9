@@ -1,4 +1,5 @@
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 import play.db.Database;
@@ -24,10 +25,13 @@ import java.util.List;
 
 import models.Usuario;
 import models.Tarea;
+import models.Tablero;
 import models.UsuarioRepository;
 import models.JPAUsuarioRepository;
 import models.TareaRepository;
 import models.JPATareaRepository;
+import models.TableroRepository;
+import models.JPATableroRepository;
 
 public class TareaTest {
    static Database db;
@@ -70,6 +74,14 @@ public class TareaTest {
       assertEquals("juangutierrez", tarea.getUsuario().getLogin());
       assertEquals("juangutierrez@gmail.com", tarea.getUsuario().getEmail());
       assertEquals("Práctica 1 de MADS", tarea.getTitulo());
+   }
+
+   @Test
+   public void testCrearTareaTablero() {
+      Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
+      Tablero tablero = new Tablero(usuario, "TestTarea");
+      Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS", null, false, tablero);
+      assertEquals("TestTarea", tarea.getTablero().getNombre());
    }
 
    // Test #14: testEqualsTareasConId
