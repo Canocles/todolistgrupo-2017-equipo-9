@@ -14,10 +14,8 @@ public class Tarea {
    @GeneratedValue(strategy=GenerationType.AUTO)
    private Long id;
    private String titulo;
-   // Relación muchos-a-uno entre tareas y usuario
+
    @ManyToOne
-   // Nombre de la columna en la BD que guarda físicamente
-   // el ID del usuario con el que está asociado una tarea
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
 
@@ -110,6 +108,7 @@ public class Tarea {
 
    public void setColumna(Columna columna){
 	   this.columna = columna;
+   }
 
    public Tablero getTablero() {
      return tablero;

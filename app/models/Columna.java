@@ -13,9 +13,11 @@ public class Columna {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	Long id;
 	private String nombre;
+
 	@ManyToOne
     @JoinColumn(name="tableroId")
     private Tablero tablero;
+
 	@OneToMany(mappedBy="columna", fetch=FetchType.EAGER)
 	private Set<Tarea> tareas = new HashSet<Tarea>();
 
