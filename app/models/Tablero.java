@@ -22,6 +22,8 @@ public class Tablero {
   @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER)
   private Set<Columna> columnas = new HashSet<Columna>();
 
+  private Set<Tarea> tareas = new HashSet<Tarea>();
+
   public Tablero () {}
 
   public Tablero (Usuario administrador, String nombre) {
@@ -67,6 +69,13 @@ public class Tablero {
 
   public void setColumnas(Set<Columna> columnas){
 	  this.columnas = columnas;
+  }
+  public Set<Tarea> getTareas() {
+    return tareas;
+  }
+
+  public void setTareas(Set<Tarea> tareas) {
+    this.tareas = tareas;
   }
 
   @Override

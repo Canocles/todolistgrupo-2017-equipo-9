@@ -1,4 +1,5 @@
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 import play.db.Database;
@@ -24,10 +25,13 @@ import java.util.List;
 
 import models.Usuario;
 import models.Tarea;
+import models.Tablero;
 import models.UsuarioRepository;
 import models.JPAUsuarioRepository;
 import models.TareaRepository;
 import models.JPATareaRepository;
+import models.TableroRepository;
+import models.JPATableroRepository;
 
 public class TareaTest {
    static Database db;
@@ -61,6 +65,10 @@ public class TareaTest {
       return injector.instanceOf(UsuarioRepository.class);
    }
 
+   private TableroRepository newTableroRepository() {
+      return injector.instanceOf(TableroRepository.class);
+   }
+
    // Test #11: testCrearTarea
    @Test
    public void testCrearTarea() {
@@ -70,6 +78,14 @@ public class TareaTest {
       assertEquals("juangutierrez", tarea.getUsuario().getLogin());
       assertEquals("juangutierrez@gmail.com", tarea.getUsuario().getEmail());
       assertEquals("Práctica 1 de MADS", tarea.getTitulo());
+   }
+
+   @Test
+   public void testCrearTareaTablero() {
+      Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
+      Tablero tablero = new Tablero(usuario, "TestTarea");
+      Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS", null, false, tablero);
+      assertEquals("TestTarea", tarea.getTablero().getNombre());
    }
 
    // Test #14: testEqualsTareasConId
@@ -109,6 +125,21 @@ public class TareaTest {
       Logger.info("Número de tarea: " + Long.toString(tarea.getId()));
       assertNotNull(tarea.getId());
       assertEquals("Renovar DNI", getTituloFromTareaDB(tarea.getId()));
+   }
+
+   @Test
+   public void testAddTareaTableroJPARepositoryInsertsTareaDatabase() {
+      UsuarioRepository usuarioRepository = newUsuarioRepository();
+      TareaRepository tareaRepository = newTareaRepository();
+      TableroRepository tableroRepository = newTableroRepository();
+      Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
+      usuario = usuarioRepository.add(usuario);
+      Tablero tablero = new Tablero(usuario, "TestTarea");
+      tablero = tableroRepository.add(tablero);
+      Tarea tarea = new Tarea(usuario, "Prueba", null, false, tablero);
+      tarea = tareaRepository.add(tarea);
+      assertNotNull(tablero.getId());
+      assertEquals("Prueba", getTituloFromTareaDB(tarea.getId()));
    }
 
    private String getTituloFromTareaDB(Long tareaId) {
