@@ -73,6 +73,15 @@ public class TareaServiceTest {
       assertEquals(3, tareaService.allTareasUsuario(1000L).size());
    }
 
+  @Test
+  public void nuevaTareaTablero() {
+    TareaService tareaService = newTareaService();
+    long idUsuario = 1000L;
+    long idTablero = 1000L;
+    tareaService.nuevaTareaTablero(idUsuario, "Pagar el alquiler", null, idTablero);
+    assertEquals(1, tareaService.allTareasTablero(1000L).size());
+  }
+
    // Test #22: modificación de tareas
    @Test
    public void modificacionTarea() {

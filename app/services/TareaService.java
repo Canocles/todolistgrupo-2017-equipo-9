@@ -12,16 +12,20 @@ import models.Usuario;
 import models.UsuarioRepository;
 import models.Tarea;
 import models.TareaRepository;
+import models.Tablero;
+import models.TableroRepository;
 
 
 public class TareaService {
    UsuarioRepository usuarioRepository;
    TareaRepository tareaRepository;
+   TableroRepository tableroRepository;
 
    @Inject
-   public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository) {
+   public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, TableroRepository tableroRepository) {
       this.usuarioRepository = usuarioRepository;
       this.tareaRepository = tareaRepository;
+      this.tableroRepository = tableroRepository;
    }
 
    // Devuelve la lista de tareas de un usuario, ordenadas por su id
@@ -37,6 +41,17 @@ public class TareaService {
       return lista;
    }
 
+   public List<Tarea> allTareasTablero(Long idTablero) {
+       Tablero tablero = tableroRepository.findById(idTablero);
+       if (tablero == null) {
+           throw new TareaServiceException("El tablero no existe");
+       }
+       Set<Tarea> tareas = tablero.getTareas();
+       List<Tarea> lista = new ArrayList<Tarea>(tareas);
+       Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+       return lista;
+   }
+
    public Tarea nuevaTarea(Long idUsuario, String titulo, Date nuevaFechaLimite) {
       Usuario usuario = usuarioRepository.findById(idUsuario);
       if (usuario == null) {
@@ -48,6 +63,22 @@ public class TareaService {
       Tarea tarea = new Tarea(usuario, titulo, nuevaFechaLimite, false);
       return tareaRepository.add(tarea);
    }
+
+   public Tarea nuevaTareaTablero(Long idUsuario, String titulo, Date nuevaFechaLimite, Long idTablero) {
+       Usuario usuario = usuarioRepository.findById(idUsuario);
+       Tablero tablero = tableroRepository.findById(idTablero);
+       if (usuario == null) {
+           throw new TareaServiceException("El usuario no existente");
+       }
+       if (tablero == null) {
+           throw new TareaServiceException("El tablero no existe");
+       }
+       if (nuevaFechaLimite != null && nuevaFechaLimite.before(new Date())) {
+           throw new TareaServiceException("La fecha límite no puede ser anterior a la fecha actual");
+       }
+       Tarea tarea = new Tarea(usuario, titulo, nuevaFechaLimite, false, tablero);
+       return tareaRepository.add(tarea);
+   } 
 
    public Tarea obtenerTarea(Long idTarea) {
       return tareaRepository.findById(idTarea);
