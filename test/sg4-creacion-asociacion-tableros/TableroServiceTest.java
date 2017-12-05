@@ -22,6 +22,7 @@ import services.UsuarioService;
 import services.UsuarioServiceException;
 import services.TableroService;
 import services.TableroServiceException;
+import services.TareaServiceException;
 
 public class TableroServiceTest {
   static private Injector injector;
@@ -142,5 +143,21 @@ public class TableroServiceTest {
     Long idTarea = 1000L;
     Tablero tablero = tableroService.anyadirTareaTablero(idTablero, idTarea);
     assertEquals(1, tablero.getTareas().size());
+  }
+
+  @Test(expected = TareaServiceException.class)
+  public void anyadirTareaNoExistenteTableroTest () {
+    TableroService tableroService = newTableroService();
+    Long idTablero = 1000L;
+    Long idTarea = 10L;
+    Tablero tablero = tableroService.anyadirTareaTablero(idTablero, idTarea);
+  }
+
+  @Test(expected = TableroServiceException.class)
+  public void anyadirTareaTableroNoExistenteTest () {
+    TableroService tableroService = newTableroService();
+    Long idTablero = 10L;
+    Long idTarea = 1000L;
+    Tablero tablero = tableroService.anyadirTareaTablero(idTablero, idTarea);
   }
 }

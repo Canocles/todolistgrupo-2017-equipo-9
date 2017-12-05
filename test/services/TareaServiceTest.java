@@ -82,6 +82,22 @@ public class TareaServiceTest {
     assertEquals(1, tareaService.allTareasTablero(1000L).size());
   }
 
+  @Test(expected = TareaServiceException.class)
+  public void nuevaTareaTableroNoExistenteTest () {
+    TareaService tareaService = newTareaService();
+    long idUsuario = 1000L;
+    long idTablero = 20L;
+    tareaService.nuevaTareaTablero(idUsuario, "Pagar el alquiler", null, idTablero);
+  }
+
+  @Test(expected = TareaServiceException.class)
+  public void nuevaTareaTableroUsuarioNoexistenteTest () {
+    TareaService tareaService = newTareaService();
+    long idUsuario = 65L;
+    long idTablero = 1000L;
+    tareaService.nuevaTareaTablero(idUsuario, "Pagar el alquiler", null, idTablero);
+  }
+
    // Test #22: modificación de tareas
    @Test
    public void modificacionTarea() {
