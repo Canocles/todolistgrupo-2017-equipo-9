@@ -9,23 +9,27 @@ import java.util.Collections;
 
 import models.Usuario;
 import models.UsuarioRepository;
+import models.Tarea;
+import models.TareaRepository;
 import models.Tablero;
 import models.TableroRepository;
 
 public class TableroService {
   UsuarioRepository usuarioRepository;
   TableroRepository tableroRepository;
+  TareaRepository tareaRepository;
 
   @Inject
-  public TableroService(UsuarioRepository usuarioRepository, TableroRepository tableroRepository) {
-     this.usuarioRepository = usuarioRepository;
-     this.tableroRepository = tableroRepository;
+  public TableroService(UsuarioRepository usuarioRepository, TableroRepository tableroRepository, TareaRepository tareaRepository) {
+    this.usuarioRepository = usuarioRepository;
+    this.tableroRepository = tableroRepository;
+    this.tareaRepository = tareaRepository;
   }
 
   private Usuario comprobarUsuarioExiste (Long idUsuario) {
     Usuario usuario = usuarioRepository.findById(idUsuario);
     if (usuario == null) {
-       throw new UsuarioServiceException("No existe el usuario");
+      throw new UsuarioServiceException("No existe el usuario");
     }
     return usuario;
   }
@@ -36,6 +40,14 @@ public class TableroService {
       throw new TableroServiceException("No existe el tablero");
     }
     return tablero;
+  }
+
+  private Tarea comprobarExistenciaTarea (Long idTarea) {
+    Tarea tarea = tareaRepository.findById(idTarea);
+    if (tarea == null) {
+        throw new TareaServiceException("No existe la tarea");
+    }
+    return tarea;
   }
 
   public Tablero crearTableroUsuario(String nombre, Long idUsuario) {
@@ -90,6 +102,13 @@ public class TableroService {
     Usuario usuario = comprobarUsuarioExiste (idUsuario);
     Tablero tablero = comprobarTableroExiste (idTablero);
     tablero.getParticipantes().add(usuario);
+    return tableroRepository.update(tablero);
+  }
+
+  public Tablero anyadirTareaTablero (Long idTablero, Long idTarea) {
+    Tablero tablero = comprobarTableroExiste (idTablero);
+    Tarea tarea = comprobarExistenciaTarea (idTarea);
+    tablero.getTareas().add(tarea);
     return tableroRepository.update(tablero);
   }
 }
