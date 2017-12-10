@@ -27,11 +27,21 @@ public class ColumnaService {
 	ColumnaRepository columnaRepository;
 
 	@Inject
-	public ColumnaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, TableroRepository tableroRepository, ColumnaRepository columnaRepository) {
+	public ColumnaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository,
+			TableroRepository tableroRepository, ColumnaRepository columnaRepository) {
 		this.usuarioRepository = usuarioRepository;
 		this.tareaRepository = tareaRepository;
 		this.tableroRepository = tableroRepository;
 		this.columnaRepository = columnaRepository;
+	}
+
+	public List<Tarea> allTareasColumna(Long idColumna) {
+		Columna columna = columnaRepository.findById(idColumna);
+		if (columna == null) {
+			throw new ColumnaServiceException("No existe la columna");
+		}
+		List<Tarea> lista = new ArrayList<Tarea>(columna.getTareas());
+		return lista;
 	}
 
 	public List<Columna> allColumnasTablero(Long idTablero) {
