@@ -10,3 +10,34 @@
 .btn-add {
     background-color: #E8EC5E;
 }
+
+.board-tile-details-name {
+    font-size: 16px;
+    font-weight: 700;
+    display: inline-block;
+    overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    max-height: 40px;
+}
+
+.board-tile, .board-tile-fade {
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    display: block;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.board-tile-details-name {
+    font-size: 16px;
+    font-weight: 700;
+    display: inline-block;
+    overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    max-height: 40px;
+}
