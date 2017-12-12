@@ -5,10 +5,6 @@ import javax.inject.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/*import java.util.Date;
-import java.util.Set;
-import java.util.Collections;
-*/
 import services.ColumnaServiceException;
 
 import models.Usuario;
@@ -35,77 +31,74 @@ public class ColumnaService {
 		this.columnaRepository = columnaRepository;
 	}
 
-	public List<Tarea> allTareasColumna(Long idColumna) {
+	private Columna getColumna(Long idColumna) {
 		Columna columna = columnaRepository.findById(idColumna);
 		if (columna == null) {
 			throw new ColumnaServiceException("No existe la columna");
 		}
+		return columna;
+	}
+
+	private Tablero getTablero(Long idTablero) {
+		Tablero tablero = tableroRepository.findById(idTablero);
+		if (tablero == null) {
+			throw new ColumnaServiceException("No existe el tablero");
+		}
+		return  tablero;
+	}
+
+	private Tarea getTarea(Long idTarea) {
+		Tarea tarea = tareaRepository.findById(idTarea);
+		if (tarea == null) {
+			throw new ColumnaServiceException("No existe la tarea");
+		}
+		return tarea;
+	}
+
+	public List<Tarea> allTareasColumna(Long idColumna) {
+		Columna columna = getColumna(idColumna);
 		List<Tarea> lista = new ArrayList<Tarea>(columna.getTareas());
 		return lista;
 	}
 
 	public List<Columna> allColumnasTablero(Long idTablero) {
-		Tablero tablero = tableroRepository.findById(idTablero);
-		if (tablero == null) {
-			throw new ColumnaServiceException("Tablero no existente");
-		}
+		Tablero tablero = getTablero(idTablero);
 		List<Columna> lista = new ArrayList<Columna>(tablero.getColumnas());
 		return lista;
 	}
 
 	public Columna nuevaColumna(Long idTablero, String nombre) {
-		Tablero tablero = tableroRepository.findById(idTablero);
-		if (tablero == null) {
-			throw new ColumnaServiceException("Tablero no existente");
-		}
+		Tablero tablero = getTablero(idTablero);
 		Columna columna = new Columna(tablero, nombre);
 		return columnaRepository.add(columna);
 	}
 
 	public Columna obtenerColumna(Long idColumna) {
-		return columnaRepository.findById(idColumna);
+		return getColumna(idColumna);
 	}
 
 	public Columna modificaColumna(Long idColumna, String nuevoNombre) {
-		Columna columna = columnaRepository.findById(idColumna);
-		if (columna == null) {
-			throw new ColumnaServiceException("No existe columna");
-		}
+		Columna columna = getColumna(idColumna);
 		columna.setNombre(nuevoNombre);
-		columna = columnaRepository.update(columna);
-		return columna;
+		return columnaRepository.update(columna);
 	}
 
 	public Columna addTareaColumna(Long idColumna, Long idTarea) {
-		Columna columna = columnaRepository.findById(idColumna);
-		Tarea tarea = tareaRepository.findById(idTarea);
-		if (columna == null) {
-			throw new ColumnaServiceException("No existe la columna");
-		}
-		if (tarea == null) {
-			throw new ColumnaServiceException("No existe la tarea");
-		}
-		columna.addTarea(tarea);
+		Columna columna = getColumna(idColumna);
+		Tarea tarea = getTarea(idTarea);
+		columna.getTareas().add(tarea);
 		return columnaRepository.update(columna);
 	}
 
 	public Columna borraTareaColumna(Long idColumna, Long idTarea) {
-		Columna columna = columnaRepository.findById(idColumna);
-		Tarea tarea = tareaRepository.findById(idTarea);
-		if (columna == null) {
-			throw new ColumnaServiceException("No existe la columna");
-		}
-		if (tarea == null) {
-			throw new ColumnaServiceException("No existe la tarea");
-		}
+		Columna columna = getColumna(idColumna);
+		Tarea tarea = getTarea(idTarea);
 		columna.eliminarTarea(tarea);
 		return columnaRepository.update(columna);
 	}
 
 	public void borraColumna(Long idColumna) {
-		Columna columna = columnaRepository.findById(idColumna);
-		if (columna == null)
-			throw new ColumnaServiceException("No existe la columna");
+		Columna columna = getColumna(idColumna);
 		columnaRepository.delete(idColumna);
 	}
 }

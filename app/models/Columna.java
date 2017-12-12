@@ -63,6 +63,11 @@ public class Columna {
 
 	public void addTarea(Tarea tarea) {
 		this.tareas.add(tarea);
+		System.out.println();
+		System.out.println();
+		System.out.println(this.tareas);
+		System.out.println();
+		System.out.println();
 	}
 
 	public void eliminarTarea(Tarea tarea) {

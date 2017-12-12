@@ -92,4 +92,13 @@ public class ColumnaServiceTest {
 		List<Tarea> tareas = columnaService.allTareasColumna(1000L);
 		assertEquals(0, tareas.size());
 	}
+
+	@Test
+	public void setTareaColumna() {
+		ColumnaService columnaService = newColumnaService();
+		List<Tarea> tareas = columnaService.allTareasColumna(1000L);
+		assertEquals(0, tareas.size());
+		tareas = new ArrayList<>(columnaService.addTareaColumna(1000L, 1000L).getTareas());
+		assertEquals(1, tareas.size());
+	}
 }

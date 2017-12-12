@@ -29,6 +29,7 @@ public class JPAColumnaRepository implements ColumnaRepository {
 	public Columna update(Columna columna) {
 		return jpaApi.withTransaction(entityManager -> {
 			Columna actualizado = entityManager.merge(columna);
+			entityManager.flush();
 			return actualizado;
 		});
 	}
