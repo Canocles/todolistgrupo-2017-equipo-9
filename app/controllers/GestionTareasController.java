@@ -38,7 +38,7 @@ public class GestionTareasController extends Controller {
          return unauthorized("Lo siento, no estás autorizado");
       } else {
          Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-         return ok(formNuevaTarea.render(usuario, formFactory.form(Tarea.class),""));
+         return ok(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), flash("aviso")));
       }
    }
 
@@ -51,7 +51,7 @@ public class GestionTareasController extends Controller {
       } else {
          Tablero tablero = tableroService.obtenerDetalleDeTablero(idTablero);
          Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-         return ok(formNuevaTareaTablero.render(tablero, usuario, formFactory.form(Tarea.class),""));
+         return ok(formNuevaTareaTablero.render(tablero, usuario, formFactory.form(Tarea.class), flash("aviso")));
       }
    }
 
@@ -121,21 +121,6 @@ public class GestionTareasController extends Controller {
    }
 
    @Security.Authenticated(ActionAuthenticator.class)
-   public Result listaTareasTablero(Long idUsuario, Long idTablero) {
-      String connectedUserStr = session("connected");
-      Long connectedUser =  Long.valueOf(connectedUserStr);
-      if (connectedUser != idUsuario) {
-         return unauthorized("Lo siento, no estás autorizado");
-      } else {
-         String aviso = flash("aviso");
-         Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-         Tablero tablero = tableroService.obtenerDetalleDeTablero(idTablero);
-         List<Tarea> tareas = tareaService.allTareasTablero(idTablero);
-         return ok(listaTareas.render(tareas, usuario, aviso));
-      }
-   }
-
-   @Security.Authenticated(ActionAuthenticator.class)
    public Result formularioEditaTarea(Long idTarea) {
       Tarea tarea = tareaService.obtenerTarea(idTarea);
       if (tarea == null) {
@@ -150,7 +135,7 @@ public class GestionTareasController extends Controller {
             tarea.getId(),
 						tarea.getTitulo(),
             tarea.getFechaLimiteString(),
-            ""
+            flash("aviso")
 						));
          }
       }
@@ -172,11 +157,12 @@ public class GestionTareasController extends Controller {
 			Tarea tarea = tareaService.obtenerTarea(idTarea);
 			try {
 				tarea = tareaService.modificaTarea(idTarea, nuevoTitulo, nuevaFechaLimite);
-			}
+        flash("aviso", "Tarea modificada correctamente");
+      }
 			catch (Exception e) {
-
+        flash("aviso", e.getMessage());
 			}
-      return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
+      return redirect(controllers.routes.TableroController.detalleTablero(tarea.getUsuario().getId(), tarea.getTablero().getId()));
    }
 
    @Security.Authenticated(ActionAuthenticator.class)
@@ -191,6 +177,6 @@ public class GestionTareasController extends Controller {
       tareaService.terminarTarea(idTarea);
       Tarea tarea = tareaService.obtenerTarea(idTarea);
       flash("aviso", "Tarea terminada");
-      return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
+      return redirect(controllers.routes.TableroController.detalleTablero(tarea.getUsuario().getId(), tarea.getTablero().getId()));
   }
 }

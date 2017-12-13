@@ -60,6 +60,7 @@ public class TableroController extends Controller {
         }
       }
       tableroService.crearTableroUsuario(tableroNuevo.getNombre(), idUsuario);
+      flash("aviso", "Tablero credo correctamente");
       return redirect(controllers.routes.TableroController.listarTableros(idUsuario));
     }
   }
@@ -71,12 +72,11 @@ public class TableroController extends Controller {
     if (connectedUser != idUsuario) {
        return unauthorized("Lo siento, no estás autorizado");
     } else {
-      String aviso = flash("Lista de Tableros");
       Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
       List<Tablero> administrados = tableroService.obtenerTablerosAdministradosUsuario(idUsuario);
       List<Tablero> participados = tableroService.obtenerTablerosParticipaUsuario(idUsuario);
       List<Tablero> noRelacionados = tableroService.obtenerTablerosNoParticipaNiAdministraUsuario(idUsuario);
-      return ok(listarTableros.render(administrados, participados, noRelacionados, usuario, aviso));
+      return ok(listarTableros.render(administrados, participados, noRelacionados, usuario, flash("aviso")));
     }
   }
 
@@ -103,7 +103,7 @@ public class TableroController extends Controller {
     } else {
       Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
       Tablero tablero = tableroService.obtenerDetalleDeTablero(idTablero);
-      return ok(detalleTablero.render(tablero, usuario));
+      return ok(detalleTablero.render(tablero, usuario, flash("aviso")));
     }
   }
 }
