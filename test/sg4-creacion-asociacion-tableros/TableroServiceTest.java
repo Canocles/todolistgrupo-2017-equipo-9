@@ -120,7 +120,8 @@ public class TableroServiceTest {
   @Test
   public void anyadirParticipanteTableroTest () {
     TableroService tableroService = newTableroService();
-    Tablero tablero = tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    Tablero tablero = tableroService.obtenerDetalleDeTablero(1000L);
     assertEquals(1, tablero.getParticipantes().size());
   }
 

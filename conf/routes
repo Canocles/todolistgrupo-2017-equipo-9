@@ -35,6 +35,10 @@ GET     /usuarios/:id/tableros/nuevo  controllers.TableroController.formNuevoTab
 GET    /usuarios/:id/tableros/:id2/apuntarse   controllers.TableroController.apuntarseATablero(id: Long, id2: Long)
 GET    /usuarios/:id/tableros/:id2    controllers.TableroController.detalleTablero(id: Long, id2: Long)
 POST    /usuarios/:id/tableros/nuevo  controllers.TableroController.crearNuevoTablero(id: Long)
+GET     /usuarios/:id/tableros/:id2/tareas  controllers.GestionTareasController.listaTareasTablero(id: Long, id2: Long)
+GET     /usuarios/:id/tableros/:id2/tareas/nueva  controllers.GestionTareasController.formularioNuevaTareaTablero(id: Long, id2: Long)
+POST    /usuarios/:id/tableros/:id2/tareas/nueva  controllers.GestionTareasController.creaNuevaTareaTablero(id: Long, id2: Long)
+
 
 
 GET    /usuarios/:id/acerca-de          controllers.UsuarioController.acercaDe(id: Long)

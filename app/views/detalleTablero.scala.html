@@ -1,16 +1,107 @@
 @(tablero: Tablero, usuario: Usuario)
 @nav(usuario.getId(), "Detalle tablero") {
-  <div class="container" style="padding-top: 100px">
+  <div class="w3-container" style="padding-top: 65px ;padding-bottom: 20px">
     <div class="w3-row">
-      <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">
-        <div class="w3-content">
+      <div class="mybackground w3-card-2 w3-hover-shadow" style="padding-top: 10px; padding-bottom: 30px;">
+        <div class="w3-row-padding" style="padding-top: 20px">
+            <div class="w3-half">
+              <div class="mybackgroundcolumn w3-card-2 w3-hover-shadow" style="padding: 15px">
+                <div class="w3-container">
+                  <div class="w3-row">
+                    <h3 style="text-align: center">Tareas Pendientes</h3>
+                    <hr style="border-color: black">
+                  </div>
+                  @for(tarea <- tablero.getTareas()) {
+                    @if(!tarea.getTerminada()) {
+                      <div class="w3-row" style="padding-bottom: 5px">
+                        <div draggable="yes" class="mybackgroundtask w3-card-2 w3-hover-shadow" style="padding: 5px">
+                          <div class="w3-container">
+                            <div class="w3-half">
+                              <div class="w3-row">
+                                <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" style="font-weight: 600" href="">@tarea.getTitulo()</a>
+                              </div>
+                              <div class="w3-row">
+                                <small class="text-gray d-block pr-6">#@tarea.getId() creada por <a href="@routes.UsuarioController.detalleUsuario(usuario.getId())" class="text-gray-dark">@usuario.getLogin()</a></small>
+                              </div>
+                            </div>
+                            <div style="text-align: right" class="w3-half">
+                              <div class="w3-row">
+                                <small class="text-gray d-block pr-6">@tarea.getFechaLimiteString()</small>
+                              </div>
+                              <div class="w3-row">
+                                <a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())"
+                                  class="btn btn-add btn-md"><span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                <a onmouseover="" style="cursor: pointer; color: rgb(153, 155, 45);" class="btn btn-add btn-md"
+                                onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                <a onmouseover="" style="cursor: pointer; color: rgb(153, 155, 45);" class="btn btn-add btn-md"
+                                onclick="add('@routes.GestionTareasController.terminarTarea(tarea.getId())')">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+              <a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioNuevaTareaTablero(usuario.getId(), tablero.getId())"
+                class="btn-add btn btn-md btn-block sombra"><span class="glyphicon glyphicon-plus"></span>
+              </a>
+            </div>
+            <div class="w3-half">
+                <div class="mybackgroundcolumn w3-card-2 w3-hover-shadow" style="padding: 15px">
+                  <div class="w3-container">
+                    <div class="w3-row">
+                      <h3 style="text-align: center">Tareas Terminadas</h3>
+                      <hr style="border-color: black">
+                    </div>
+                    @for(tarea <- tablero.getTareas()) {
+                      @if(tarea.getTerminada()) {
+                        <div class="w3-row" style="padding-bottom: 5px">
+                            <div draggable="yes" class="mybackgroundtask w3-card-2 w3-hover-shadow" style="padding: 5px">
+                              <div class="w3-container">
+                                <div class="w3-half">
+                                  <div class="w3-row">
+                                    <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" style="font-weight: 600" href="">@tarea.getTitulo()</a>
+                                  </div>
+                                  <div class="w3-row">
+                                    <small class="text-gray d-block pr-6">#@tarea.getId() creada por <a href="@routes.UsuarioController.detalleUsuario(usuario.getId())" class="text-gray-dark">@usuario.getLogin()</a></small>
+                                  </div>
+                                </div>
+                                <div style="text-align: right" class="w3-half">
+                                  <div class="w3-row">
+                                    <small class="text-gray d-block pr-6">@tarea.getFechaLimiteString()</small>
+                                  </div>
+                                  <div class="w3-row">
+                                    <a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())"
+                                      class="btn btn-add btn-md"><span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                    <a onmouseover="" style="cursor: pointer; color: rgb(153, 155, 45);" class="btn btn-add btn-md"
+                                    onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                      }
+                    }
+                  </div> 
+                </div>
+            </div>
+          </div>
+        
+        
+        <div class="w3-container">
           <div class="w3-row">
-            <h1 style="text-align: center; padding-bottom: 20px; color: #313638">Detalles del tablero @tablero.getNombre()</h1>
-            <hr style="border-color: black">
+            <h3 style="color: #313638; line-height: 24px; display: inline-block;">
+              Tablero <strong>@tablero.getNombre()</strong> creado por <strong>@tablero.getAdministrador().getLogin()</strong>
+            </h3>
           </div>
           <div class="w3-row">
-            <h3 style="text-align: left; padding-bottom: 20px; color: #313638"><strong>Nombre:</strong> @tablero.getNombre()</h3>
-            <h3 style="text-align: left; padding-bottom: 20px; color: #313638"><strong>Administrador:</strong> @tablero.getAdministrador().getLogin()</h3>
             <h3 style="text-align: left; padding-bottom: 20px; color: #313638"><strong>Participantes</strong>
               <button id="detalleTablero" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-down"></button>
               </a>

@@ -1,0 +1,54 @@
+@(tablero: Tablero, usuario: Usuario, tareaForm: Form[Tarea], mensaje: String)
+@nav(usuario.getId(), "Nueva tarea") {
+  <div class="container" style="padding-top: 100px">
+    <div class="w3-row">
+      <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 30px">
+        <div class="w3-content">
+          <div class="w3-row">
+            <h1 style="text-align: center; padding-bottom: 20px; color: #313638">Añadir Tarea</h1>
+            <hr style="border-color: black">
+          </div>
+          <div class="w3-row">
+            @helper.form(action = routes.GestionTareasController.creaNuevaTareaTablero(usuario.getId(), tablero.getId())) {
+              <fieldset>
+                <div class="w3-half">
+                  <div class="form-group">
+                    <label for="titulo">Título:</label>
+                    <input type="text" class="form-control" name="titulo" id="titulo"
+                    placeholder="Introduce un título" required>
+                  </div>
+                </div>
+                <div class="w3-half" style="padding-left: 10px">
+                  <div class="form-group">
+                    <label for="fechaLimite">Fecha Límite:</label>
+                    <input type="text" class="form-control" name="fechaLimite" placeholder="dd-mm-aaaa" id="fechaLimite" required>
+                  </div>
+                </div>
+              </fieldset>
+              <div class="w3-row-padding">
+                <div class="w3-half">
+                  <button type="submit" class="btn btn-primary btn-lg btn-block">
+                    <span class="glyphicon glyphicon-save"></span> Guardar
+                  </button>
+                </div>
+                <div class="w3-half">
+                  <a href="@routes.GestionTareasController.listaTareas(usuario.getId())" class="btn mybtn btn-lg btn-block">
+                    <span class="glyphicon glyphicon-step-backward"></span> Cancelar
+                  </a>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="w3-row" style="padding-top: 10px">
+        @if(mensaje != null) {
+          <div class="alert alert-success alert-dismissable">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            @mensaje
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
