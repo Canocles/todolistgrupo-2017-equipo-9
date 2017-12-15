@@ -98,7 +98,7 @@ public class TableroServiceTest {
     TableroService tableroService = newTableroService();
     tableroService.anyadirParticipanteTablero(1000L, 1001L);
     List<Tablero> tableros = tableroService.obtenerTablerosNoParticipaNiAdministraUsuario(1001L);
-    assertEquals(1, tableros.size());
+    assertEquals(2, tableros.size());
   }
 
   @Test

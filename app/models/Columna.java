@@ -10,38 +10,38 @@ import javax.persistence.*;
 @Entity
 public class Columna {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	private String nombre;
 
 	@ManyToOne
-    @JoinColumn(name="tableroId")
-    private Tablero tablero;
+	@JoinColumn(name = "tableroId")
+	private Tablero tablero;
 
-	@OneToMany(mappedBy="columna", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "columna", fetch = FetchType.EAGER)
 	private Set<Tarea> tareas = new HashSet<Tarea>();
 
-	public Columna () {
+	public Columna() {
 	}
 
-	public Columna (Tablero tablero, String nombre) {
+	public Columna(Tablero tablero, String nombre) {
 		this.tablero = tablero;
 		this.nombre = nombre;
 	}
 
-	public Long getId () {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId (Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getNombre () {
+	public String getNombre() {
 		return nombre;
 	}
 
-	public void setNombre (String nombre) {
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
@@ -53,12 +53,25 @@ public class Columna {
 		this.tareas = tareas;
 	}
 
-	public Tablero getTablero(){
+	public Tablero getTablero() {
 		return tablero;
 	}
 
-	public void setTablero(Tablero tablero){
+	public void setTablero(Tablero tablero) {
 		this.tablero = tablero;
+	}
+
+	public void addTarea(Tarea tarea) {
+		this.tareas.add(tarea);
+		System.out.println();
+		System.out.println();
+		System.out.println(this.tareas);
+		System.out.println();
+		System.out.println();
+	}
+
+	public void eliminarTarea(Tarea tarea) {
+		this.tareas.remove(tarea);
 	}
 
 	@Override
@@ -70,15 +83,19 @@ public class Columna {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
 		Columna other = (Columna) obj;
 		if (id != null && other.id != null)
-		return ((long) id == (long) other.id);
+			return ((long) id == (long) other.id);
 		else {
 			if (nombre == null) {
-				if (other.nombre != null) return false;
-			} else if (!nombre.equals(other.nombre)) return false;
+				if (other.nombre != null)
+					return false;
+			} else if (!nombre.equals(other.nombre))
+				return false;
 		}
 		return true;
 	}
