@@ -17,6 +17,8 @@ import services.UsuarioService;
 import services.TareaService;
 import models.Usuario;
 import models.Tarea;
+import models.Tablero;
+import services.TableroService;
 import security.ActionAuthenticator;
 
 public class GestionTareasController extends Controller {
@@ -24,6 +26,7 @@ public class GestionTareasController extends Controller {
    @Inject FormFactory formFactory;
    @Inject UsuarioService usuarioService;
    @Inject TareaService tareaService;
+   @Inject TableroService tableroService;
 
    // Comprobamos si hay alguien logeado con @Security.Authenticated(ActionAuthenticator.class)
    // https://alexgaribay.com/2014/06/15/authentication-in-play-framework-using-java/
@@ -35,8 +38,29 @@ public class GestionTareasController extends Controller {
          return unauthorized("Lo siento, no estás autorizado");
       } else {
          Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-         return ok(formNuevaTarea.render(usuario, formFactory.form(Tarea.class),""));
+         return ok(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), flash("aviso")));
       }
+   }
+
+   @Security.Authenticated(ActionAuthenticator.class)
+   public Result formularioNuevaTareaTablero(Long idUsuario, Long idTablero) {
+      String connectedUserStr = session("connected");
+      Long connectedUser =  Long.valueOf(connectedUserStr);
+      Tablero tablero = tableroService.obtenerDetalleDeTablero(idTablero);
+      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+      if (connectedUser != idUsuario) {
+         return unauthorized("Lo siento, no estás autorizado");
+      } else {
+        for (Tablero table: usuario.getTableros()) {
+          if (table.getId() == tablero.getId()) {
+            return ok(formNuevaTareaTablero.render(tablero, usuario, formFactory.form(Tarea.class), flash("aviso")));
+          }
+          else {
+            return unauthorized("No formas parte de este tablero");
+          }
+        }
+      }
+      return ok(formNuevaTareaTablero.render(tablero, usuario, formFactory.form(Tarea.class), flash("aviso")));
    }
 
    @Security.Authenticated(ActionAuthenticator.class)
@@ -61,6 +85,39 @@ public class GestionTareasController extends Controller {
 				 }
          flash("aviso", "La tarea se ha grabado correctamente");
          return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario));
+      }
+   }
+
+   @Security.Authenticated(ActionAuthenticator.class)
+   public Result creaNuevaTareaTablero(Long idUsuario, Long idTablero) {
+      String connectedUserStr = session("connected");
+      Long connectedUser =  Long.valueOf(connectedUserStr);
+      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+      Tablero tablero = tableroService.obtenerDetalleDeTablero(idTablero);
+      if (connectedUser != idUsuario) {
+         return unauthorized("Lo siento, no estás autorizado");
+      } else {
+         Form<Tarea> tareaForm = formFactory.form(Tarea.class).bindFromRequest();
+         if (tareaForm.hasErrors()) {
+            return badRequest(formNuevaTareaTablero.render(tablero, usuario, formFactory.form(Tarea.class), "La fecha no tiene el formato correcto"));
+         }
+         Tarea tarea = tareaForm.get();
+				 try {
+          for (Tablero table: usuario.getTableros()) {
+            if (table.getId() == tablero.getId()) {
+              tareaService.nuevaTareaTablero(idUsuario, tarea.getTitulo(), tarea.getFechaLimite(), idTablero);
+            }
+            else {
+              return unauthorized("No formas parte de este tablero");
+            }
+          }
+				 }
+				 catch (Exception e) {
+					 flash("aviso", e.getMessage());
+					 return ok(formNuevaTareaTablero.render(tablero, usuario, formFactory.form(Tarea.class), e.getMessage()));
+         }
+         flash("aviso", "La tarea se ha grabado correctamente");
+         return redirect(controllers.routes.TableroController.detalleTablero(idUsuario, idTablero));
       }
    }
 
@@ -93,7 +150,7 @@ public class GestionTareasController extends Controller {
             tarea.getId(),
 						tarea.getTitulo(),
             tarea.getFechaLimiteString(),
-            ""
+            flash("aviso")
 						));
          }
       }
@@ -115,11 +172,12 @@ public class GestionTareasController extends Controller {
 			Tarea tarea = tareaService.obtenerTarea(idTarea);
 			try {
 				tarea = tareaService.modificaTarea(idTarea, nuevoTitulo, nuevaFechaLimite);
-			}
+        flash("aviso", "Tarea modificada correctamente");
+      }
 			catch (Exception e) {
-
+        flash("aviso", e.getMessage());
 			}
-      return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
+      return redirect(controllers.routes.TableroController.detalleTablero(tarea.getUsuario().getId(), tarea.getTablero().getId()));
    }
 
    @Security.Authenticated(ActionAuthenticator.class)
@@ -134,6 +192,6 @@ public class GestionTareasController extends Controller {
       tareaService.terminarTarea(idTarea);
       Tarea tarea = tareaService.obtenerTarea(idTarea);
       flash("aviso", "Tarea terminada");
-      return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
+      return ok();
   }
 }

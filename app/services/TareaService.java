@@ -64,7 +64,11 @@ public class TareaService {
     public List<Tarea> allTareasUsuario(Long idUsuario) {
         Usuario usuario = comprobarExistenciaUsuario(idUsuario);
         Set<Tarea> tareas = usuario.getTareas();
-        List<Tarea> lista = new ArrayList<Tarea>(tareas);
+        List<Tarea> lista = new ArrayList<Tarea>();
+        for(Tarea tarea: tareas) {
+          if(tarea.getTablero() == null)
+            lista.add(tarea);
+        }
         Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
         return lista;
     }
@@ -90,7 +94,7 @@ public class TareaService {
         Date fechalimite = comprobarFechaLimite(nuevaFechaLimite);
         Tarea tarea = new Tarea(usuario, titulo, fechalimite, false, tablero);
         return tareaRepository.add(tarea);
-    } 
+    }
 
     public Tarea obtenerTarea(Long idTarea) {
         return tareaRepository.findById(idTarea);

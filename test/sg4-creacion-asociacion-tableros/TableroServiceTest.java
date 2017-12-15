@@ -120,7 +120,8 @@ public class TableroServiceTest {
   @Test
   public void anyadirParticipanteTableroTest () {
     TableroService tableroService = newTableroService();
-    Tablero tablero = tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    Tablero tablero = tableroService.obtenerDetalleDeTablero(1000L);
     assertEquals(1, tablero.getParticipantes().size());
   }
 
@@ -141,7 +142,8 @@ public class TableroServiceTest {
     TableroService tableroService = newTableroService();
     Long idTablero = 1000L;
     Long idTarea = 1000L;
-    Tablero tablero = tableroService.anyadirTareaTablero(idTablero, idTarea);
+    tableroService.anyadirTareaTablero(idTablero, idTarea);
+    Tablero tablero = tableroService.obtenerDetalleDeTablero(1000L);
     assertEquals(1, tablero.getTareas().size());
   }
 

@@ -108,7 +108,9 @@ public class TableroService {
   public Tablero anyadirTareaTablero (Long idTablero, Long idTarea) {
     Tablero tablero = comprobarTableroExiste (idTablero);
     Tarea tarea = comprobarExistenciaTarea (idTarea);
+    tarea.setTablero(tablero);
+    tareaRepository.update(tarea);
     tablero.getTareas().add(tarea);
-    return tableroRepository.update(tablero);
+    return tablero;
   }
 }
