@@ -46,13 +46,21 @@ public class GestionTareasController extends Controller {
    public Result formularioNuevaTareaTablero(Long idUsuario, Long idTablero) {
       String connectedUserStr = session("connected");
       Long connectedUser =  Long.valueOf(connectedUserStr);
+      Tablero tablero = tableroService.obtenerDetalleDeTablero(idTablero);
+      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
       if (connectedUser != idUsuario) {
          return unauthorized("Lo siento, no estás autorizado");
       } else {
-         Tablero tablero = tableroService.obtenerDetalleDeTablero(idTablero);
-         Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-         return ok(formNuevaTareaTablero.render(tablero, usuario, formFactory.form(Tarea.class), flash("aviso")));
+        for (Tablero table: usuario.getTableros()) {
+          if (table.getId() == tablero.getId()) {
+            return ok(formNuevaTareaTablero.render(tablero, usuario, formFactory.form(Tarea.class), flash("aviso")));
+          }
+          else {
+            return unauthorized("No formas parte de este tablero");
+          }
+        }
       }
+      return ok(formNuevaTareaTablero.render(tablero, usuario, formFactory.form(Tarea.class), flash("aviso")));
    }
 
    @Security.Authenticated(ActionAuthenticator.class)
@@ -95,12 +103,19 @@ public class GestionTareasController extends Controller {
          }
          Tarea tarea = tareaForm.get();
 				 try {
-          tareaService.nuevaTareaTablero(idUsuario, tarea.getTitulo(), tarea.getFechaLimite(), idTablero);
+          for (Tablero table: usuario.getTableros()) {
+            if (table.getId() == tablero.getId()) {
+              tareaService.nuevaTareaTablero(idUsuario, tarea.getTitulo(), tarea.getFechaLimite(), idTablero);
+            }
+            else {
+              return unauthorized("No formas parte de este tablero");
+            }
+          }
 				 }
 				 catch (Exception e) {
 					 flash("aviso", e.getMessage());
 					 return ok(formNuevaTareaTablero.render(tablero, usuario, formFactory.form(Tarea.class), e.getMessage()));
-				 }
+         }
          flash("aviso", "La tarea se ha grabado correctamente");
          return redirect(controllers.routes.TableroController.detalleTablero(idUsuario, idTablero));
       }
@@ -177,6 +192,6 @@ public class GestionTareasController extends Controller {
       tareaService.terminarTarea(idTarea);
       Tarea tarea = tareaService.obtenerTarea(idTarea);
       flash("aviso", "Tarea terminada");
-      return redirect(controllers.routes.TableroController.detalleTablero(tarea.getUsuario().getId(), tarea.getTablero().getId()));
+      return ok();
   }
 }
