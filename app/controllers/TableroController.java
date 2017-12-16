@@ -18,12 +18,14 @@ import models.Tablero;
 import models.Usuario;
 import services.TableroService;
 import services.UsuarioService;
+import services.ColumnaService;
 
 public class TableroController extends Controller {
 
   @Inject FormFactory formFactory;
   @Inject UsuarioService usuarioService;
   @Inject TableroService tableroService;
+  @Inject ColumnaService columnaService;
 
   @Security.Authenticated(ActionAuthenticator.class)
   public Result formNuevoTablero (Long idUsuario) {
@@ -113,4 +115,32 @@ public class TableroController extends Controller {
       return ok(detalleTablero.render(tablero, usuario, participa, flash("aviso")));
     }
   }
+
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result nuevaColumna(Long idUsuario, Long idTablero) {
+	DynamicForm requestData = formFactory.form().bindFromRequest();
+	String nuevaColumnaNombre = requestData.get("nuevaColumnaNombre");
+    String connectedUserStr = session("connected");
+    Long connectedUser =  Long.valueOf(connectedUserStr);
+    if (connectedUser != idUsuario) {
+       return unauthorized("Lo siento, no estás autorizado");
+    } else {
+	  columnaService.nuevaColumna(idTablero, nuevaColumnaNombre);
+      return redirect(controllers.routes.TableroController.detalleTablero(idUsuario, idTablero));
+    }
+  }
+
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result formModificarTareaColumna(Long idUsuario, Long idTarea, Long idTablero) {
+    String connectedUserStr = session("connected");
+    Long connectedUser =  Long.valueOf(connectedUserStr);
+    if (connectedUser != idUsuario) {
+      return unauthorized("Lo siento, no estás autorizado");
+    } else {
+      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+      return ok(formNuevoTablero.render(usuario, formFactory.form(Tablero.class),""));
+    }
+  }
+
+
 }

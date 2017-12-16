@@ -31,12 +31,16 @@ POST    /tareas/:id/editar          controllers.GestionTareasController.grabaTar
 DELETE  /tareas/:id                 controllers.GestionTareasController.borraTarea(id: Long)
 
 GET     /usuarios/:id/tableros      controllers.TableroController.listarTableros(id: Long)
-GET     /usuarios/:id/tableros/nuevo  controllers.TableroController.formNuevoTablero(id: Long)
-GET    /usuarios/:id/tableros/:id2/apuntarse   controllers.TableroController.apuntarseATablero(id: Long, id2: Long)
-GET    /usuarios/:id/tableros/:id2    controllers.TableroController.detalleTablero(id: Long, id2: Long)
-POST    /usuarios/:id/tableros/nuevo  controllers.TableroController.crearNuevoTablero(id: Long)
-GET     /usuarios/:id/tableros/:id2/tareas/nueva  controllers.GestionTareasController.formularioNuevaTareaTablero(id: Long, id2: Long)
-POST    /usuarios/:id/tableros/:id2/tareas/nueva  controllers.GestionTareasController.creaNuevaTareaTablero(id: Long, id2: Long)
+GET     /usuarios/:id/tableros/nuevo			controllers.TableroController.formNuevoTablero(id: Long)
+GET     /usuarios/:id/tableros/:id2/apuntarse   controllers.TableroController.apuntarseATablero(id: Long, id2: Long)
+GET     /usuarios/:id/tableros/:id2    			controllers.TableroController.detalleTablero(id: Long, id2: Long)
+POST    /usuarios/:id/tableros/:id2/columna		controllers.TableroController.nuevaColumna(id: Long, id2: Long)
+POST    /usuarios/:id/tableros/nuevo  			controllers.TableroController.crearNuevoTablero(id: Long)
+GET     /usuarios/:id/tableros/:id2/tareas/nueva  		controllers.GestionTareasController.formularioNuevaTareaTablero(id: Long, id2: Long)
+POST    /usuarios/:id/tableros/:id2/tareas/nueva  		controllers.GestionTareasController.creaNuevaTareaTablero(id: Long, id2: Long)
+
+GET     /usuarios/:id/tableros/:id2/tareas/:id3/update			controllers.TableroController.formularioModificarTareaColumna(id: Long, id2: Long, id3: Long)
+POST    /usuarios/:id/tableros/:id2/tareas/:id3/update  		controllers.TableroController.actualizarTareaColumna(id: Long, id2: Long, id3: Long)
 
 
 
