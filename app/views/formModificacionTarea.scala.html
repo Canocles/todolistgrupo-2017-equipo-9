@@ -1,4 +1,4 @@
-@(idUsuario: Long, idTarea: Long, titulo: String, fechaLimite: String, mensaje: String)
+@(idUsuario: Long, tarea: Tarea, mensaje: String)
 @nav(idUsuario, "Modificar tarea") {
   <div class="container" style="padding-top: 100px">
     <div class="w3-row">
@@ -8,22 +8,42 @@
             <h1 style="text-align: center; padding-bottom: 20px; color: #313638">Modificar tarea</h1>
             <hr style="border-color: black">
           </div>
-          <div class="w3-row">
-            @helper.form(action = routes.GestionTareasController.grabaTareaModificada(idTarea)) {
+          <div class="w3-row-padding">
+            @helper.form(action = routes.GestionTareasController.grabaTareaModificada(tarea.getId())) {
               <fieldset>
-                <div class="w3-half">
+                <div class="w3-col">
                   <div class="form-group">
                     <label for="titulo">Título:</label>
                     <input type="text" class="form-control" name="titulo" id="titulo"
-                    placeholder="Introduce un título" value="@titulo" required>
+                    placeholder="Introduce un título" value="@tarea.getTitulo()" required>
                   </div>
                 </div>
-                <div class="w3-half" style="padding-left: 10px">
+                <div class="w3-col">
                   <div class="form-group">
                     <label for="fechaLimite">Fecha límite:</label>
-                    <input type="text" class="form-control" placeholder="dd-mm-aaaa" name="fechaLimite" id="fechaLimite" value="@fechaLimite">
+                    <input type="text" class="form-control" placeholder="dd-mm-aaaa" name="fechaLimite" id="fechaLimite" value="@tarea.getFechaLimiteString()">
                   </div>
                 </div>
+                @if(tarea.getTablero() != null) {
+                  <div class="w3-col">
+                    <div class="form-group">
+                      <select class="w3-select" name="columnaId" id="columnaId" value="">
+                      <option value="0">Pendientes</option>
+                      @for(columna <- tarea.getTablero().getColumnas()) {
+						  @if(tarea.getColumna() != null) {
+							@if(tarea.getColumna().getId() == columna.getId()){
+								<option value="@columna.getId()" selected>@columna.getNombre()</option>
+							} else {
+								<option value="@columna.getId()">@columna.getNombre()</option>
+							}
+						  } else {
+							<option value="@columna.getId()">@columna.getNombre()</option>
+						  }
+                      }
+                      </select>
+                    </div>
+                  </div>
+                }
               </fieldset>
               <div class="w3-row-padding">
                 <div class="w3-half">
@@ -32,9 +52,15 @@
                   </button>
                 </div>
                 <div class="w3-half">
-                  <a href="@routes.GestionTareasController.listaTareas(idUsuario)" class="btn mybtn btn-lg btn-block">
-                    <span class="glyphicon glyphicon-step-backward"></span> Cancelar
-                  </a>
+                  @if(tarea.getTablero() != null) {
+                    <a href="@routes.TableroController.detalleTablero(idUsuario,tarea.getTablero().getId())" class="btn mybtn btn-lg btn-block">
+                        <span class="glyphicon glyphicon-step-backward"></span> Cancelar
+                      </a>
+                  } else {
+                    <a href="@routes.GestionTareasController.listaTareas(idUsuario)" class="btn mybtn btn-lg btn-block">
+                        <span class="glyphicon glyphicon-step-backward"></span> Cancelar
+                      </a>
+                  }
                 </div>
               </div>
             }

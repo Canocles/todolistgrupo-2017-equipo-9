@@ -14,12 +14,15 @@ import models.Tarea;
 import models.TareaRepository;
 import models.Tablero;
 import models.TableroRepository;
+import models.Columna;
+import models.ColumnaRepository;
 
 
 public class TareaService {
     UsuarioRepository usuarioRepository;
     TareaRepository tareaRepository;
     TableroRepository tableroRepository;
+    ColumnaRepository columnaRepository;
 
     private Usuario comprobarExistenciaUsuario (Long idUsuario) {
         Usuario usuario = usuarioRepository.findById(idUsuario);
@@ -50,7 +53,16 @@ public class TareaService {
             throw new TareaServiceException("La fecha límite no puede ser anterior a la fecha actual");
         }
         return fechaLimite;
+	}
+
+    private Columna comprobarExistenciaColumna (Long idColumna) {
+        Columna columna = columnaRepository.findById(idColumna);
+        if (columna == null) {
+            throw new TareaServiceException("La columna no existe");
+        }
+        return columna;
     }
+
 
     @Inject
     public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, TableroRepository tableroRepository) {
@@ -118,5 +130,11 @@ public class TareaService {
         Tarea tarea = comprobarExistenciaTarea(idTarea);
         tarea.setTerminada(true);
         return tareaRepository.done(tarea);
-    }
+	}
+
+	public Tarea quitarColumna(Long idTarea) {
+		Tarea tarea = comprobarExistenciaTarea(idTarea);
+		tarea.setColumna(null);
+		return tareaRepository.update(tarea);
+	}
 }
