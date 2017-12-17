@@ -84,10 +84,18 @@ public class ColumnaService {
 	}
 
 	public Columna addTareaColumna(Long idColumna, Long idTarea) {
+		if(idColumna == null) {
+			Tarea tarea = getTarea(idTarea);
+			tarea.setColumna(null);
+			return null;
+		}
+
 		Columna columna = getColumna(idColumna);
 		Tarea tarea = getTarea(idTarea);
+		tarea.setColumna(columna);
+		tareaRepository.update(tarea);
 		columna.getTareas().add(tarea);
-		return columnaRepository.update(columna);
+		return columna;
 	}
 
 	public Columna borraTareaColumna(Long idColumna, Long idTarea) {

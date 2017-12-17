@@ -37,39 +37,41 @@
 										<hr style="border-color: black">
 									</div>
 									@for(tarea <- tablero.getTareas()) {
-										<div class="w3-row" style="padding-bottom: 5px">
-											<div draggable="yes" class="mybackgroundtask w3-card-2 w3-hover-shadow" style="padding: 5px">
-												<div class="w3-container">
-													<div class="w3-half">
-														<div class="w3-row">
-															<a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" style="font-weight: 600" href="">@tarea.getTitulo()</a>
-														</div>
-														<div class="w3-row">
-															<small class="text-gray d-block pr-6">#@tarea.getId() creada por
-																@if(tarea.getUsuario() == usuario) {
-																	<a href="@routes.UsuarioController.detalleUsuario(usuario.getId())" class="text-gray-dark">
+										@if(tarea.getColumna() == null) {
+											<div class="w3-row" style="padding-bottom: 5px">
+												<div draggable="yes" class="mybackgroundtask w3-card-2 w3-hover-shadow" style="padding: 5px">
+													<div class="w3-container">
+														<div class="w3-half">
+															<div class="w3-row">
+																<a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" style="font-weight: 600" href="">@tarea.getTitulo()</a>
+															</div>
+															<div class="w3-row">
+																<small class="text-gray d-block pr-6">#@tarea.getId() creada por
+																	@if(tarea.getUsuario() == usuario) {
+																		<a href="@routes.UsuarioController.detalleUsuario(usuario.getId())" class="text-gray-dark">
+																			@tarea.getUsuario().getLogin()
+																		</a>
+																	} else {
 																		@tarea.getUsuario().getLogin()
-																	</a>
-																} else {
-																	@tarea.getUsuario().getLogin()
-																}
-															</small>
+																	}
+																</small>
+															</div>
 														</div>
-													</div>
-													<div style="text-align: right" class="w3-half">
-														<div class="w3-row">
-															<small class="text-gray d-block pr-6">@tarea.getFechaLimiteString()</small>
-														</div>
-														<div class="w3-row">
-															<a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" class="btn btn-add btn-md"><span class="glyphicon glyphicon-pencil"></span>
-															</a>
-															<a onmouseover="" style="cursor: pointer; color: rgb(153, 155, 45);" class="btn btn-add btn-md" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
-															<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+														<div style="text-align: right" class="w3-half">
+															<div class="w3-row">
+																<small class="text-gray d-block pr-6">@tarea.getFechaLimiteString()</small>
+															</div>
+															<div class="w3-row">
+																<a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" class="btn btn-add btn-md"><span class="glyphicon glyphicon-pencil"></span>
+																</a>
+																<a onmouseover="" style="cursor: pointer; color: rgb(153, 155, 45);" class="btn btn-add btn-md" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
+																<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-										</div>
+										}
 									}
 								</div>
 							</div>
@@ -112,7 +114,7 @@
 															<small class="text-gray d-block pr-6">@tarea.getFechaLimiteString()</small>
 														</div>
 														<div class="w3-row">
-															<a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioEditaTareaColumna(usuario.getId(), tarea.getId())" class="btn btn-add btn-md"><span class="glyphicon glyphicon-pencil"></span>
+															<a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" class="btn btn-add btn-md"><span class="glyphicon glyphicon-pencil"></span>
 															</a>
 															<a onmouseover="" style="cursor: pointer; color: rgb(153, 155, 45);" class="btn btn-add btn-md" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
 															<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
