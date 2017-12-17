@@ -144,4 +144,20 @@ public class TableroController extends Controller {
     	return ok(formNuevoTablero.render(usuario, formFactory.form(Tablero.class),""));
     }
   }
+
+
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result eliminarColumna(Long idColumna) {
+	Columna columna = columnaService.obtenerColumna(idColumna);
+	Long idTablero = columna.getTablero().getId();
+	Long idUsuario = columna.getTablero().getAdministrador().getId();
+    String connectedUserStr = session("connected");
+    Long connectedUser =  Long.valueOf(connectedUserStr);
+    if (connectedUser != idUsuario) {
+    	return unauthorized("Lo siento, no estás autorizado");
+    } else {
+		columnaService.borraColumna(idColumna);
+		return redirect(controllers.routes.TableroController.detalleTablero(idUsuario, idTablero));
+    }
+  }
 }

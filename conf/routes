@@ -39,6 +39,7 @@ POST    /usuarios/:id/tableros/nuevo  			controllers.TableroController.crearNuev
 GET     /usuarios/:id/tableros/:id2/tareas/nueva  		controllers.GestionTareasController.formularioNuevaTareaTablero(id: Long, id2: Long)
 POST    /usuarios/:id/tableros/:id2/tareas/nueva  		controllers.GestionTareasController.creaNuevaTareaTablero(id: Long, id2: Long)
 
+DELETE	/columna/:id				controllers.TableroController.eliminarColumna(id: Long)
 
 GET    /usuarios/:id/acerca-de          controllers.UsuarioController.acercaDe(id: Long)
 GET    /usuarios/:id/tareas/terminar    controllers.GestionTareasController.terminarTarea(id: Long)

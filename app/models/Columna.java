@@ -18,7 +18,7 @@ public class Columna {
 	@JoinColumn(name = "tableroId")
 	private Tablero tablero;
 
-	@OneToMany(mappedBy = "columna", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "columna", fetch = FetchType.EAGER, orphanRemoval=true)
 	private Set<Tarea> tareas = new HashSet<Tarea>();
 
 	public Columna() {
