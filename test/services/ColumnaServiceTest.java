@@ -101,4 +101,16 @@ public class ColumnaServiceTest {
 		tareas = new ArrayList<>(columnaService.addTareaColumna(1000L, 1000L).getTareas());
 		assertEquals(1, tareas.size());
 	}
+
+	@Test
+	public void eliminarColumna(){
+		ColumnaService columnaService = newColumnaService();
+		Long idTablero = 1000L;
+		Long idColumna = 1000L;
+		List<Columna> columnas = columnaService.allColumnasTablero(idTablero);
+		assertEquals(1,columnas.size());
+		columnaService.borraColumna(idColumna);
+		columnas = columnaService.allColumnasTablero(idTablero);
+		assertEquals(0,columnas.size());
+	}
 }
