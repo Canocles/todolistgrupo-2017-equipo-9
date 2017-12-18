@@ -25,8 +25,9 @@ public class Etiqueta {
 	public Etiqueta() {
 	}
 
-	public Etiqueta(Tablero tablero) {
+	public Etiqueta(Tablero tablero, String nombre) {
 		this.tablero = tablero;
+		this.nombre = nombre;
 	}
 
 	public Long getId() {
@@ -67,6 +68,11 @@ public class Etiqueta {
 
 	public void eliminarTarea(Tarea tarea) {
 		this.tareas.remove(tarea);
+	}
+
+	@Override
+	public String toString() {
+		return "Etiqueta " + this.nombre;
 	}
 
 	@Override

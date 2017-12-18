@@ -123,6 +123,14 @@ public class Tarea {
      this.tablero = tablero;
    }
 
+   public Set<Etiqueta> getEtiquetas() {
+	   return this.etiquetas;
+   }
+
+   public void setEtiquetas(Set<Etiqueta> etiquetas) {
+	   this.etiquetas = etiquetas;
+   }
+
    public String toString() {
       return String.format("Tarea id: %s titulo: %s fechaLimite: %s usuario: %s",
                       id, titulo, fechaLimite, usuario.toString());

@@ -16,6 +16,8 @@ import models.Tablero;
 import models.TableroRepository;
 import models.Columna;
 import models.ColumnaRepository;
+import models.Etiqueta;
+import models.EtiquetaRepository;
 
 
 public class TareaService {
@@ -23,6 +25,7 @@ public class TareaService {
     TareaRepository tareaRepository;
     TableroRepository tableroRepository;
     ColumnaRepository columnaRepository;
+    EtiquetaRepository etiquetaRepository;
 
     private Usuario comprobarExistenciaUsuario (Long idUsuario) {
         Usuario usuario = usuarioRepository.findById(idUsuario);
@@ -61,14 +64,23 @@ public class TareaService {
             throw new TareaServiceException("La columna no existe");
         }
         return columna;
-    }
+	}
+
+	private Etiqueta comprobarExistenciaEtiqueta(Long idEtiqueta) {
+		Etiqueta etiqueta = etiquetaRepository.findById(idEtiqueta);
+        if (etiqueta == null) {
+            throw new TareaServiceException("La etiqueta no existe");
+        }
+        return etiqueta;
+	}
 
 
     @Inject
-    public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, TableroRepository tableroRepository) {
+    public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, TableroRepository tableroRepository, EtiquetaRepository etiquetaRepository ) {
         this.usuarioRepository = usuarioRepository;
         this.tareaRepository = tareaRepository;
         this.tableroRepository = tableroRepository;
+        this.etiquetaRepository = etiquetaRepository;
     }
 
     // Devuelve la lista de tareas de un usuario, ordenadas por su id
@@ -136,5 +148,14 @@ public class TareaService {
 		Tarea tarea = comprobarExistenciaTarea(idTarea);
 		tarea.setColumna(null);
 		return tareaRepository.update(tarea);
+	}
+
+	public Tarea asignarEtiqueta(Long idTarea, Long idEtiqueta) {
+		Tarea tarea = comprobarExistenciaTarea(idTarea);
+		Etiqueta etiqueta = comprobarExistenciaEtiqueta(idEtiqueta);
+		etiqueta.getTareas().add(tarea);
+		etiquetaRepository.update(etiqueta);
+		tarea.getEtiquetas().add(etiqueta);
+		return tarea;
 	}
 }
