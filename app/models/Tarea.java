@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import play.data.format.*;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
@@ -33,6 +35,9 @@ public class Tarea {
    @ManyToOne
    @JoinColumn(name="tableroId")
    public Tablero tablero;
+
+   @ManyToMany(mappedBy="tareas", fetch=FetchType.EAGER)
+   private Set<Etiqueta> etiquetas = new HashSet<Etiqueta>();
 
    public Tarea() {}
 
