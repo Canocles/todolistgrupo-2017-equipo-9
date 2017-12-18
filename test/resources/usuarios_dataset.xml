@@ -14,6 +14,7 @@
   <Tarea id="1000" titulo="Renovar DNI" usuarioId="1000"/>
   <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000"/>
   <Tarea id="1002" titulo="Testing modulo 1" usuarioId="1002" columnaId="1001"/>
+  <Etiqueta id="1000" nombre="SGT-2" color="8dec2e"/>
   <Persona_Tablero/>
   <Etiqueta_Tarea/>
  </dataset>
