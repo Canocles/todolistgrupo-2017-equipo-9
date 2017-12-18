@@ -158,4 +158,13 @@ public class TareaService {
 		tarea.getEtiquetas().add(etiqueta);
 		return tarea;
 	}
+
+	public Tarea quitarEtiquetaTarea(Long idTarea, Long idEtiqueta) {
+		Tarea tarea = comprobarExistenciaTarea(idTarea);
+		Etiqueta etiqueta = comprobarExistenciaEtiqueta(idEtiqueta);
+		etiqueta.getTareas().remove(tarea);
+		etiquetaRepository.update(etiqueta);
+		tarea.getEtiquetas().remove(etiqueta);
+		return tarea;
+	}
 }

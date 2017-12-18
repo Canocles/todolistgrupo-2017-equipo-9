@@ -138,4 +138,26 @@ public class TareaServiceTest {
 	   TareaService tareaService = newTareaService();
 	   tareaService.asignarEtiqueta(idTarea, idEtiqueta);
    }
+
+   @Test
+   public void quitarEtiquetaTarea() {
+	Long idTarea = 1001L;
+	Long idEtiqueta = 1000L;
+	TareaService tareaService = newTareaService();
+	tareaService.asignarEtiqueta(idTarea, idEtiqueta);
+	Tarea  tarea = tareaService.obtenerTarea(idTarea);
+	assertEquals(1, tarea.getEtiquetas().size());
+
+	tareaService.quitarEtiquetaTarea(idTarea, idEtiqueta);
+	tarea = tareaService.obtenerTarea(idTarea);
+	assertEquals(0, tarea.getEtiquetas().size());
+   }
+
+	@Test(expected=TareaServiceException.class)
+	public void quitarEtiquetaInexistente() {
+		Long idTarea = 1000L;
+		Long idEtiqueta = 5L;
+		TareaService tareaService = newTareaService();
+		tareaService.quitarEtiquetaTarea(idTarea, idEtiqueta);
+	}
 }
