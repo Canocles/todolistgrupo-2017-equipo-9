@@ -85,6 +85,11 @@ public class Etiqueta {
 	}
 
 	@Override
+	public String toString() {
+		return "Etiqueta " + this.nombre;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = prime + ((nombre == null) ? 0 : nombre.hashCode());

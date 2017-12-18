@@ -10,6 +10,7 @@ import org.dbunit.operation.*;
 import java.io.FileInputStream;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import play.inject.guice.GuiceApplicationBuilder;
 import play.inject.Injector;
@@ -18,6 +19,7 @@ import play.Environment;
 
 import models.Usuario;
 import models.Tarea;
+import models.Etiqueta;
 
 import services.UsuarioService;
 import services.UsuarioServiceException;
@@ -116,4 +118,46 @@ public class TareaServiceTest {
       tareaService.borraTarea(idTarea);
       assertNull(tareaService.obtenerTarea(idTarea));
    }
+
+   @Test
+   public void asignarEtiqueta() {
+	   Long idTarea = 1001L;
+	   Long idEtiqueta = 1000L;
+	   TareaService tareaService = newTareaService();
+	   Tarea tarea = tareaService.obtenerTarea(idTarea);
+	   assertEquals(0, tarea.getEtiquetas().size());
+	   tareaService.asignarEtiqueta(idTarea, idEtiqueta);
+	   tarea = tareaService.obtenerTarea(idTarea);
+	   assertEquals(1, tarea.getEtiquetas().size());
+   }
+
+   @Test(expected=TareaServiceException.class)
+   public void asignarEtiquetaInexistente() {
+	   Long idTarea = 1000L;
+	   Long idEtiqueta = 5L;
+	   TareaService tareaService = newTareaService();
+	   tareaService.asignarEtiqueta(idTarea, idEtiqueta);
+   }
+
+   @Test
+   public void quitarEtiquetaTarea() {
+	Long idTarea = 1001L;
+	Long idEtiqueta = 1000L;
+	TareaService tareaService = newTareaService();
+	tareaService.asignarEtiqueta(idTarea, idEtiqueta);
+	Tarea  tarea = tareaService.obtenerTarea(idTarea);
+	assertEquals(1, tarea.getEtiquetas().size());
+
+	tareaService.quitarEtiquetaTarea(idTarea, idEtiqueta);
+	tarea = tareaService.obtenerTarea(idTarea);
+	assertEquals(0, tarea.getEtiquetas().size());
+   }
+
+	@Test(expected=TareaServiceException.class)
+	public void quitarEtiquetaInexistente() {
+		Long idTarea = 1000L;
+		Long idEtiqueta = 5L;
+		TareaService tareaService = newTareaService();
+		tareaService.quitarEtiquetaTarea(idTarea, idEtiqueta);
+	}
 }
