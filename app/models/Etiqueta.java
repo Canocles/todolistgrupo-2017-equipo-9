@@ -13,6 +13,7 @@ public class Etiqueta {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	private String nombre;
+	private String color;
 
 	@ManyToOne
 	@JoinColumn(name = "tableroId")
@@ -22,12 +23,17 @@ public class Etiqueta {
 	@JoinTable(name="Etiqueta_Tarea")
 	private Set<Tarea> tareas = new HashSet<Tarea>();
 
-	public Etiqueta() {
-	}
+	public Etiqueta() {}
 
 	public Etiqueta(Tablero tablero, String nombre) {
 		this.tablero = tablero;
 		this.nombre = nombre;
+	}
+
+	public Etiqueta(Tablero tablero, String nombre, String color) {
+		this.tablero = tablero;
+		this.nombre = nombre;
+		this.color = color;
 	}
 
 	public Long getId() {
@@ -60,6 +66,14 @@ public class Etiqueta {
 
 	public void setTablero(Tablero tablero) {
 		this.tablero = tablero;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public void addTarea(Tarea tarea) {
