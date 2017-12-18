@@ -34,6 +34,9 @@ public class Tarea {
    @JoinColumn(name="tableroId")
    public Tablero tablero;
 
+   @ManyToMany(mappedBy="tareas", fetch=FetchType.EAGER)
+   private Set<Etiqueta> etiquetas = new HashSet<Etiqueta>();
+
    public Tarea() {}
 
    public Tarea(Usuario usuario, String titulo, Date fechaLimite, Boolean terminada) {
