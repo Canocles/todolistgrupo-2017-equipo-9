@@ -82,7 +82,7 @@ public class Etiqueta {
 			return true;
 		if (getClass() != obj.getClass())
 			return false;
-		Columna other = (Columna) obj;
+		Etiqueta other = (Etiqueta) obj;
 		if (id != null && other.id != null)
 			return ((long) id == (long) other.id);
 		else {

@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import play.data.format.*;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
