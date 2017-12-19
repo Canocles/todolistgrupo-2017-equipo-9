@@ -57,4 +57,10 @@ public class EtiquetaService {
     Collections.sort(lista, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
     return lista;
   }
+
+  public Etiqueta crearEtiquetaTablero(Long idTablero, String nombre) {
+    Tablero tablero = comprobarTableroExiste(idTablero);
+    Etiqueta nueva = new Etiqueta(tablero, nombre);
+    return etiquetaRepository.add(nueva);
+  }
 }
