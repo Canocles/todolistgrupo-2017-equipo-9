@@ -58,6 +58,10 @@ public class EtiquetaService {
     return lista;
   }
 
+  public Etiqueta getEtiqueta(Long idEtiqueta) {
+    return comprobarEtiquetaExiste(idEtiqueta);
+  }
+
   public Etiqueta crearEtiquetaTablero(Long idTablero, String nombre) {
     Tablero tablero = comprobarTableroExiste(idTablero);
     Etiqueta nueva = new Etiqueta(tablero, nombre);

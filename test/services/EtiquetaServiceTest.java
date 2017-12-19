@@ -49,7 +49,20 @@ public class EtiquetaServiceTest {
 
 	private EtiquetaService newEtiquetaService() {
 		return injector.instanceOf(EtiquetaService.class);
-  }
+	}
+	
+	@Test
+	public void getEtiquetaTest() {
+		EtiquetaService etiquetaService = newEtiquetaService();
+		Etiqueta etiqueta = etiquetaService.getEtiqueta(1000L);
+		assertEquals("SGT-2", etiqueta.getNombre());
+	}
+
+	@Test(expected = EtiquetaServiceException.class)
+	public void getEtiquetaNoExisteTest() {
+		EtiquetaService etiquetaService = newEtiquetaService();
+		Etiqueta etiqueta = etiquetaService.getEtiqueta(52545L);
+	}	
 
   @Test
 	public void getEtiquetasTableroTest() {
