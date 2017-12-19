@@ -199,7 +199,7 @@
 									@for(etiqueta <- tablero.getEtiquetas()) {
 										<span id="@etiqueta.getId()" class="w3-tag" style="background-color: #@etiqueta.getColor();">
 												@etiqueta.getNombre()
-												<div class="w3-dropdown-hover">
+												<div class="w3-dropdown-hover" style="background-color: #@etiqueta.getColor();">
 													<a>
 														<span class="glyphicon glyphicon-option-horizontal"></span>
 													</a>
