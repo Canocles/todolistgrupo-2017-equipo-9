@@ -45,13 +45,15 @@ noRelacionados: List[Tablero], usuario: Usuario, mensaje: String)
           <div class="w3-container" id="toggle2">
             <div class="w3-row-padding " style="padding-bottom: 5px">
               @for(participa <- participados) {
-                <div class="w3-quarter" style="padding-top: 15px;">
-                  <div class="w3-card-2 w3-center w3-hover-shadow" style="border-radius: 5px; background-color: rgb(174, 177, 35);">
-                    <a style="color: #ffffff" class="board-tile" href="@routes.TableroController.detalleTablero(usuario.getId(), participa.getId())">
-                      <span class="board-tile-details-name">@participa.getNombre()</span>
-                    </a>
-                  </div>                
-                </div> 
+                @if(participa.getAdministrador != usuario) {
+                  <div class="w3-quarter" style="padding-top: 15px;">
+                    <div class="w3-card-2 w3-center w3-hover-shadow" style="border-radius: 5px; background-color: rgb(174, 177, 35);">
+                      <a style="color: #ffffff" class="board-tile" href="@routes.TableroController.detalleTablero(usuario.getId(), participa.getId())">
+                        <span class="board-tile-details-name">@participa.getNombre()</span>
+                      </a>
+                    </div>                
+                  </div> 
+                }
               }
             </div>
           </div>

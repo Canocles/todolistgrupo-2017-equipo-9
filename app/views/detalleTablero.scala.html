@@ -11,25 +11,21 @@
 							</h3>
 						</div>
 						<div class="w3-half">
-							@if(tablero.getAdministrador() != usuario) {
-								@if(participa == false) {
-									<div class="dropdown" style="float: right">
-											<a class="btn btn-default dropdown-toggle btn-lg" style="background-color: transparent; border-color: transparent" type="button" data-toggle="dropdown">
-												<span class="glyphicon glyphicon-option-horizontal"></span>
-											</a>
-											<ul class="dropdown-menu" style="right: 0; left: auto;">
-												<li><a href="@routes.TableroController.apuntarseATablero(usuario.getId(), tablero.getId())">
-													<span class="glyphicon glyphicon-eye-open"></span>
-													Apuntarse
-												</a></li>
-											</ul>
-									</div>
-								}
-							}
+							<div class="dropdown" style="float: right">
+									<a class="btn btn-default dropdown-toggle btn-lg" style="background-color: transparent; border-color: transparent" type="button" data-toggle="dropdown">
+										<span class="glyphicon glyphicon-option-horizontal"></span>
+									</a>
+									<ul class="dropdown-menu" style="right: 0; left: auto;">
+										<li><a href="@routes.EtiquetaController.apuntarseATablero(usuario.getId(), tablero.getId())">
+											<span class="glyphicon glyphicon-eye-open"></span>
+											Añadir Etiquetas
+										</a></li>
+									</ul>
+							</div>
 						</div>
 					</div>
 					<div class='w3-row-padding'> <!-- Columnas -->
-						<div class="w3-col m6 l3">  <!-- Tareas pendientes -->
+						<div class="w3-col m6 l3" style="padding-top: 10px">  <!-- Tareas pendientes -->
 							<div class="mybackgroundcolumn w3-card-2 w3-hover-shadow" style="padding: 15px">
 								<div class="">
 									<div class="w3-row">
@@ -83,7 +79,7 @@
 
 						<!-- Columnas usuario -->
 						@for(columna <- tablero.getColumnas()) {
-							<div class="w3-col m6 l3">
+							<div class="w3-col m6 l3" style="padding-top: 10px">
 								<div class="mybackgroundcolumn w3-card-2 w3-hover-shadow" style="padding: 15px">
 									<div class='w3-row'>
 										<h3 style="text-align: center">@columna.getNombre()</h3>
@@ -131,7 +127,7 @@
 								</div>
 							</div>
 						}
-						<div class="w3-col m6 l3">  <!-- Nueva columna -->
+						<div class="w3-col m6 l3" style="padding-top: 10px">  <!-- Nueva columna -->
 							<div class="mybackgroundcolumn w3-card-2 w3-hover-shadow" style="padding: 15px">
 								<div class="w3-row">
 									<h3 style="text-align: center">Añadir nueva columna</h3>
@@ -165,6 +161,16 @@
 							</ul>
 						</div>
 					</div>
+					@if(tablero.getEtiquetas().size() != 0) {
+						<div class="w3-row">  <!-- Etiquetas -->
+							<h3 style="text-align: left; padding-bottom: 20px; color: #313638"><strong>Etiquetas</strong>
+								<button id="second" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-down"></button>
+							</h3>
+							<div id="toggle2" class="w3-container" style="display: none; padding-bottom: 20px">
+								
+							</div>
+						</div>
+					}
 				</div>
 			</div>
 		</div>
