@@ -69,10 +69,15 @@ public class EtiquetaService {
   }
 
   public Etiqueta modificarEtiquetaTablero(Long idEtiqueta, String nombre, String color) {
-    Etiqueta etiqueta = etiquetaRepository.findById(idEtiqueta);
+    Etiqueta etiqueta = comprobarEtiquetaExiste(idEtiqueta);
     etiqueta.setNombre(nombre);
     etiqueta.setColor(color);
     etiqueta = etiquetaRepository.update(etiqueta);
     return etiqueta;
+  }
+
+  public void eliminarEtiquetaTablero(Long idEtiqueta) {
+    Etiqueta etiqueta = comprobarEtiquetaExiste(idEtiqueta);
+    etiquetaRepository.delete(idEtiqueta);
   }
 }

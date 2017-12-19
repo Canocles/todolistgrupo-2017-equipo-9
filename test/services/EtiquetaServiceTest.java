@@ -102,4 +102,28 @@ public class EtiquetaServiceTest {
 		Etiqueta actualizada = etiquetaService.getEtiqueta(1000L);
 		assertEquals("384598", actualizada.getColor());
 	}
+
+	@Test(expected = EtiquetaServiceException.class)
+	public void modificarEtiquetaNoExisteTableroTest() {
+		EtiquetaService etiquetaService = newEtiquetaService();
+		Etiqueta etiqueta = etiquetaService.getEtiqueta(1000L);
+		etiqueta = etiquetaService.modificarEtiquetaTablero(3000L, "bugs", "384598");
+	}
+
+
+	@Test
+	public void eliminarEtiquetaTableroTest() {
+		EtiquetaService etiquetaService = newEtiquetaService();
+		List<Etiqueta> etiquetas = etiquetaService.getEtiquetasTablero(1000L);
+		assertEquals(1, etiquetas.size());
+		etiquetaService.eliminarEtiquetaTablero(1000L);
+		etiquetas = etiquetaService.getEtiquetasTablero(1000L);
+		assertEquals(0, etiquetas.size());
+	}
+
+	@Test(expected = EtiquetaServiceException.class)
+	public void eliminarEtiquetaNoExisteTableroTest() {
+		EtiquetaService etiquetaService = newEtiquetaService();
+		etiquetaService.eliminarEtiquetaTablero(3000L);
+	}
 }
