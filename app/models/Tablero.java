@@ -13,12 +13,23 @@ public class Tablero {
   @GeneratedValue(strategy=GenerationType.AUTO)
   Long id;
   private String nombre;
+
   @ManyToOne
   @JoinColumn(name="administradorId")
   private Usuario administrador;
+
   @ManyToMany(fetch=FetchType.EAGER)
   @JoinTable(name="Persona_Tablero")
   private Set<Usuario> participantes = new HashSet<Usuario>();
+
+  @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER)
+  private Set<Columna> columnas = new HashSet<Columna>();
+
+  @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER)
+  private Set<Tarea> tareas = new HashSet<Tarea>();
+
+  @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER)
+  private Set<Etiqueta> etiquetas = new HashSet<Etiqueta>();
 
   public Tablero () {}
 
@@ -57,6 +68,30 @@ public class Tablero {
 
   public void setParticipantes(Set<Usuario> participantes) {
     this.participantes = participantes;
+  }
+
+  public Set<Columna> getColumnas(){
+    return columnas;
+  }
+
+  public void setColumnas(Set<Columna> columnas){
+	  this.columnas = columnas;
+  }
+
+  public Set<Tarea> getTareas() {
+    return tareas;
+  }
+
+  public void setTareas(Set<Tarea> tareas) {
+    this.tareas = tareas;
+  }
+
+  public Set<Etiqueta> getEtiquetas() {
+    return etiquetas;
+  }
+
+  public void setEtiquetas(Set<Etiqueta> etiquetas) {
+    this.etiquetas = etiquetas;
   }
 
   @Override

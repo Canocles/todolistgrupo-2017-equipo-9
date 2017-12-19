@@ -1,109 +1,83 @@
 @(administrados: List[Tablero], participados: List[Tablero],
-  noRelacionados: List[Tablero], usuario: Usuario, mensaje: String)
+noRelacionados: List[Tablero], usuario: Usuario, mensaje: String)
 @nav(usuario.getId, "Lista de Tableros") {
-  <div class="container" style="padding-top: 100px">
-    <div class="w3-row">
-      <div class="mybackground w3-card-2 w3-hover-shadow" style="padding: 50px">
-        <div class="w3-container">
-          <div class="w3-row">
-            <h1 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tableros del sistema</h1>
-            <hr style="border-color: black">
-          </div>
-          <h2 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tableros que administras
-            <button id="first" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-down"></button>
-          </h2>
-          <div class="w3-row" id="toggle" style="display: none; padding-bottom: 20px">
-              <table class="w3-table w3-card-4">
-                <tr>
-                  <th>Tablero</th>
-                  <th>Acciones</th>
-                </tr>
-                @for(administrado <- administrados) {
-                  <tr>
-                    <td>@administrado.getNombre()</td>
-                    <td><a href="@routes.TableroController.detalleTablero(usuario.getId(), administrado.getId())"
-                          class="btn btn-primary btn-md"><span class="glyphicon glyphicon-eye-open"></span>
-                        </a>
-                    </td>
-                  </tr>
-                }
-              </table>
-              <div class="w3-row">
-                <a href="@routes.TableroController.formNuevoTablero(usuario.getId())"
-                  class="btn btn-primary btn-md btn-block shadow"><span class="glyphicon glyphicon-plus"></span>
-                </a>
+<div class="w3-container" style="padding-top: 65px ;padding-bottom: 20px">
+  <div class="w3-row">
+    <div class="w3-row" style="padding-top: 10px">
+      @if(mensaje != null) {
+        <div class="alert alert-success alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          @mensaje
+        </div>
+      }
+    </div>
+    <div class="mybackground w3-card-2 w3-hover-shadow" style="padding-top: 10px; padding-bottom: 30px;">
+      <div class="w3-container">
+        <div class="w3-row">
+          <h3 style="color: #313638; line-height: 24px; display: inline-block;">Tableros Personales
+            <button id="first" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-up"></button>
+          </h3>
+          <div class="w3-container" id="toggle">
+            <div class="w3-row-padding " style="padding-bottom: 5px">
+              @for(administrado <- administrados) {
+                <div class="w3-quarter" style="padding-top: 15px;">
+                  <div class="w3-card-2 w3-center w3-hover-shadow" style="border-radius: 5px; background-color: rgb(54, 140, 167);">
+                    <a style="color: #ffffff" class="board-tile" href="@routes.TableroController.detalleTablero(usuario.getId(), administrado.getId())">
+                      <span class="board-tile-details-name">@administrado.getNombre()</span>
+                    </a>
+                  </div>                
+                </div> 
+              }
+              <div class="w3-quarter" style="padding-top: 15px;">
+                <div class="w3-card-2 w3-center w3-hover-shadow" style="border-radius: 5px; background-color: rgb(184, 184, 184);">
+                  <a style="color: #ffffff;" class="board-tile hover" href="@routes.TableroController.formNuevoTablero(usuario.getId())">
+                    <span class="board-tile-details-name">Añadir Nuevo tablero</span>
+                  </a>
+                </div>                
               </div>
+            </div> 
           </div>
-          <h2 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tableros en los que participas
-            <button id="second" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-down"></button>
-          </h2>
-          <div class="w3-row" id="toggle2" style="display: none; padding-bottom: 20px">
-            <table class="w3-table w3-card-4">
-              <tr>
-                <th>Tablero</th>
-                <th>Acciones</th>
-              </tr>
+        </div>
+        <div class="w3-row">
+          <h3 style="color: #313638; line-height: 24px; display: inline-block;">Tableros donde participas
+            <button id="second" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-up"></button>
+          </h3>
+          <div class="w3-container" id="toggle2">
+            <div class="w3-row-padding " style="padding-bottom: 5px">
               @for(participa <- participados) {
-                <tr>
-                  <td>@participa.getNombre()</td>
-                  <td><a href="@routes.TableroController.detalleTablero(usuario.getId(), participa.getId())"
-                        class="btn btn-primary btn-md"><span class="glyphicon glyphicon-eye-open"></span>
+                @if(participa.getAdministrador != usuario) {
+                  <div class="w3-quarter" style="padding-top: 15px;">
+                    <div class="w3-card-2 w3-center w3-hover-shadow" style="border-radius: 5px; background-color: rgb(174, 177, 35);">
+                      <a style="color: #ffffff" class="board-tile" href="@routes.TableroController.detalleTablero(usuario.getId(), participa.getId())">
+                        <span class="board-tile-details-name">@participa.getNombre()</span>
                       </a>
-                  </td>
-                </tr>
+                    </div>                
+                  </div> 
+                }
               }
-            </table>
+            </div>
           </div>
-          <h2 style="text-align: center; padding-bottom: 20px; color: #313638">Listado de tableros en los que puedes apuntarte
+        </div>
+        <div class="w3-row">
+          <h3 style="color: #313638; line-height: 24px; display: inline-block;">Tablero en los que puedes participar
             <button id="third" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-down"></button>
-          </h2>
-          <div class="w3-row" id="toggle3" style="display: none; padding-bottom: 20px">
-            <table class="w3-table w3-card-4">
-              <tr>
-                <th>Tablero</th>
-                <th>Acciones</th>
-              </tr>
+          </h3>
+          <div class="w3-container" id="toggle3" style="display: none;">
+            <div class="w3-row-padding " style="padding-bottom: 5px">
               @for(noRelacionado <- noRelacionados) {
-                <tr>
-                  <td>@noRelacionado.getNombre()</td>
-                  <td><a href="@routes.TableroController.detalleTablero(usuario.getId(), noRelacionado.getId())"
-                          class="btn btn-primary btn-md">
-                      <span class="glyphicon glyphicon-eye-open"/></a>
-                      <a onmouseover="" style="cursor: pointer;" class="btn btn-primary btn-md"
-                          onclick="add('@routes.TableroController.apuntarseATablero(usuario.getId(), noRelacionado.getId())')">
-                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
-                  </td>
-                </tr>
+                <div class="w3-quarter" style="padding-top: 15px;">
+                  <div class="w3-card-2 w3-center w3-hover-shadow" style="border-radius: 5px; background-color: rgb(177, 120, 35);">
+                    <a style="color: #ffffff" class="board-tile" href="@routes.TableroController.apuntarseATablero(usuario.getId(), noRelacionado.getId())">
+                      <span class="board-tile-details-name">@noRelacionado.getNombre()</span>
+                    </a>
+                  </div>                
+                </div> 
               }
-            </table>
-          </div>
-          <div class="w3-row-padding" style="padding-top: 20px">
-            <div class="w3-third">
-              <a href="@routes.UsuarioController.detalleUsuario(usuario.getId())" class="btn btn-primary btn-lg btn-block">
-                <span class="glyphicon glyphicon-user"></span> Mi cuenta
-              </a>
-            </div>
-            <div class="w3-third">
-              <a href="@routes.GestionTareasController.listaTareas(usuario.getId())" class="btn mybtn btn-lg btn-block">
-                <span class="glyphicon glyphicon-list"></span> Listar mis tareas
-              </a>
-            </div>
-            <div class="w3-third">
-              <a href="@routes.TableroController.listarTableros(usuario.getId())" class="btn mybtn btn-lg btn-block">
-                <span class="glyphicon glyphicon-list-alt"></span> Listar tableros
-              </a>
             </div>
           </div>
         </div>
       </div>
-      <div class="w3-row" style="padding-top: 10px">
-        @if(mensaje != null) {
-          <div class="alert alert-success alert-dismissable">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            @mensaje
-          </div>
-        }
-      </div>
     </div>
   </div>
+</div>
 }

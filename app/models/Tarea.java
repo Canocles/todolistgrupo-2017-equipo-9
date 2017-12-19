@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 import play.data.format.*;
 
+import java.util.Set;
+import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
@@ -14,18 +17,28 @@ public class Tarea {
    @GeneratedValue(strategy=GenerationType.AUTO)
    private Long id;
    private String titulo;
-   // Relación muchos-a-uno entre tareas y usuario
+
    @ManyToOne
-   // Nombre de la columna en la BD que guarda físicamente
-   // el ID del usuario con el que está asociado una tarea
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
+
+   @ManyToOne
+   @JoinColumn(name="columnaId")
+   public Columna columna;
+
    private Date fechaCreacion;
 
-	 @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
+   @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
    @Temporal(TemporalType.DATE)
    private Date fechaLimite;
    private Boolean terminada;
+
+   @ManyToOne
+   @JoinColumn(name="tableroId")
+   public Tablero tablero;
+
+   @ManyToMany(mappedBy="tareas", fetch=FetchType.EAGER)
+   private Set<Etiqueta> etiquetas = new HashSet<Etiqueta>();
 
    public Tarea() {}
 
@@ -36,6 +49,15 @@ public class Tarea {
       this.fechaLimite = fechaLimite;
       this.terminada = terminada;
    }
+
+   public Tarea(Usuario usuario, String titulo, Date fechaLimite, Boolean terminada, Tablero tablero) {
+      this.usuario = usuario;
+      this.titulo = titulo;
+      this.fechaCreacion = new Date();
+      this.fechaLimite = fechaLimite;
+      this.terminada = terminada;
+      this.tablero = tablero;
+  }
 
    // Getters y setters necesarios para JPA
 
@@ -84,6 +106,38 @@ public class Tarea {
 
    public void setTerminada(Boolean terminada) {
      this.terminada = terminada;
+   }
+
+   public Columna getColumna(){
+	   return this.columna;
+   }
+
+   public void setColumna(Columna columna){
+	   this.columna = columna;
+   }
+
+   public Tablero getTablero() {
+     return tablero;
+   }
+
+   public void setTablero(Tablero tablero) {
+     this.tablero = tablero;
+   }
+
+   public Set<Etiqueta> getEtiquetas() {
+	   return this.etiquetas;
+   }
+
+   public void setEtiquetas(Set<Etiqueta> etiquetas) {
+	   this.etiquetas = etiquetas;
+   }
+
+   public Set<Etiqueta> getOtrasEtiquetas() {
+	   Set<Etiqueta> etiquetas = tablero.getEtiquetas();
+	   for(Etiqueta etiq : this.etiquetas) {
+		   etiquetas.remove(etiq);
+	   }
+	   return etiquetas;
    }
 
    public String toString() {

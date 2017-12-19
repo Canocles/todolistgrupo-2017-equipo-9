@@ -18,53 +18,6 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
-  <script type="text/javascript">
-      function del(urlBorrar) {
-          $.ajax({
-              url: urlBorrar,
-              type: 'DELETE',
-              success: function(results) {
-                  //refresh the page
-                  location.reload();
-              }
-          });
-      }
-  </script>
-  <script type="text/javascript">
-      function add(urlApuntarse) {
-          $.ajax({
-              url: urlApuntarse,
-              type: 'GET',
-              success: function(results) {
-                  //refresh the page
-                  location.reload();
-              }
-          });
-      }
-  </script>
-  <script>
-    $(document).ready(function(){
-        $("#detalleTablero").click(function(){
-            $("#toggle").fadeToggle();
-            $("span", this).toggleClass("glyphicon glyphicon-arrow-up glyphicon glyphicon-arrow-down ");
-        });
-
-        $("#first").click(function(){
-            $("#toggle").fadeToggle();
-            $("span", this).toggleClass("glyphicon glyphicon-arrow-down glyphicon glyphicon-arrow-up ");
-        });
-
-        $("#second").click(function(){
-            $("#toggle2").fadeToggle();
-            $("span", this).toggleClass("glyphicon glyphicon-arrow-down glyphicon glyphicon-arrow-up ");
-        });
-
-        $("#third").click(function(){
-            $("#toggle3").fadeToggle();
-            $("span", this).toggleClass("glyphicon glyphicon-arrow-up glyphicon glyphicon-arrow-down ");
-        });
-    });
-  </script>
 </head>
 <body class="bg">
   <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -72,7 +25,7 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="@routes.UsuarioController.detalleUsuario(usuario)">TodoList</a>
       </div>
-      <ul class="nav navbar-nav">    
+      <ul class="nav navbar-nav">
         <li><a href="@routes.GestionTareasController.listaTareas(usuario)">Mis tareas</a></li>
         <li><a href="@routes.TableroController.listarTableros(usuario)">Mis tableros</a></li>
         <li><a href="@routes.UsuarioController.acercaDe(usuario)">Nosotros</a></li>
@@ -84,11 +37,79 @@
                 <li><a href="@routes.UsuarioController.detalleUsuario(usuario)">Mis datos</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="@routes.UsuarioController.logout()">Salir <span class="glyphicon glyphicon-log-out"></span></a></li>
-            </ul> 
+            </ul>
         </li>
       </ul>
     </div>
   </nav>
   @content
 </body>
+<script type="text/javascript">
+    function del(urlBorrar) {
+        $.ajax({
+            url: urlBorrar,
+            type: 'DELETE',
+            success: function(results) {
+                //refresh the page
+                location.reload();
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function add(urlApuntarse) {
+        $.ajax({
+            url: urlApuntarse,
+            type: 'GET',
+            success: function(results) {
+                //refresh the page
+                location.reload();
+            }
+        });
+    }
+</script>
+<script>
+  $(document).ready(function(){
+      $("#detalleTablero").click(function(){
+          $("#toggle").fadeToggle();
+          $("span", this).toggleClass("glyphicon glyphicon-arrow-up glyphicon glyphicon-arrow-down ");
+      });
+
+      $("#first").click(function(){
+          $("#toggle").fadeToggle();
+          $("span", this).toggleClass("glyphicon glyphicon-arrow-down glyphicon glyphicon-arrow-up ");
+      });
+
+      $("#second").click(function(){
+          $("#toggle2").fadeToggle();
+          $("span", this).toggleClass("glyphicon glyphicon-arrow-down glyphicon glyphicon-arrow-up ");
+      });
+
+      $("#third").click(function(){
+          $("#toggle3").fadeToggle();
+          $("span", this).toggleClass("glyphicon glyphicon-arrow-up glyphicon glyphicon-arrow-down ");
+      });
+
+      $("#añadirTablero").click(function(){
+          $("#añadirTablero").addClass('hidden');
+          $("#formularioTablero").removeClass('hidden');
+          $("#formularioTablero").removeClass('show');
+      });
+  });
+</script>
+<script>
+  function allowDrop(ev) {
+      ev.preventDefault();
+  }
+
+  function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+  }
+
+  function drop(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      ev.target.appendChild(document.getElementById(data));
+  }
+</script>
 </html>

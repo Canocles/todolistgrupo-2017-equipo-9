@@ -26,8 +26,10 @@ public class Usuario {
    // Relación uno-a-muchos entre usuario y tarea
    @OneToMany(mappedBy="usuario", fetch=FetchType.EAGER)
    private Set<Tarea> tareas = new HashSet<Tarea>();
+
    @OneToMany(mappedBy="administrador", fetch=FetchType.EAGER)
    private Set<Tablero> administrados = new HashSet<Tablero>();
+
    @ManyToMany(mappedBy="participantes", fetch=FetchType.EAGER)
    private Set<Tablero> tableros = new HashSet<Tablero>();
 
