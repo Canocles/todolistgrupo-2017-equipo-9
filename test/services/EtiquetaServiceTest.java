@@ -93,4 +93,13 @@ public class EtiquetaServiceTest {
 		EtiquetaService etiquetaService = newEtiquetaService();
 		etiquetaService.crearEtiquetaTablero(3000L, "refactor");
 	}
+
+	@Test
+	public void modificarEtiquetaTableroTest() {
+		EtiquetaService etiquetaService = newEtiquetaService();
+		Etiqueta etiqueta = etiquetaService.getEtiqueta(1000L);
+		etiqueta = etiquetaService.modificarEtiquetaTablero(1000L, "bugs", "384598");
+		Etiqueta actualizada = etiquetaService.getEtiqueta(1000L);
+		assertEquals("384598", actualizada.getColor());
+	}
 }

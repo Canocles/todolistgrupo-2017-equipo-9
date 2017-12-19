@@ -67,4 +67,12 @@ public class EtiquetaService {
     Etiqueta nueva = new Etiqueta(tablero, nombre);
     return etiquetaRepository.add(nueva);
   }
+
+  public Etiqueta modificarEtiquetaTablero(Long idEtiqueta, String nombre, String color) {
+    Etiqueta etiqueta = etiquetaRepository.findById(idEtiqueta);
+    etiqueta.setNombre(nombre);
+    etiqueta.setColor(color);
+    etiqueta = etiquetaRepository.update(etiqueta);
+    return etiqueta;
+  }
 }
