@@ -22,6 +22,7 @@ import services.UsuarioService;
 import services.UsuarioServiceException;
 import services.TableroService;
 import services.TableroServiceException;
+import services.TareaServiceException;
 
 public class TableroServiceTest {
   static private Injector injector;
@@ -29,18 +30,18 @@ public class TableroServiceTest {
   @BeforeClass
   static public void initApplication() {
     GuiceApplicationBuilder guiceApplicationBuilder =
-         new GuiceApplicationBuilder().in(Environment.simple());
+      new GuiceApplicationBuilder().in(Environment.simple());
     injector = guiceApplicationBuilder.injector();
     injector.instanceOf(JPAApi.class);
   }
 
   @Before
   public void initData() throws Exception {
-     JndiDatabaseTester databaseTester = new JndiDatabaseTester("DBTest");
-     IDataSet initialDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("test/resources/usuarios_dataset.xml"));
-     databaseTester.setDataSet(initialDataSet);
-     databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
-     databaseTester.onSetup();
+      JndiDatabaseTester databaseTester = new JndiDatabaseTester("DBTest");
+      IDataSet initialDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("test/resources/usuarios_dataset.xml"));
+      databaseTester.setDataSet(initialDataSet);
+      databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
+      databaseTester.onSetup();
   }
 
   private TableroService newTableroService() {
@@ -97,7 +98,7 @@ public class TableroServiceTest {
     TableroService tableroService = newTableroService();
     tableroService.anyadirParticipanteTablero(1000L, 1001L);
     List<Tablero> tableros = tableroService.obtenerTablerosNoParticipaNiAdministraUsuario(1001L);
-    assertEquals(1, tableros.size());
+    assertEquals(2, tableros.size());
   }
 
   @Test
@@ -119,7 +120,8 @@ public class TableroServiceTest {
   @Test
   public void anyadirParticipanteTableroTest () {
     TableroService tableroService = newTableroService();
-    Tablero tablero = tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    tableroService.anyadirParticipanteTablero(1000L, 1001L);
+    Tablero tablero = tableroService.obtenerDetalleDeTablero(1000L);
     assertEquals(1, tablero.getParticipantes().size());
   }
 
@@ -134,4 +136,30 @@ public class TableroServiceTest {
     TableroService tableroService = newTableroService();
     Tablero tablero = tableroService.anyadirParticipanteTablero(2023L, 1001L);
   }
- }
+
+  @Test
+  public void anyadirTareaTableroTest () {
+    TableroService tableroService = newTableroService();
+    Long idTablero = 1000L;
+    Long idTarea = 1000L;
+    tableroService.anyadirTareaTablero(idTablero, idTarea);
+    Tablero tablero = tableroService.obtenerDetalleDeTablero(1000L);
+    assertEquals(1, tablero.getTareas().size());
+  }
+
+  @Test(expected = TareaServiceException.class)
+  public void anyadirTareaNoExistenteTableroTest () {
+    TableroService tableroService = newTableroService();
+    Long idTablero = 1000L;
+    Long idTarea = 10L;
+    Tablero tablero = tableroService.anyadirTareaTablero(idTablero, idTarea);
+  }
+
+  @Test(expected = TableroServiceException.class)
+  public void anyadirTareaTableroNoExistenteTest () {
+    TableroService tableroService = newTableroService();
+    Long idTablero = 10L;
+    Long idTarea = 1000L;
+    Tablero tablero = tableroService.anyadirTareaTablero(idTablero, idTarea);
+  }
+}

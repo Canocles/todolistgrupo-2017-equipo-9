@@ -6,9 +6,19 @@
        password="123456789" eMail="juan.gutierrez@gmail.com" fechaNacimiento="1993-12-10"/>
   <Usuario id="1002" login="juangutierrez3" nombre="Juan" apellidos="Gutierrez Tres"
        password="123456789" eMail="juan.gutierrez@gmail.com" fechaNacimiento="1993-12-10"/>
-  <Tarea id="1000" titulo="Renovar DNI" usuarioId="1000"/>
-  <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000"/>
+
   <Tablero id="1000" nombre="Tablero test 1" administradorId="1000"/>
   <Tablero id="1001" nombre="Tablero test 2" administradorId="1000"/>
+  <Tablero id="1002" nombre="Tablero test 3" administradorId="1002"/>
+
+  <Columna id="1000" nombre="En desarrollo" tableroId="1000"/>
+  <Columna id="1001" nombre="Testing" tableroId="1002"/>
+
+  <Tarea id="1000" titulo="Renovar DNI" usuarioId="1000"/>
+  <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000"/>
+  <Tarea id="1002" titulo="Testing modulo 1" usuarioId="1002" columnaId="1001"/>
+
+  <Etiqueta id="1000" nombre="SGT-2" color="8dec2e" tableroId="1000"/>
   <Persona_Tablero/>
+  <Etiqueta_Tarea/>
  </dataset>

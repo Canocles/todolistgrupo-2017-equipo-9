@@ -1,4 +1,4 @@
-@(usuario: Usuario, tareaForm: Form[Tarea], mensaje: String)
+@(tablero: Tablero, usuario: Usuario, tareaForm: Form[Tarea], mensaje: String)
 @nav(usuario.getId(), "Nueva tarea") {
   <div class="container" style="padding-top: 100px">
     <div class="w3-row">
@@ -9,7 +9,7 @@
             <hr style="border-color: black">
           </div>
           <div class="w3-row">
-            @helper.form(action = routes.GestionTareasController.creaNuevaTarea(usuario.getId())) {
+            @helper.form(action = routes.GestionTareasController.creaNuevaTareaTablero(usuario.getId(), tablero.getId())) {
               <fieldset>
                 <div class="w3-half">
                   <div class="form-group">
