@@ -82,7 +82,7 @@ public class EtiquetaServiceTest {
 		EtiquetaService etiquetaService = newEtiquetaService();
 		List<Etiqueta> etiquetas = etiquetaService.getEtiquetasTablero(1000L);
 		assertEquals(1, etiquetas.size());
-		etiquetaService.crearEtiquetaTablero(1000L, "refactor");
+		etiquetaService.crearEtiquetaTablero(1000L, "refactor", "ffffff");
 
 		etiquetas = etiquetaService.getEtiquetasTablero(1000L);
 		assertEquals(2, etiquetas.size());
@@ -91,7 +91,7 @@ public class EtiquetaServiceTest {
 	@Test(expected = EtiquetaServiceException.class)
 	public void crearEtiquetaTableroNoExisteTest() {
 		EtiquetaService etiquetaService = newEtiquetaService();
-		etiquetaService.crearEtiquetaTablero(3000L, "refactor");
+		etiquetaService.crearEtiquetaTablero(3000L, "refactor", "ffffff");
 	}
 
 	@Test

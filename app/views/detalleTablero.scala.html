@@ -10,19 +10,6 @@
 								Tablero <strong>@tablero.getNombre()</strong> creado por <strong>@tablero.getAdministrador().getLogin()</strong>
 							</h3>
 						</div>
-						<div class="w3-half">
-							<div class="dropdown" style="float: right">
-									<a class="btn btn-default dropdown-toggle btn-lg" style="background-color: transparent; border-color: transparent" type="button" data-toggle="dropdown">
-										<span class="glyphicon glyphicon-option-horizontal"></span>
-									</a>
-									<ul class="dropdown-menu" style="right: 0; left: auto;">
-										<li><a href="@routes.EtiquetaController.apuntarseATablero(usuario.getId(), tablero.getId())">
-											<span class="glyphicon glyphicon-eye-open"></span>
-											Añadir Etiquetas
-										</a></li>
-									</ul>
-							</div>
-						</div>
 					</div>
 					<div class='w3-row-padding'> <!-- Columnas -->
 						<div class="w3-col m6 l3" style="padding-top: 10px">  <!-- Tareas pendientes -->
@@ -161,16 +148,48 @@
 							</ul>
 						</div>
 					</div>
-					@if(tablero.getEtiquetas().size() != 0) {
-						<div class="w3-row">  <!-- Etiquetas -->
-							<h3 style="text-align: left; padding-bottom: 20px; color: #313638"><strong>Etiquetas</strong>
-								<button id="second" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-down"></button>
-							</h3>
-							<div id="toggle2" class="w3-container" style="display: none; padding-bottom: 20px">
-								
+					<div class="w3-row-padding">  <!-- Etiquetas -->
+						<h3 style="text-align: left; padding-bottom: 20px; color: #313638"><strong>Etiquetas</strong>
+							<button id="second" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-up"></button>
+						</h3>
+						<div class="w3-half">
+							<div id="toggle2" class="w3-container" style="padding-bottom: 20px; padding-top: 10px">
+									@for(etiqueta <- tablero.getEtiquetas()) {
+										<span id="@etiqueta.getId()" class="w3-tag" style="background-color: #@etiqueta.getColor();">
+												@etiqueta.getNombre()
+												<div class="w3-dropdown-hover">
+													<a>
+														<span class="glyphicon glyphicon-option-horizontal"></span>
+													</a>
+													<div class="w3-dropdown-content w3-bar-block w3-border">
+															@helper.form(action = routes.EtiquetaController.actualizarEtiqueta(etiqueta.getId())) {
+																<input type="text" id="etiquetaNombre" name="etiquetaNombre" class="w3-bar-item" placeholder="Nombre.."/>
+																<input type="text" id="etiquetaColor" name="etiquetaColor" class="w3-bar-item" placeholder="Código color..."/>
+																<button type='submit' style="color: rgb(153, 155, 45)" class="btn-add btn btn-md btn-block sombra">
+																	<span class="glyphicon glyphicon-plus"></span>
+																</button>
+															}
+													</div>
+												</div>
+												<a href="@routes.EtiquetaController.eliminarEtiqueta(etiqueta.getId()))">
+													<span class="w3-button" style="color:whitesmoke;">&times;</span>
+												</a>
+										</span>
+									}
 							</div>
 						</div>
-					}
+						<div class="w3-half">
+							@helper.form(action = routes.EtiquetaController.crearEtiqueta(usuario.getId(), tablero.getId())) {
+								<div class="w3-half">
+									<input type="text" id="etiquetaNombre" name="etiquetaNombre" class="form-control" placeholder="Introduzca un nombre"/>
+								</div>
+								<div class="w3-half" style="padding-left: 2px">
+										<input type="text" id="etiquetaColor" name="etiquetaColor" class="form-control" placeholder="Introduzca un código de color html"/>
+									</div>
+									<button type='submit' style="color: rgb(153, 155, 45)" class="btn-add btn btn-md btn-block sombra"><span class="glyphicon glyphicon-plus"></span></button>
+							}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
