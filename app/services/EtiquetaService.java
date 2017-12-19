@@ -30,7 +30,7 @@ public class EtiquetaService {
   private Usuario comprobarUsuarioExiste (Long idUsuario) {
     Usuario usuario = usuarioRepository.findById(idUsuario);
     if (usuario == null) {
-      throw new UsuarioServiceException("No existe el usuario");
+      throw new EtiquetaServiceException("No existe el usuario");
     }
     return usuario;
   }
@@ -38,7 +38,7 @@ public class EtiquetaService {
   private Tablero comprobarTableroExiste (Long idTablero) {
     Tablero tablero = tableroRepository.findById(idTablero);
     if (tablero == null) {
-      throw new TableroServiceException("No existe el tablero");
+      throw new EtiquetaServiceException("No existe el tablero");
     }
     return tablero;
   }
@@ -46,7 +46,7 @@ public class EtiquetaService {
   private Etiqueta comprobarEtiquetaExiste (Long idEtiqueta) {
     Etiqueta etiqueta = etiquetaRepository.findById(idEtiqueta);
     if (etiqueta == null) {
-        throw new TareaServiceException("No existe la etiqueta");
+        throw new EtiquetaServiceException("No existe la etiqueta");
     }
     return etiqueta;
   }

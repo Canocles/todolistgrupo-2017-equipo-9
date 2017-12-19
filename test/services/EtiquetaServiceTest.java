@@ -21,6 +21,7 @@ import play.Environment;
 
 import models.Etiqueta;
 import services.EtiquetaService;
+import services.EtiquetaServiceException;
 
 import models.Tablero;
 import services.TableroService;
@@ -55,5 +56,11 @@ public class EtiquetaServiceTest {
 		EtiquetaService etiquetaService = newEtiquetaService();
 		List<Etiqueta> etiquetas = etiquetaService.getEtiquetasTablero(1000L);
 		assertEquals(1, etiquetas.size());
+	}
+
+	@Test(expected = EtiquetaServiceException.class)
+	public void getEtiquetasTableroNoExisteTest() {
+		EtiquetaService etiquetaService = newEtiquetaService();
+		List<Etiqueta> etiquetas = etiquetaService.getEtiquetasTablero(3000L);
 	}
 }
