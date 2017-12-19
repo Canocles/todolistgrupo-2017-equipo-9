@@ -199,4 +199,54 @@ public class GestionTareasController extends Controller {
 			flash("aviso", "Tarea terminada");
 			return ok();
 	}
+
+	@Security.Authenticated(ActionAuthenticator.class)
+	public Result asignarEtiqueta(Long idTarea, Long idEtiqueta) {
+		Tarea tarea = tareaService.obtenerTarea(idTarea);
+		Long idTablero = tarea.getTablero().getId();
+		Long idAdminTablero = tarea.getUsuario().getId();
+
+		String connectedUserStr = session("connected");
+		Long connectedUser =  Long.valueOf(connectedUserStr);
+		Boolean usrValido = false;
+		for(Usuario usr : tarea.getTablero().getParticipantes()) {
+			if(usr.getId() == connectedUser) {
+				usrValido = true;
+			}
+		}
+		if (!usrValido) {
+			return unauthorized("Lo siento, no estás autorizado");
+		} else {
+			tareaService.asignarEtiqueta(idTarea, idEtiqueta);
+			return redirect(controllers.routes.TableroController.detalleTablero(idAdminTablero, idTablero));
+		}
+	}
+
+	@Security.Authenticated(ActionAuthenticator.class)
+	public Result quitarEtiqueta(Long idTarea, Long idEtiqueta) {
+		Tarea tarea = tareaService.obtenerTarea(idTarea);
+		Long idTablero = tarea.getTablero().getId();
+		Long idAdminTablero = tarea.getTablero().getAdministrador().getId();
+
+		String connectedUserStr = session("connected");
+		Long connectedUser =  Long.valueOf(connectedUserStr);
+		Boolean usrValido = false;
+
+		if(idAdminTablero == connectedUser) {
+			usrValido = true;
+		}
+		else {
+			for(Usuario usr : tarea.getTablero().getParticipantes()) {
+				if(usr.getId() == connectedUser) {
+					usrValido = true;
+				}
+			}
+		}
+		if (!usrValido) {
+			return unauthorized("Lo siento, no estás autorizado");
+		} else {
+			tareaService.quitarEtiquetaTarea(idTarea, idEtiqueta);
+			return redirect(controllers.routes.TableroController.detalleTablero(idAdminTablero, idTablero));
+		}
+	}
 }

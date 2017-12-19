@@ -38,9 +38,83 @@
 									</div>
 									@for(tarea <- tablero.getTareas()) {
 										@if(tarea.getColumna() == null) {
-											<div class="w3-row" style="padding-bottom: 5px">
+											<div class="w3-row tarea" style="padding-bottom: 5px">
 												<div draggable="yes" class="mybackgroundtask w3-card-2 w3-hover-shadow" style="padding: 5px">
 													<div class="w3-container">
+														<div class="row-padding">
+															<div class="w3-half">
+																<div class="w3-row">
+																	<a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" style="font-weight: 600" href="">@tarea.getTitulo()</a>
+																</div>
+																<div class="w3-row">
+																	<small class="text-gray d-block pr-6">#@tarea.getId() creada por
+																		@if(tarea.getUsuario() == usuario) {
+																			<a href="@routes.UsuarioController.detalleUsuario(usuario.getId())" class="text-gray-dark">
+																				@tarea.getUsuario().getLogin()
+																			</a>
+																		} else {
+																			@tarea.getUsuario().getLogin()
+																		}
+																	</small>
+																</div>
+															</div>
+															<div style="text-align: right" class="w3-half">
+																<div class="w3-row">
+																	<small class="text-gray d-block pr-6">@tarea.getFechaLimiteString()</small>
+																</div>
+																<div class="w3-row">
+																	<a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" class="btn btn-add btn-md"><span class="glyphicon glyphicon-pencil"></span>
+																	</a>
+																	<a onmouseover="" style="cursor: pointer; color: rgb(153, 155, 45);" class="btn btn-add btn-md" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
+																	<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="w3-col l8"> <!-- Listar etiquetas -->
+																@for(etiqueta <- tarea.getEtiquetas()) {
+																	@helper.form(action = routes.GestionTareasController.grabaTareaModificada(tarea.getId())) {
+																		<span id="@etiqueta.getId()" class="w3-tag" style="background-color: #@etiqueta.getColor();">@etiqueta.getNombre()<a href="@routes.GestionTareasController.quitarEtiqueta(tarea.getId(), etiqueta.getId())"><span class="w3-button" style="color:whitesmoke;">&times;</span></a></span>
+																	}
+																}
+															</div>
+															<div class="w3-col l4"> <!-- Añadir etiqueta -->
+																<div class="w3-dropdown-hover">
+																	<button class="w3-button">Add #</button>
+																	<div class="w3-dropdown-content w3-bar-block w3-border">
+																		@for(etiqueta <- tarea.getOtrasEtiquetas()) {
+																			<a href="@routes.GestionTareasController.asignarEtiqueta(tarea.getId(),etiqueta.getId())" class="w3-bar-item w3-button">@etiqueta.getNombre()</a>
+																		}
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										}
+									}
+								</div>
+							</div>
+							<div>
+								<a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioNuevaTareaTablero(usuario.getId(), tablero.getId())" class="btn-add btn btn-md btn-block sombra"><span class="glyphicon glyphicon-plus"></span>
+								</a>
+							</div>
+						</div>
+
+						<!-- Columnas usuario -->
+						@for(columna <- tablero.getColumnas()) {
+							<div class="w3-col m6 l3">
+								<div class="mybackgroundcolumn w3-card-2 w3-hover-shadow" style="padding: 15px">
+									<div class='w3-row'>
+										<h3 style="text-align: center">@columna.getNombre()</h3>
+										<hr style="border-color: black">
+									</div>
+									@for(tarea <- columna.getTareas()) {
+										<div class="w3-row tarea" style="padding-bottom: 5px">
+											<div draggable="yes" class="mybackgroundtask w3-card-2 w3-hover-shadow" style="padding: 5px">
+												<div class="w3-container">
+													<div class="row-padding">
 														<div class="w3-half">
 															<div class="w3-row">
 																<a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" style="font-weight: 600" href="">@tarea.getTitulo()</a>
@@ -69,55 +143,23 @@
 															</div>
 														</div>
 													</div>
-												</div>
-											</div>
-										}
-									}
-								</div>
-							</div>
-							<div>
-								<a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioNuevaTareaTablero(usuario.getId(), tablero.getId())" class="btn-add btn btn-md btn-block sombra"><span class="glyphicon glyphicon-plus"></span>
-								</a>
-							</div>
-						</div>
-
-						<!-- Columnas usuario -->
-						@for(columna <- tablero.getColumnas()) {
-							<div class="w3-col m6 l3">
-								<div class="mybackgroundcolumn w3-card-2 w3-hover-shadow" style="padding: 15px">
-									<div class='w3-row'>
-										<h3 style="text-align: center">@columna.getNombre()</h3>
-										<hr style="border-color: black">
-									</div>
-									@for(tarea <- columna.getTareas()) {
-										<div class="w3-row" style="padding-bottom: 5px">
-											<div draggable="yes" class="mybackgroundtask w3-card-2 w3-hover-shadow" style="padding: 5px">
-												<div class="w3-container">
-													<div class="w3-half">
-														<div class="w3-row">
-															<a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" style="font-weight: 600" href="">@tarea.getTitulo()</a>
-														</div>
-														<div class="w3-row">
-															<small class="text-gray d-block pr-6">#@tarea.getId() creada por
-																@if(tarea.getUsuario() == usuario) {
-																	<a href="@routes.UsuarioController.detalleUsuario(usuario.getId())" class="text-gray-dark">
-																		@tarea.getUsuario().getLogin()
-																	</a>
-																} else {
-																	@tarea.getUsuario().getLogin()
+													<div class="row">
+														<div class="w3-col l8"> <!-- Listar etiquetas -->
+															@for(etiqueta <- tarea.getEtiquetas()) {
+																@helper.form(action = routes.GestionTareasController.grabaTareaModificada(tarea.getId())) {
+																	<span id="@etiqueta.getId()" class="w3-tag" style="background-color: #@etiqueta.getColor();">@etiqueta.getNombre()<a href="@routes.GestionTareasController.quitarEtiqueta(tarea.getId(), etiqueta.getId())"><span class="w3-button" style="color:whitesmoke;">&times;</span></a></span>
 																}
-															</small>
+															}
 														</div>
-													</div>
-													<div style="text-align: right" class="w3-half">
-														<div class="w3-row">
-															<small class="text-gray d-block pr-6">@tarea.getFechaLimiteString()</small>
-														</div>
-														<div class="w3-row">
-															<a style="color: rgb(153, 155, 45)" href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" class="btn btn-add btn-md"><span class="glyphicon glyphicon-pencil"></span>
-															</a>
-															<a onmouseover="" style="cursor: pointer; color: rgb(153, 155, 45);" class="btn btn-add btn-md" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
-															<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+														<div class="w3-col l4"> <!-- Añadir etiqueta -->
+															<div class="w3-dropdown-hover">
+																<button class="w3-button">Add #</button>
+																<div class="w3-dropdown-content w3-bar-block w3-border" style="min-height: 20px">
+																	@for(etiqueta <- tarea.getOtrasEtiquetas()) {
+																		<a href="@routes.GestionTareasController.asignarEtiqueta(tarea.getId(),etiqueta.getId())" class="w3-bar-item w3-button">@etiqueta.getNombre()</a>
+																	}
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -170,4 +212,32 @@
 		</div>
 	</div>
 </div>
+<script>
+	function showAllTareas() {
+		var tareas = document.getElementsByClassName("tarea");
+		Array.prototype.forEach.call(tareas, function(tarea) {
+			tarea.style.display = "inline"
+		})
+	}
+
+	function filterTags(id) {
+		var tareas = document.getElementsByClassName("tarea");
+		Array.prototype.forEach.call(tareas, function(tarea) {
+			var tieneTag = false
+			var tags = tarea.getElementsByClassName("w3-tag")
+			Array.prototype.forEach.call(tags,function(tag) {
+				if(id == tag.id) {
+					tieneTag = true
+				}
+			})
+			if(tieneTag === false) {
+				tarea.style.display = "none"
+			}
+			else {
+				tarea.style.display = "inline"
+			}
+		})
+	}
+</script>
 }
+

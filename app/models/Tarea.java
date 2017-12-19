@@ -6,6 +6,7 @@ import play.data.format.*;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
@@ -108,7 +109,7 @@ public class Tarea {
    }
 
    public Columna getColumna(){
-	   return columna;
+	   return this.columna;
    }
 
    public void setColumna(Columna columna){
@@ -129,6 +130,14 @@ public class Tarea {
 
    public void setEtiquetas(Set<Etiqueta> etiquetas) {
 	   this.etiquetas = etiquetas;
+   }
+
+   public Set<Etiqueta> getOtrasEtiquetas() {
+	   Set<Etiqueta> etiquetas = tablero.getEtiquetas();
+	   for(Etiqueta etiq : this.etiquetas) {
+		   etiquetas.remove(etiq);
+	   }
+	   return etiquetas;
    }
 
    public String toString() {
