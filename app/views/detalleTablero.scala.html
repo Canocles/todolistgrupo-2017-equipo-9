@@ -24,7 +24,7 @@
 											<div class="w3-row tarea" style="padding-bottom: 5px">
 												<div draggable="yes" class="mybackgroundtask w3-card-2 w3-hover-shadow" style="padding: 5px">
 													<div class="w3-container">
-														<div class="row-padding">
+														<div class="w3-row-padding">
 															<div class="w3-half">
 																<div class="w3-row">
 																	<a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" style="font-weight: 600" href="">@tarea.getTitulo()</a>
@@ -53,14 +53,18 @@
 																</div>
 															</div>
 														</div>
-														<div class="row">
-															<div class="w3-col l8"> <!-- Listar etiquetas -->
+														<div class="w3-row" style="padding-top: 10px">
 																@for(etiqueta <- tarea.getEtiquetas()) {
+																	<div class="w3-col" style="width: 16%; padding-top: 2px; padding-left: 3px">
 																	@helper.form(action = routes.GestionTareasController.grabaTareaModificada(tarea.getId())) {
-																		<span id="@etiqueta.getId()" class="w3-tag" style="background-color: #@etiqueta.getColor();">@etiqueta.getNombre()<a href="@routes.GestionTareasController.quitarEtiqueta(tarea.getId(), etiqueta.getId())"><span class="w3-button" style="color:whitesmoke;">&times;</span></a></span>
+																		<span id="@etiqueta.getId()" class="w3-tag w3-small" style="background-color: #@etiqueta.getColor();">
+																			<a href="@routes.GestionTareasController.quitarEtiqueta(tarea.getId(), etiqueta.getId())">
+																				<span class="w3-button" style="color:whitesmoke;">&times;</span>
+																			</a>
+																		</span>
 																	}
+																	</div>
 																}
-															</div>
 															<div class="w3-col l4"> <!-- Añadir etiqueta -->
 																<div class="w3-dropdown-hover">
 																	<button class="w3-button">Add #</button>
@@ -97,7 +101,7 @@
 										<div class="w3-row tarea" style="padding-bottom: 5px">
 											<div draggable="yes" class="mybackgroundtask w3-card-2 w3-hover-shadow" style="padding: 5px">
 												<div class="w3-container">
-													<div class="row-padding">
+													<div class="w3-row-padding">
 														<div class="w3-half">
 															<div class="w3-row">
 																<a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" style="font-weight: 600" href="">@tarea.getTitulo()</a>
@@ -126,18 +130,22 @@
 															</div>
 														</div>
 													</div>
-													<div class="row">
-														<div class="w3-col l8"> <!-- Listar etiquetas -->
-															@for(etiqueta <- tarea.getEtiquetas()) {
-																@helper.form(action = routes.GestionTareasController.grabaTareaModificada(tarea.getId())) {
-																	<span id="@etiqueta.getId()" class="w3-tag" style="background-color: #@etiqueta.getColor();">@etiqueta.getNombre()<a href="@routes.GestionTareasController.quitarEtiqueta(tarea.getId(), etiqueta.getId())"><span class="w3-button" style="color:whitesmoke;">&times;</span></a></span>
-																}
+													<div class="w3-row" style="padding-top: 10px">
+														@for(etiqueta <- tarea.getEtiquetas()) {
+															<div class="w3-col" style="width: 16%; padding-top: 2px; padding-left: 3px">
+															@helper.form(action = routes.GestionTareasController.grabaTareaModificada(tarea.getId())) {
+																<span id="@etiqueta.getId()" class="w3-tag w3-small" style="background-color: #@etiqueta.getColor();">
+																	<a href="@routes.GestionTareasController.quitarEtiqueta(tarea.getId(), etiqueta.getId())">
+																		<span class="w3-button" style="color:whitesmoke;">&times;</span>
+																	</a>
+																</span>
 															}
-														</div>
+															</div>
+														}
 														<div class="w3-col l4"> <!-- Añadir etiqueta -->
 															<div class="w3-dropdown-hover">
 																<button class="w3-button">Add #</button>
-																<div class="w3-dropdown-content w3-bar-block w3-border" style="min-height: 20px">
+																<div class="w3-dropdown-content w3-bar-block w3-border">
 																	@for(etiqueta <- tablero.getEtiquetas()) {
 																		<a href="@routes.GestionTareasController.asignarEtiqueta(tarea.getId(),etiqueta.getId())" class="w3-bar-item w3-button">@etiqueta.getNombre()</a>
 																	}
@@ -190,48 +198,53 @@
 							</ul>
 						</div>
 					</div>
-					<div class="w3-row-padding">  <!-- Etiquetas -->
+					<div class="w3-row">  <!-- Etiquetas -->
 						<h3 style="text-align: left; padding-bottom: 20px; color: #313638"><strong>Etiquetas</strong>
 							<button id="second" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-up"></button>
+							<div class="w3-dropdown-hover">
+								<button class="btn btn-primary dropdown-toggle btn-md">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
+								<div class="w3-dropdown-content w3-bar-block w3-border" style="width: none">
+										@helper.form(action = routes.EtiquetaController.crearEtiqueta(usuario.getId(), tablero.getId())) {
+											<input type="text" id="etiquetaNombre" name="etiquetaNombre" class="w3-bar-item" placeholder="Release"/>
+											<input type="text" id="etiquetaColor" name="etiquetaColor" class="w3-bar-item" placeholder="ffffff"/>
+											<button type='submit' style="color: rgb(153, 155, 45)" class="btn-add btn btn-md btn-block sombra">
+												<span class="glyphicon glyphicon-plus"></span>
+											</button>
+										}
+								</div>
+							</div>
+							<button id="second" onclick="showAllTareas()" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-refresh"></span> Eliminar filtrado</button>
 						</h3>
-						<div class="w3-half">
 							<div id="toggle2" class="w3-container" style="padding-bottom: 20px; padding-top: 10px">
-									@for(etiqueta <- tablero.getEtiquetas()) {
-										<span id="@etiqueta.getId()" class="w3-tag" style="background-color: #@etiqueta.getColor();">
-												@etiqueta.getNombre()
-												<div class="w3-dropdown-hover" style="background-color: #@etiqueta.getColor();">
-													<a>
-														<span class="glyphicon glyphicon-option-horizontal"></span>
-													</a>
-													<div class="w3-dropdown-content w3-bar-block w3-border">
-															@helper.form(action = routes.EtiquetaController.actualizarEtiqueta(etiqueta.getId())) {
-																<input type="text" id="etiquetaNombre" name="etiquetaNombre" class="w3-bar-item" placeholder="Nombre.."/>
-																<input type="text" id="etiquetaColor" name="etiquetaColor" class="w3-bar-item" placeholder="Código color..."/>
-																<button type='submit' style="color: rgb(153, 155, 45)" class="btn-add btn btn-md btn-block sombra">
-																	<span class="glyphicon glyphicon-plus"></span>
-																</button>
-															}
-													</div>
+								@for(etiqueta <- tablero.getEtiquetas()) {
+									<span id="@etiqueta.getId()" class="w3-tag w3-small" style="background-color: #@etiqueta.getColor();">
+											@etiqueta.getNombre()
+											<div class="w3-dropdown-hover" style="background-color: #@etiqueta.getColor();">
+												<button style="background-color: transparent; border-color: transparent" class="btn btn-primary dropdown-toggle btn-md">
+														<span class="glyphicon glyphicon-refresh"></span>
+												</button>
+												<div class="w3-dropdown-content w3-bar-block w3-border">
+														@helper.form(action = routes.EtiquetaController.actualizarEtiqueta(etiqueta.getId())) {
+															<input type="text" id="etiquetaNombre" name="etiquetaNombre" class="w3-bar-item" placeholder="Nombre.." value="@etiqueta.getNombre()"/>
+															<input type="text" id="etiquetaColor" name="etiquetaColor" class="w3-bar-item" placeholder="Código color..." value="@etiqueta.getColor()"/>
+															<button type='submit' style="color: rgb(153, 155, 45)" class="btn-add btn btn-md btn-block sombra">
+																<span class="glyphicon glyphicon-plus"></span>
+															</button>
+														}
 												</div>
-												<a onclick="del('@routes.EtiquetaController.eliminarEtiqueta(etiqueta.getId())')">
-													<span class="w3-button" style="color:whitesmoke;">&times;</span>
-												</a>
-										</span>
-									}
+											</div>
+											<button style="background-color: transparent; border-color: transparent" onclick="del('@routes.EtiquetaController.eliminarEtiqueta(etiqueta.getId())')" class="btn btn-primary dropdown-toggle btn-md">
+													<span class="glyphicon glyphicon-remove"></span>
+											</button>
+											<button style="background-color: transparent; border-color: transparent" onclick="filterTags(@etiqueta.getId())" class="btn btn-primary dropdown-toggle btn-md">
+													<span class="glyphicon glyphicon-filter"></span>
+											</button>
+									</span>
+								}
 							</div>
 						</div>
-						<div class="w3-half">
-							@helper.form(action = routes.EtiquetaController.crearEtiqueta(usuario.getId(), tablero.getId())) {
-								<div class="w3-half">
-									<input type="text" id="etiquetaNombre" name="etiquetaNombre" class="form-control" placeholder="Introduzca un nombre"/>
-								</div>
-								<div class="w3-half" style="padding-left: 2px">
-										<input type="text" id="etiquetaColor" name="etiquetaColor" class="form-control" placeholder="Introduzca un código de color html"/>
-									</div>
-									<button type='submit' style="color: rgb(153, 155, 45)" class="btn-add btn btn-md btn-block sombra"><span class="glyphicon glyphicon-plus"></span></button>
-							}
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
