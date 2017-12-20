@@ -76,7 +76,9 @@ public class TareaService {
 
 
     @Inject
-    public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, TableroRepository tableroRepository, EtiquetaRepository etiquetaRepository ) {
+    public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, 
+    ColumnaRepository columnaRepository, TableroRepository tableroRepository, EtiquetaRepository etiquetaRepository ) {
+        this.columnaRepository = columnaRepository;
         this.usuarioRepository = usuarioRepository;
         this.tareaRepository = tareaRepository;
         this.tableroRepository = tableroRepository;
