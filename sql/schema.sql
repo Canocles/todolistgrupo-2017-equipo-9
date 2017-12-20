@@ -16,6 +16,58 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Columna`
+--
+
+DROP TABLE IF EXISTS `Columna`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Columna` (
+  `id` bigint(20) NOT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `tableroId` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK5t3s9tmlcxo05co7xxalympgg` (`tableroId`),
+  CONSTRAINT `FK5t3s9tmlcxo05co7xxalympgg` FOREIGN KEY (`tableroId`) REFERENCES `Tablero` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Etiqueta`
+--
+
+DROP TABLE IF EXISTS `Etiqueta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Etiqueta` (
+  `id` bigint(20) NOT NULL,
+  `color` varchar(255) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `tableroId` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKqhvnrs00mpblhwhp2ondwu2vo` (`tableroId`),
+  CONSTRAINT `FKqhvnrs00mpblhwhp2ondwu2vo` FOREIGN KEY (`tableroId`) REFERENCES `Tablero` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Etiqueta_Tarea`
+--
+
+DROP TABLE IF EXISTS `Etiqueta_Tarea`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Etiqueta_Tarea` (
+  `etiquetas_id` bigint(20) NOT NULL,
+  `tareas_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`etiquetas_id`,`tareas_id`),
+  KEY `FK16crpvejl60miklj55u6gj5ye` (`tareas_id`),
+  CONSTRAINT `FK16crpvejl60miklj55u6gj5ye` FOREIGN KEY (`tareas_id`) REFERENCES `Tarea` (`id`),
+  CONSTRAINT `FKs2uv1ib7x49tce3qw115vgj74` FOREIGN KEY (`etiquetas_id`) REFERENCES `Etiqueta` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `Persona_Tablero`
 --
 
@@ -62,9 +114,15 @@ CREATE TABLE `Tarea` (
   `fechaLimite` date DEFAULT NULL,
   `terminada` bit(1) DEFAULT NULL,
   `titulo` varchar(255) DEFAULT NULL,
+  `columnaId` bigint(20) DEFAULT NULL,
+  `tableroId` bigint(20) DEFAULT NULL,
   `usuarioId` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  KEY `FK30n0ojdgfxnkm0768tnqddi91` (`columnaId`),
+  KEY `FK2r7tsv4xu3bjvst83o8xuspud` (`tableroId`),
   KEY `FKepne2t52y8dmn8l9da0dd7l51` (`usuarioId`),
+  CONSTRAINT `FK2r7tsv4xu3bjvst83o8xuspud` FOREIGN KEY (`tableroId`) REFERENCES `Tablero` (`id`),
+  CONSTRAINT `FK30n0ojdgfxnkm0768tnqddi91` FOREIGN KEY (`columnaId`) REFERENCES `Columna` (`id`),
   CONSTRAINT `FKepne2t52y8dmn8l9da0dd7l51` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

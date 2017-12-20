@@ -27,6 +27,16 @@ public class TareaService {
     ColumnaRepository columnaRepository;
     EtiquetaRepository etiquetaRepository;
 
+    @Inject
+    public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, 
+    ColumnaRepository columnaRepository, TableroRepository tableroRepository, EtiquetaRepository etiquetaRepository ) {
+        this.columnaRepository = columnaRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.tareaRepository = tareaRepository;
+        this.tableroRepository = tableroRepository;
+        this.etiquetaRepository = etiquetaRepository;
+    }
+
     private Usuario comprobarExistenciaUsuario (Long idUsuario) {
         Usuario usuario = usuarioRepository.findById(idUsuario);
         if (usuario == null) {
@@ -51,13 +61,6 @@ public class TareaService {
         return tablero;
     }
 
-    private Date comprobarFechaLimite (Date fechaLimite) {
-        if (fechaLimite != null && fechaLimite.before(new Date())) {
-            throw new TareaServiceException("La fecha límite no puede ser anterior a la fecha actual");
-        }
-        return fechaLimite;
-	}
-
     private Columna comprobarExistenciaColumna (Long idColumna) {
         Columna columna = columnaRepository.findById(idColumna);
         if (columna == null) {
@@ -72,16 +75,14 @@ public class TareaService {
             throw new TareaServiceException("La etiqueta no existe");
         }
         return etiqueta;
-	}
-
-
-    @Inject
-    public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, TableroRepository tableroRepository, EtiquetaRepository etiquetaRepository ) {
-        this.usuarioRepository = usuarioRepository;
-        this.tareaRepository = tareaRepository;
-        this.tableroRepository = tableroRepository;
-        this.etiquetaRepository = etiquetaRepository;
     }
+    
+    private Date comprobarFechaLimite (Date fechaLimite) {
+        if (fechaLimite != null && fechaLimite.before(new Date())) {
+            throw new TareaServiceException("La fecha límite no puede ser anterior a la fecha actual");
+        }
+        return fechaLimite;
+	}
 
     // Devuelve la lista de tareas de un usuario, ordenadas por su id
     // (equivalente al orden de creación)
@@ -155,7 +156,8 @@ public class TareaService {
 		Etiqueta etiqueta = comprobarExistenciaEtiqueta(idEtiqueta);
 		etiqueta.getTareas().add(tarea);
 		etiquetaRepository.update(etiqueta);
-		tarea.getEtiquetas().add(etiqueta);
+        tarea.getEtiquetas().add(etiqueta);
+        tareaRepository.update(tarea);
 		return tarea;
 	}
 

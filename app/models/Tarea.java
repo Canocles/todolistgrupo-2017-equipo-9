@@ -132,14 +132,6 @@ public class Tarea {
 	   this.etiquetas = etiquetas;
    }
 
-   public Set<Etiqueta> getOtrasEtiquetas() {
-	   Set<Etiqueta> etiquetas = tablero.getEtiquetas();
-	   for(Etiqueta etiq : this.etiquetas) {
-		   etiquetas.remove(etiq);
-	   }
-	   return etiquetas;
-   }
-
    public String toString() {
       return String.format("Tarea id: %s titulo: %s fechaLimite: %s usuario: %s",
                       id, titulo, fechaLimite, usuario.toString());
