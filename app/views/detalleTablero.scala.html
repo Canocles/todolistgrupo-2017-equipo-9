@@ -198,7 +198,7 @@
 							<div id="toggle2" class="w3-container" style="padding-bottom: 20px; padding-top: 10px">
 									@for(etiqueta <- tablero.getEtiquetas()) {
 										<span id="@etiqueta.getId()" class="w3-tag" style="background-color: #@etiqueta.getColor();">
-												@etiqueta.getNombre()
+												<div onclick="filterTags(@etiqueta.getId())">@etiqueta.getNombre()</div>
 												<div class="w3-dropdown-hover" style="background-color: #@etiqueta.getColor();">
 													<a>
 														<span class="glyphicon glyphicon-option-horizontal"></span>
@@ -218,8 +218,11 @@
 												</a>
 										</span>
 									}
-							</div>
-						</div>
+									<span class="w3-tag" style="background-color: whitesmoke ;">
+										<div onclick="showAllTareas()" style="color: black;">Show All</div>
+										</span>
+									</div>
+								</div>
 						<div class="w3-half">
 							@helper.form(action = routes.EtiquetaController.crearEtiqueta(usuario.getId(), tablero.getId())) {
 								<div class="w3-half">
