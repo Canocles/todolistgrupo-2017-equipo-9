@@ -58,6 +58,10 @@ Historias de usuarios realizadas durante la realización de la práctica.
 
 Tras varios intentos de llevar al cabo una metodología, dados los problemas encontrados y la situación de trabajo con otras asignaturas nos fué muy difícil el seguir una metodología.
 
+Aún así, hemos tratado de seguir una metodología SCRUM, intentando estar comunicándonos continuamente entre los integrantes del grupo, además de la colaboración continua entre nosotros, tanto aportando ideas nuevas, como aconsejando o ayudando en campos concretos.
+
+Tambien, hemos intentado ceñirnos a la planificación, pero como explicamos en la parte de los **daily meetings**, hemos tenido problemas para mantener un desarrollo continuo que se acerque a lo que una empresa real pueda llegar a realizar en sus jornadas. Pese a eso, hemos intentado acercarnos lo máximo posible, habiendo tenido relativo éxito a la hora de cumplir las reglas básicas de SCRUM, pero no hemos conseguido mantenerlo durante todas las semanas.
+
 
 ## 3 - Funcionalidades implementadas
 
@@ -93,7 +97,7 @@ En este apartado vamos a comentar las distintas reuniones que hemos realizado a 
 Durante algunos días, también hemos tenido que discutir (en el sentido inglés de la palabra) como reorganizar el trabajo o sobre cómo realizar alguna de las tareas que propusimos en su momento, por lo que, podrían ser perfectamente reuniones diarias, pero únicamente vamos a comentar las que fueron “Oficiales”.
 
 
-### Miércoles 6 de Diciembre
+### 4.1 - Miércoles 6 de Diciembre
 
 En esta reunión hablamos sobretodo del problema que nos encontramos, debido a un problema que tuvimos a la hora de realizar actualizaciones de una columna o de una tarea, puesto que al parecer, no teníamos bien implementada una sección del código, donde se realizaba todo este tipo de peticiones a la base de datos.
 
@@ -102,7 +106,7 @@ Además, tuvimos que hablar sobre el planteamiento de las historias de usuario s
 Terminamos la reunión hablando de algunas cosas que podíamos mejorar de las historias que teníamos asignadas, y también si habíamos encontrado algún fallo o algo que remarcar del trabajo realizado hasta el momento.
 
 
-### Miércoles 13 de Diciembre
+### 4.2 - Miércoles 13 de Diciembre
 
 En esta ocasión, debido a un mal planteamiento de cómo debería quedar la aplicación final, nos retrasamos en demasía, puesto que, de la forma en que estaba planteada, había que reestructurar todo el proyecto, puesto que intentábamos hacer que el usuario, no pudiese tener tareas sin estar asignadas a ningún tablero y que en caso de querer tener tareas, debería de crear un tablero. Todo esto convertía la história de usuario de **mediana** a **grande**, haciendo que requiriese de mucho más tiempo para terminarla.
 
@@ -113,7 +117,12 @@ También debido a una dependencia entre las tareas de “creación de etiquetas�
 Por todo ello, perdimos un tiempo muy valioso, que hizo que la última semana tuviésemos mucha más carga de trabajo y que además, tuviésemos muy poco tiempo para terminar, revisar y además ultimar detalles de los modelos y servicios.
 
 
-## Conclusión
+## 5 - Retrospectiva
 
-Tras la valoración de los resultados y de los problemas encontrados, nos dimos cuenta que una buena planificación inicial (aunque se gaste tiempo) es muy útil ya que se pueden resolver dependencias entre tareas y nos ayuda a gestionarnos mejor el tiempo.
+Podemos decir, pese a algunos fallos que hemos cometido durante el último **sprint** que nos hemos adaptado bien a los cambios y problemas surgidos, puesto que hemos sido capaces de detectar un problema a tiempo (más o menos) y cambiar la **perspectiva** o la forma de entender las **historias de usuario**, pudiendo finalmente terminarlas de manera correcta en mayor o menor éxito, pero consiguiendo realizar la demostración en clase, sin muchos problemas.
 
+Pero somos conscientes de que han habido problemas y que con experiencia, podrían haberse detectado y solucionado, mucho antes, sin las consecuiencias que ello conlleva, como en nuestro caso, hemos sufrido retraso en alguna história e incluso retrasos en tareas que a **priori** no deberíab ser muy complicadas. Por lo tanto, hemos aprendido mucho de nuestros errores y creo que eso es lo que realmente aporta valor a nuestro equipo, pese a los fallos.
+
+Por lo tanto, para mejorar, en concreto, podríamos tratar de mejorar **la planificación inicial**, ya que, fruto de ella, hemos cometido errores que tal vez, podramos haber sorteado con menor dificultad, si hubiésemos tratado con un poco más de profundidad cada una de las **historias de usuario** o incluso a la hora de **fragmentar** la historia en tareas o **issues**. Además, creo que también podríamos haber puesto menos incapié en el diseño, en estas fases tan tempranas y centrarnos más en las **funcionalidades**, ya que realmente, el diseño es algo que en un desarrollo más largo, podría llegar a ser algo menos prioritario o incluso prácticamente inecesario, en un primer mes de **sprint** y tratar de mostrar de manera más sencilla como estaría estructurada la aplicación web y utilizar por ejemplo **Bootstrap** plano, para mostrar que realmen<te funciona todo lo que el cliente nos ha pedido, de una manera, tal vez, menos visual, pero más clara.
+
+En conclusión y para termianr, tras la valoración de los resultados y de los problemas encontrados, nos dimos cuenta que una buena planificación inicial (aunque se gaste tiempo) es muy útil ya que se pueden resolver dependencias entre tareas y nos ayuda a gestionarnos mejor el tiempo.
