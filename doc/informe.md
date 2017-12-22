@@ -23,7 +23,7 @@ Historias de usuarios realizadas durante la realización de la práctica.
 
 <table>
 <tr>
-<td><img src="imagenes/HU1.PNG" width="700px"/></td>
+<td><img src="images/HU1.PNG" width="700px"/></td>
 </tr>
 <tr>
 <td align="center"> Crear tareas en un tablero </td>
@@ -31,7 +31,7 @@ Historias de usuarios realizadas durante la realización de la práctica.
 
 <table>
 <tr>
-<td><img src="imagenes/HU2.PNG" width="700px"/></td>
+<td><img src="images/HU2.PNG" width="700px"/></td>
 </tr>
 <tr>
 <td align="center"> Añadir columnas al tablero </td>
@@ -39,7 +39,7 @@ Historias de usuarios realizadas durante la realización de la práctica.
 
 <table>
 <tr>
-<td><img src="imagenes/HU3.PNG" width="700px"/></td>
+<td><img src="images/HU3.PNG" width="700px"/></td>
 </tr>
 <tr>
 <td align="center"> Gestionar etiquetas de tableros </td>
@@ -47,7 +47,7 @@ Historias de usuarios realizadas durante la realización de la práctica.
 
 <table>
 <tr>
-<td><img src="imagenes/HU3.PNG" width="700px"/></td>
+<td><img src="images/HU3.PNG" width="700px"/></td>
 </tr>
 <tr>
 <td align="center"> Gestionar etiquetas de tareas </td>
