@@ -3,7 +3,7 @@
 Martín Laiz y Ramsés Martínez
 
 
-## Historias de usuario
+## 1 - Historias de usuario
 
 Historias de usuarios realizadas durante la realización de la práctica.
 
@@ -19,12 +19,47 @@ Historias de usuarios realizadas durante la realización de la práctica.
 - Gestionar etiquetas de tareas
     - Como usuario quiero poder asignar etiquetas a tareas para poder diferenciarlas.
 
-## Metodología seguida
+### 1.1 - Descricpión y COS de las historias
+
+<table>
+<tr>
+<td><img src="imagenes/HU1.PNG" width="700px"/></td>
+</tr>
+<tr>
+<td align="center"> Crear tareas en un tablero </td>
+</table>
+
+<table>
+<tr>
+<td><img src="imagenes/HU2.PNG" width="700px"/></td>
+</tr>
+<tr>
+<td align="center"> Añadir columnas al tablero </td>
+</table>
+
+<table>
+<tr>
+<td><img src="imagenes/HU3.PNG" width="700px"/></td>
+</tr>
+<tr>
+<td align="center"> Gestionar etiquetas de tableros </td>
+</table>
+
+<table>
+<tr>
+<td><img src="imagenes/HU3.PNG" width="700px"/></td>
+</tr>
+<tr>
+<td align="center"> Gestionar etiquetas de tareas </td>
+</table>
+
+
+## 2 - Metodología seguida
 
 Tras varios intentos de llevar al cabo una metodología, dados los problemas encontrados y la situación de trabajo con otras asignaturas nos fué muy difícil el seguir una metodología.
 
 
-## Funcionalidades implementadas
+## 3 - Funcionalidades implementadas
 
 - Tableros incluyen tareas
     - Los tableros agruparan las tareas.
@@ -51,7 +86,7 @@ Tras varios intentos de llevar al cabo una metodología, dados los problemas enc
     - Al establecer el filtro con una etiqueta solo se mostrarán las tareas con esa etiqueta y al seleccionar otra etiqueta se filtrará solo esa etiqueta.
 
 
-## Daily Meetings
+##  4 - Daily Meetings
 
 En este apartado vamos a comentar las distintas reuniones que hemos realizado a lo largo del sprint, simulando las reuniones diarias en una empresa real.
 
